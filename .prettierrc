@@ -21,12 +21,6 @@
 				"tabWidth": 4,
 				"useTabs": true
 			}
-		},
-		{
-			"files": "*.mdx",
-			"options": {
-				"semi": false
-			}
 		}
 	]
 }
