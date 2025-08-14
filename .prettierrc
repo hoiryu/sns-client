@@ -1,0 +1,32 @@
+{
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"singleQuote": true,
+	"trailingComma": "all",
+	"parser": "typescript",
+	"semi": true,
+	"useTabs": true,
+	"jsxSingleQuote": true,
+	"tabWidth": 4,
+	"printWidth": 100,
+	"endOfLine": "auto",
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"overrides": [
+		{
+			"files": ["*.json", ".*"],
+			"options": {
+				"parser": "",
+				"singleQuote": false,
+				"semi": false,
+				"tabWidth": 4,
+				"useTabs": true
+			}
+		},
+		{
+			"files": "*.mdx",
+			"options": {
+				"semi": false
+			}
+		}
+	]
+}

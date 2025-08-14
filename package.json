@@ -1,27 +1,56 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.6"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.6",
-    "@eslint/eslintrc": "^3"
-  }
+	"name": "client",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"start": "next start",
+		"start:dev": "next dev --turbopack",
+		"build": "next build",
+		"start:mock": "npx tsx watch ./src/mocks/index.ts",
+		"start:story": "storybook dev -p 6006",
+		"build:story": "storybook build",
+		"start:lint": "next lint",
+		"start:test": "vitest"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
+		"@mui/icons-material": "^7.3.1",
+		"@mui/material": "^7.3.1",
+		"classnames": "^2.5.1",
+		"next": "15.4.6",
+		"next-auth": "5.0.0-beta.29",
+		"react": "19.1.0",
+		"react-dom": "19.1.0"
+	},
+	"devDependencies": {
+		"@chromatic-com/storybook": "^4.1.0",
+		"@eslint/eslintrc": "^3.3.1",
+		"@storybook/addon-a11y": "^9.1.2",
+		"@storybook/addon-docs": "^9.1.2",
+		"@storybook/addon-vitest": "^9.1.2",
+		"@storybook/nextjs-vite": "^9.1.2",
+		"@tailwindcss/postcss": "^4.1.12",
+		"@types/node": "^20.19.10",
+		"@types/react": "^19.1.10",
+		"@types/react-dom": "^19.1.7",
+		"@vitest/browser": "3.2.4",
+		"@vitest/coverage-v8": "3.2.4",
+		"eslint": "^9.33.0",
+		"eslint-config-next": "15.4.6",
+		"eslint-plugin-storybook": "^9.1.2",
+		"msw": "^2.10.5",
+		"playwright": "^1.54.2",
+		"prettier": "^3.6.2",
+		"prettier-plugin-tailwindcss": "^0.6.14",
+		"storybook": "^9.1.2",
+		"tailwindcss": "^4.1.12",
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
+	},
+	"msw": {
+		"workerDirectory": [
+			"public"
+		]
+	}
 }
