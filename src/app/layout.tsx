@@ -1,17 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Noto_Sans } from 'next/font/google';
 import { ReactNode } from 'react';
 import MswWorker from '~/components/MswWorker';
 import HttpClient from '~/networks/http';
 import './globals.css';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
+const notoSans = Noto_Sans({
+	variable: '--font-noto-nastaliq-urdu',
 	subsets: ['latin'],
 });
 
@@ -26,14 +21,14 @@ try {
 	throw error;
 }
 
-export default function RootLayout({
-	children,
-}: Readonly<{
+interface IProps {
 	children: ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: Readonly<IProps>) {
 	return (
-		<html lang='en'>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+		<html lang='ko'>
+			<body className={`${notoSans.variable} antialiased`}>
 				<MswWorker />
 				{children}
 			</body>

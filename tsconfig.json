@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"rootDir": ".",
 		"target": "ES2017",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
@@ -29,11 +30,12 @@
 			"~/contexts/*": ["./src/contexts/*"],
 			"~/hooks/*": ["./src/hooks/*"],
 			"~/stories/*": ["./src/stories/*"],
+			"~/themes/*": ["./src/themes/*"],
 			"~/constants/*": ["./src/constants/*"],
 			"~/mocks/*": ["./src/mocks/*"],
 			"~/components/*": ["./src/components/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "./next"]
 }

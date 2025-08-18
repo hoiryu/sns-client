@@ -1,13 +1,16 @@
-'use client';
+import ButtonLogIn from '~/components/logIn/buttons/ButtonLogIn';
+import ButtonLogOut from '~/components/logIn/buttons/ButtonLogOut';
+import ThemeProvider from '~/themes/ThemeProvider';
 
-import ButtonLogIn from '~//src/components/logIn/buttons/ButtonLogIn';
-import ButtonLogOut from '../components/logIn/buttons/ButtonLogOut';
-
-export default function Home() {
+const Page = () => {
 	return (
-		<div>
-			<ButtonLogIn />
-			<ButtonLogOut />
-		</div>
+		<ThemeProvider>
+			<div>
+				<ButtonLogIn />
+				<ButtonLogOut />
+			</div>
+		</ThemeProvider>
 	);
-}
+};
+
+export default Page;

@@ -1,6 +1,14 @@
 import type { Preview } from '@storybook/nextjs-vite';
+import ThemeProvider from '../src/themes/ThemeProvider';
 
 const preview: Preview = {
+	decorators: [
+		Story => (
+			<ThemeProvider>
+				<Story />
+			</ThemeProvider>
+		),
+	],
 	parameters: {
 		controls: {
 			matchers: {
