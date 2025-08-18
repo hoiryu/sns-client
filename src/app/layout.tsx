@@ -1,14 +1,9 @@
+import cn from 'classnames';
 import type { Metadata } from 'next';
-import { Noto_Sans } from 'next/font/google';
 import { ReactNode } from 'react';
 import MswWorker from '~/components/MswWorker';
 import HttpClient from '~/networks/http';
 import './globals.css';
-
-const notoSans = Noto_Sans({
-	variable: '--font-noto-nastaliq-urdu',
-	subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
 	title: 'Books',
@@ -28,7 +23,7 @@ interface IProps {
 export default function RootLayout({ children }: Readonly<IProps>) {
 	return (
 		<html lang='ko'>
-			<body className={`${notoSans.variable} antialiased`}>
+			<body className={cn('font-noto antialiased')}>
 				<MswWorker />
 				{children}
 			</body>

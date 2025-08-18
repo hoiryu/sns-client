@@ -13,6 +13,8 @@ export const colors: IProps['color'][] = [
 	'warning',
 ];
 
-const Button = ({ ...props }: IProps) => <MuiButton {...props} />;
+const Button = ({ variant = 'contained', ...props }: IProps) => (
+	<MuiButton variant={variant} {...props} />
+);
 
 export default Button;

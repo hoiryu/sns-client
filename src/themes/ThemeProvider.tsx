@@ -1,3 +1,4 @@
+'use client';
 import {
 	ThemeProvider as MuiThemeProvider,
 	ThemeProviderProps,
@@ -9,13 +10,13 @@ import { formatColor } from '~/utils/colors';
 const defaultTheme = createTheme({
 	palette: {
 		primary: {
-			main: formatColor(colors.blue['500']),
+			main: formatColor(colors.blue['700']),
 			dark: formatColor(colors.blue['700']),
 			contrastText: formatColor(colors.white),
 		},
 	},
 	typography: {
-		fontFamily: '"Noto Sans KR", sans-serif',
+		fontFamily: 'var(--font-noto)',
 	},
 	components: {
 		MuiButton: {
@@ -23,6 +24,12 @@ const defaultTheme = createTheme({
 				root: {
 					textTransform: 'capitalize',
 				},
+			},
+		},
+
+		MuiTextField: {
+			defaultProps: {
+				fullWidth: true,
 			},
 		},
 		MuiFormHelperText: {
