@@ -1,7 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { searchSchema, TSearchSchema } from '~/schemas/search';
+import { ISearchSchema, searchSchema } from '~/schemas/search';
 import TextField from '~/stories/ui/inputs/TextField';
 
 const BarSearch = () => {
@@ -9,7 +9,7 @@ const BarSearch = () => {
 		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<TSearchSchema>({
+	} = useForm<ISearchSchema>({
 		resolver: zodResolver(searchSchema),
 		defaultValues: {
 			keyword: '',
@@ -17,7 +17,7 @@ const BarSearch = () => {
 		mode: 'onChange',
 	});
 
-	const onSubmit = async (data: TSearchSchema) => {
+	const onSubmit = async (data: ISearchSchema) => {
 		await new Promise(resolve => setTimeout(resolve, 2000));
 
 		alert(JSON.stringify(data, null, 2));

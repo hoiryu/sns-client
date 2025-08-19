@@ -23,10 +23,8 @@ interface IProps {
 export default function RootLayout({ children }: Readonly<IProps>) {
 	return (
 		<html lang='ko'>
-			<body className={cn('font-noto antialiased')}>
-				<MswWorker />
-				{children}
-			</body>
+			<MswWorker />
+			<body className={cn('font-noto antialiased')}>{children}</body>
 		</html>
 	);
 }
