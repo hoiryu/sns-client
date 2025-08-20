@@ -1,7 +1,10 @@
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import cn from 'classnames';
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
-import MswWorker from '~/components/MswWorker';
+import MswWorker from '~/components/common/msw/MswWorker';
+import ThemeProvider from '~/contexts/ThemeProvider';
 import HttpClient from '~/networks/http';
 import './globals.css';
 
@@ -20,11 +23,17 @@ interface IProps {
 	children: ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<IProps>) {
+export default async function RootLayout({ children }: Readonly<IProps>) {
+	const mode = (await cookies()).get('theme')?.value as 'light' | 'dark' | undefined;
+
 	return (
-		<html lang='ko'>
-			<MswWorker />
-			<body className={cn('font-noto antialiased')}>{children}</body>
+		<html lang='ko' className={mode ?? undefined}>
+			<body className={cn('font-noto antialiased')}>
+				<MswWorker />
+				<AppRouterCacheProvider>
+					<ThemeProvider>{children}</ThemeProvider>
+				</AppRouterCacheProvider>
+			</body>
 		</html>
 	);
 }

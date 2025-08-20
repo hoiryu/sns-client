@@ -1,10 +1,12 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { ISearchSchema, searchSchema } from '~/schemas/search';
 import TextField from '~/stories/ui/inputs/TextField';
 
 const BarSearch = () => {
+	const router = useRouter();
 	const {
 		control,
 		handleSubmit,
@@ -18,9 +20,8 @@ const BarSearch = () => {
 	});
 
 	const onSubmit = async (data: ISearchSchema) => {
-		await new Promise(resolve => setTimeout(resolve, 2000));
-
-		alert(JSON.stringify(data, null, 2));
+		const { keyword } = data;
+		router.push(`/search?keyword=${keyword}`);
 	};
 
 	return (

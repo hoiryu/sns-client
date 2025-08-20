@@ -1,19 +1,18 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
+import Main from '~/components/common/containers/Main';
+import Header from '~/components/common/header/Header';
 import BarSearch from '~/components/search/BarSearch';
-import ThemeProvider from '~/themes/ThemeProvider';
-
 interface IProps {
 	children: ReactNode;
 }
 
 const Layout = ({ children }: IProps) => (
-	<ThemeProvider>
-		<section className={cn('p-4')}>
-			<BarSearch />
-			{children}
-		</section>
-	</ThemeProvider>
+	<Main className={cn('h-[2000px]')}>
+		<Header />
+		<BarSearch />
+		{children}
+	</Main>
 );
 
 export default Layout;

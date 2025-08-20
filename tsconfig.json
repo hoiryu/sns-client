@@ -31,7 +31,6 @@
 			"~/contexts/*": ["./src/contexts/*"],
 			"~/hooks/*": ["./src/hooks/*"],
 			"~/stories/*": ["./src/stories/*"],
-			"~/themes/*": ["./src/themes/*"],
 			"~/constants/*": ["./src/constants/*"],
 			"~/mocks/*": ["./src/mocks/*"],
 			"~/components/*": ["./src/components/*"]

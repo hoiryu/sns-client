@@ -1,4 +1,5 @@
 import { use } from 'react';
+import Box from '~/stories/ui/containers/Box';
 
 interface IProps {
 	searchParams: Promise<{ q: string }>;
@@ -6,7 +7,7 @@ interface IProps {
 const Page = ({ searchParams }: IProps) => {
 	const { q } = use(searchParams);
 
-	return <div>Search Page {q}</div>;
+	return <Box>Search Page {q}</Box>;
 };
 
 export default Page;
