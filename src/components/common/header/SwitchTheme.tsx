@@ -7,7 +7,6 @@ import { IThemeSchema, themeSchema } from '~/src/schemas/theme';
 import IconDarkMode from '~/stories/ui/icons/IconDarkMode';
 import IconLightMode from '~/stories/ui/icons/IconLightMode';
 import Switch from '~/stories/ui/inputs/switchs/Switch';
-
 const SwitchTheme = () => {
 	const { mode, setMode } = useColorScheme();
 	const { control, setValue } = useForm<IThemeSchema>({
@@ -31,10 +30,10 @@ const SwitchTheme = () => {
 				<Switch
 					{...rest}
 					id='darkMode'
-					color='primary'
+					color='default'
 					checked={value || false}
 					icon={<IconLightMode fontSize='small' color='inherit' />}
-					checkedIcon={<IconDarkMode fontSize='small' />}
+					checkedIcon={<IconDarkMode fontSize='small' color='inherit' />}
 					onChange={e => {
 						const mode = !value ? 'dark' : 'light';
 						onChange(e.target.checked);

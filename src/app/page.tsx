@@ -1,14 +1,11 @@
+import cn from 'classnames';
 import Main from '~/components/common/containers/Main';
 import Header from '~/components/common/header/Header';
-import ButtonLogIn from '~/components/logIn/buttons/ButtonLogIn';
-import ButtonLogOut from '~/components/logIn/buttons/ButtonLogOut';
 
 const Page = () => {
 	return (
-		<Main>
+		<Main className={cn('h-[2000px] pt-24')}>
 			<Header />
-			<ButtonLogIn />
-			<ButtonLogOut />
 		</Main>
 	);
 };

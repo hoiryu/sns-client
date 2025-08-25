@@ -5,19 +5,13 @@ import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import MswWorker from '~/components/common/msw/MswWorker';
 import ThemeProvider from '~/contexts/ThemeProvider';
-import HttpClient from '~/networks/http';
+import QueryProvider from '../contexts/QueryProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
 	title: 'Books',
 	description: '테스트용',
 };
-
-try {
-	new HttpClient(process.env.API_SERVER_URL as string);
-} catch (error) {
-	throw error;
-}
 
 interface IProps {
 	children: ReactNode;
@@ -29,10 +23,12 @@ export default async function RootLayout({ children }: Readonly<IProps>) {
 	return (
 		<html lang='ko' className={mode ?? undefined}>
 			<body className={cn('font-noto antialiased')}>
-				<MswWorker />
-				<AppRouterCacheProvider>
-					<ThemeProvider>{children}</ThemeProvider>
-				</AppRouterCacheProvider>
+				<QueryProvider>
+					<MswWorker />
+					<AppRouterCacheProvider>
+						<ThemeProvider>{children}</ThemeProvider>
+					</AppRouterCacheProvider>
+				</QueryProvider>
 			</body>
 		</html>
 	);

@@ -24,18 +24,28 @@ const Header = () => {
 	);
 
 	return (
-		<Container component='header' className={cn('flex justify-center py-8')}>
+		<Container component='header' className={cn('fixed top-0 z-10 flex justify-center py-4')}>
 			<Box
 				className={cn(
-					'inline-flex items-center justify-center gap-8 rounded-full border border-gray-800 px-8',
+					'inline-flex items-center justify-center gap-8 rounded-full border px-8 backdrop-blur-3xl',
 				)}
+				sx={[
+					theme =>
+						theme.applyStyles('light', {
+							backgroundColor: 'var(--color-white)',
+						}),
+					theme =>
+						theme.applyStyles('dark', {
+							backgroundColor: 'var(--color-zinc-900/10)',
+							borderColor: 'var(--color-neutral-700)',
+						}),
+				]}
 			>
 				{navs.map(nav => (
 					<Link
 						key={nav.href}
 						className={cn('py-4 capitalize', {
 							'text-amber-200': pathname === nav.href,
-							'text-white': pathname !== nav.href,
 						})}
 						{...nav}
 					/>

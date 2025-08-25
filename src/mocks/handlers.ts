@@ -1,11 +1,12 @@
 import { http, HttpResponse } from 'msw';
+import { IBook } from '~/models/book';
+import bookService from '~/services/mocks/BookService';
+
+const url = process.env.API_SERVER_URL;
 
 export const handlers = [
-	http.get('http://api.com/user', () => {
-		return HttpResponse.json({
-			id: 'abc-123',
-			firstName: 'John',
-			lastName: 'Maverick',
-		});
+	http.get<never, never, { data: IBook[] }>(`${url}/books`, () => {
+		const books = bookService.getBooks();
+		return HttpResponse.json({ data: books }, { status: 200 });
 	}),
 ];

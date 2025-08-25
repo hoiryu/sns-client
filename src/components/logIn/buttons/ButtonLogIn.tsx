@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import Button from '~/stories/ui/buttons/Button';
 
 const ButtonLogIn = () => {
-	const handleClick = useCallback(() => signIn('google'), []);
+	const handleClick = useCallback(() => signIn('google').then(console.log), []);
 
 	return <Button children='로그인' onClick={handleClick} />;
 };

@@ -1,13 +1,11 @@
 type TMethod = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELTE';
 
-interface IResponse<T> extends Response {
+export interface IResponse<T> extends Response {
 	data: T;
 }
 
 interface IRequestInit<T extends RequestInit['body']> extends RequestInit {
 	method: TMethod;
-	tags: NextFetchRequestConfig['tags'];
-	revalidate?: NextFetchRequestConfig['revalidate'];
 	body?: T;
 }
 
@@ -23,43 +21,18 @@ interface IHttpClient {
 	) => Promise<IResponse<U>>;
 }
 
-export default class HttpClient implements IHttpClient {
-	static instance: HttpClient;
+class HttpClient implements IHttpClient {
 	private readonly baseURL?: string;
 
 	constructor(baseURL: string) {
-		if (HttpClient.instance) return HttpClient.instance;
-
 		this.baseURL = baseURL;
-		HttpClient.instance = this;
 	}
 
 	async fetch<T extends RequestInit['body'], U = unknown>(
 		url: string,
 		options: IRequestInit<T>,
 	): Promise<IResponse<U>> {
-		const {
-			method,
-			headers = { 'Content-Type': 'application/json' },
-			credentials = 'include',
-			cache = 'no-store',
-			tags,
-			revalidate,
-		} = options;
-
-		const response = fetch(`${this.baseURL}${url}`, {
-			...options,
-			credentials,
-			headers,
-			method,
-			cache,
-			next: {
-				tags,
-				revalidate,
-			},
-		});
-
-		response.then(console.log);
+		const response = fetch(`${this.baseURL}${url}`, options);
 
 		response.catch(error => {
 			const { message } = error;
@@ -70,3 +43,7 @@ export default class HttpClient implements IHttpClient {
 		return (await response).json();
 	}
 }
+
+const httpClient = new HttpClient(`${process.env.API_SERVER_URL}`);
+
+export default httpClient;

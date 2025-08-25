@@ -9,6 +9,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	],
 	callbacks: {
 		async signIn({ account, profile }) {
+			console.log(account);
 			console.log(profile);
 			return true;
 		},
