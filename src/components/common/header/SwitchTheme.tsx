@@ -4,10 +4,10 @@ import { useColorScheme } from '@mui/material/styles';
 import cn from 'classnames';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { IThemeSchema, themeSchema } from '~/schemas/theme';
-import IconDarkMode from '~/stories/ui/icons/IconDarkMode';
-import IconLightMode from '~/stories/ui/icons/IconLightMode';
-import Switch from '~/stories/ui/inputs/switchs/Switch';
+import { IThemeSchema, themeSchema } from '~schemas/theme';
+import IconDarkMode from '~stories/ui/icons/IconDarkMode';
+import IconLightMode from '~stories/ui/icons/IconLightMode';
+import Switch from '~stories/ui/inputs/switchs/Switch';
 
 const SwitchTheme = () => {
 	const { mode, setMode } = useColorScheme();

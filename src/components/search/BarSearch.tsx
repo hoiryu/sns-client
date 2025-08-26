@@ -2,8 +2,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
-import { ISearchSchema, searchSchema } from '~/schemas/search';
-import TextField from '~/stories/ui/inputs/TextField';
+import { ISearchSchema, searchSchema } from '~schemas/search';
+import TextField from '~stories/ui/inputs/texts/TextField';
 
 const BarSearch = () => {
 	const router = useRouter();

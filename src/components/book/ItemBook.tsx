@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import Link from 'next/link';
-import { IBook } from '~/models/book';
-import Box from '~/stories/ui/containers/Box';
+import { IBook } from '~models/book';
+import Box from '~stories/ui/containers/Box';
 
 interface IProps {
 	data: IBook;

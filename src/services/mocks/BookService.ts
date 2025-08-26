@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { IBook } from '~/models/book';
+import { IBook } from '~models/book';
 
 abstract class AbstractBookService {
 	protected books: IBook[] = [];

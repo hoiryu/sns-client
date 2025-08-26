@@ -3,9 +3,9 @@ import cn from 'classnames';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
-import ProviderMSW from '~/contexts/ProviderMSW';
-import ProviderTheme from '~/src/contexts/ProviderTheme';
-import ProviderQuery from '../contexts/ProviderQuery';
+import ProviderMSW from '~contexts/ProviderMSW';
+import ProviderQuery from '~contexts/ProviderQuery';
+import ProviderTheme from '~src/contexts/ProviderTheme';
 import './globals.css';
 
 if (
@@ -13,7 +13,7 @@ if (
 	process.env.NODE_ENV !== 'production' &&
 	process.env.NEXT_PUBLIC_MSW_ENABLED !== 'false'
 ) {
-	const { server } = require('~/mocks/http');
+	const { server } = require('~mocks/http');
 	server.listen();
 }
 

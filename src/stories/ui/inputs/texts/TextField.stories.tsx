@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import TextField, { colors, sizes, variants } from '~/stories/ui/inputs/TextField';
+import TextField, { colors, sizes, variants } from '~stories/ui/inputs/texts/TextField';
 
 const meta = {
 	title: 'UI/Inputs/Text',

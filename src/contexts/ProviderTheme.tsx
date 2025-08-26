@@ -1,34 +1,63 @@
 'use client';
+import { CssBaseline } from '@mui/material';
 import {
 	ThemeProvider as MuiThemeProvider,
+	ThemeOptions,
 	ThemeProviderProps,
 	createTheme,
+	useColorScheme,
 } from '@mui/material/styles';
-import { MODE_STORAGE_KEY } from '~/constants/theme';
+import { useEffect } from 'react';
+import { MODE_STORAGE_KEY } from '~constants/theme';
 
-interface IProps extends Omit<ThemeProviderProps, 'theme'> {}
+type TStoryTheme = Record<'dark' | 'light', boolean>;
 
-const ProviderTheme = ({ children, ...props }: IProps) => {
-	const theme = createTheme({
-		colorSchemes: {
-			light: {
-				palette: {
-					primary: {
-						main: 'var(--color-primary-light)',
-					},
-				},
-			},
-			dark: {
-				palette: {
-					primary: {
-						main: 'var(--color-primary-dark)',
-					},
-				},
-			},
+interface IProps extends Omit<ThemeProviderProps, 'theme'> {
+	theme?: TStoryTheme;
+}
+
+export const light: ThemeOptions = {
+	palette: {
+		primary: {
+			main: 'var(--color-primary-light)',
 		},
+	},
+};
+
+export const dark: ThemeOptions = {
+	palette: {
+		primary: {
+			main: 'var(--color-primary-dark)',
+		},
+	},
+};
+
+/**
+ * Storybook 용
+ */
+function ModeBridge({ theme }: { theme?: TStoryTheme }) {
+	const { mode, setMode } = useColorScheme();
+	if (!theme) return;
+
+	const keys = Object.keys(theme)[0] as 'dark' | 'light';
+
+	useEffect(() => {
+		if (!keys || !mode || keys === mode) return;
+		setMode(keys);
+	}, [keys, mode, setMode]);
+
+	return null;
+}
+
+const ProviderTheme = ({ theme, children, ...props }: IProps) => {
+	const defaultTheme = createTheme({
 		cssVariables: {
 			nativeColor: true,
 			colorSchemeSelector: 'class',
+		},
+		colorSchemes: {
+			light,
+			dark,
 		},
 		typography: {
 			fontFamily: 'var(--font-noto)',
@@ -66,12 +95,9 @@ const ProviderTheme = ({ children, ...props }: IProps) => {
 	});
 
 	return (
-		<MuiThemeProvider
-			{...props}
-			theme={theme}
-			// defaultMode='dark'
-			modeStorageKey={MODE_STORAGE_KEY}
-		>
+		<MuiThemeProvider {...props} theme={defaultTheme} modeStorageKey={MODE_STORAGE_KEY}>
+			<ModeBridge theme={theme} />
+			<CssBaseline enableColorScheme />
 			{children}
 		</MuiThemeProvider>
 	);

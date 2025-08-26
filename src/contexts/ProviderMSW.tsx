@@ -1,10 +1,10 @@
 'use client';
 import { ReactNode, Suspense, use } from 'react';
-import { handlers } from '~/mocks/handlers';
+import { handlers } from '~mocks/handlers';
 
 const mockingEnabledPromise =
 	typeof window !== 'undefined'
-		? import('~/mocks/browser').then(async ({ default: worker }) => {
+		? import('~mocks/browser').then(async ({ default: worker }) => {
 				if (process.env.NODE_ENV === 'production') return;
 
 				await worker.start({

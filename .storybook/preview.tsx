@@ -1,15 +1,30 @@
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/nextjs-vite';
-import ThemeProvider from '../src/themes/ThemeProvider';
+import '../src/app/globals.css';
+import ProviderTheme from '../src/contexts/ProviderTheme';
 
 const preview: Preview = {
 	decorators: [
-		Story => (
-			<ThemeProvider>
-				<Story />
-			</ThemeProvider>
-		),
+		withThemeFromJSXProvider({
+			themes: {
+				light: {
+					light: true,
+				},
+				dark: {
+					dark: true,
+				},
+			},
+			defaultTheme: 'dark',
+			Provider: ProviderTheme,
+		}),
 	],
 	parameters: {
+		backgrounds: {
+			options: {
+				light: { name: 'Light', value: '#FFF' },
+				dark: { name: 'Dark', value: 'oklch(27.9% 0.041 260.031)' },
+			},
+		},
 		controls: {
 			matchers: {
 				color: /(background|color)$/i,
@@ -22,6 +37,9 @@ const preview: Preview = {
 			// 'off' - skip a11y checks entirely
 			test: 'todo',
 		},
+	},
+	initialGlobals: {
+		backgrounds: { value: 'dark' },
 	},
 };
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import Button, { colors, sizes, variants } from '~/stories/ui/buttons/Button';
+import Button, { colors, sizes, variants } from '~stories/ui/buttons/Button';
 
 const meta = {
 	title: 'UI/Buttons/Button',

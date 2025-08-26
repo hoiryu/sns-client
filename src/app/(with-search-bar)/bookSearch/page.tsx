@@ -1,6 +1,6 @@
-import ItemBook from '~/src/components/book/ItemBook';
-import { IBook } from '~/src/models/book';
-import httpClient from '~/src/networks/http';
+import ItemBook from '~components/book/ItemBook';
+import { IBook } from '~models/book';
+import httpClient from '~networks/http';
 
 interface IProps {
 	searchParams: Promise<{ q: string }>;

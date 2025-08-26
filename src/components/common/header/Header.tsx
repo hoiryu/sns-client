@@ -4,9 +4,9 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import SwitchTheme from '~/components/common/header/SwitchTheme';
-import Container from '~/src/stories/ui/containers/Container';
-import Box from '~/stories/ui/containers/Box';
+import SwitchTheme from '~components/common/header/SwitchTheme';
+import Box from '~stories/ui/containers/Box';
+import Container from '~stories/ui/containers/Container';
 
 const Header = () => {
 	const pathname = usePathname();
