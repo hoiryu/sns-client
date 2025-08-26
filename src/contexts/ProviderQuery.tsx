@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
-const QueryProvider = ({ children, ...props }: Omit<QueryClientProviderProps, 'client'>) => {
+const ProviderQuery = ({ children, ...props }: Omit<QueryClientProviderProps, 'client'>) => {
 	return (
 		<QueryClientProvider client={queryClient} {...props}>
 			{children}
@@ -13,4 +13,4 @@ const QueryProvider = ({ children, ...props }: Omit<QueryClientProviderProps, 'c
 	);
 };
 
-export default QueryProvider;
+export default ProviderQuery;

@@ -8,10 +8,26 @@ import { MODE_STORAGE_KEY } from '~/constants/theme';
 
 interface IProps extends Omit<ThemeProviderProps, 'theme'> {}
 
-const ThemeProvider = ({ children, ...props }: IProps) => {
+const ProviderTheme = ({ children, ...props }: IProps) => {
 	const theme = createTheme({
-		colorSchemes: { light: true, dark: true },
+		colorSchemes: {
+			light: {
+				palette: {
+					primary: {
+						main: 'var(--color-primary-light)',
+					},
+				},
+			},
+			dark: {
+				palette: {
+					primary: {
+						main: 'var(--color-primary-dark)',
+					},
+				},
+			},
+		},
 		cssVariables: {
+			nativeColor: true,
 			colorSchemeSelector: 'class',
 		},
 		typography: {
@@ -53,7 +69,7 @@ const ThemeProvider = ({ children, ...props }: IProps) => {
 		<MuiThemeProvider
 			{...props}
 			theme={theme}
-			defaultMode='dark'
+			// defaultMode='dark'
 			modeStorageKey={MODE_STORAGE_KEY}
 		>
 			{children}
@@ -61,4 +77,4 @@ const ThemeProvider = ({ children, ...props }: IProps) => {
 	);
 };
 
-export default ThemeProvider;
+export default ProviderTheme;

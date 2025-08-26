@@ -44,6 +44,6 @@ class HttpClient implements IHttpClient {
 	}
 }
 
-const httpClient = new HttpClient(`${process.env.API_SERVER_URL}`);
+const httpClient = new HttpClient(`${process.env.NEXT_PUBLIC_API_SERVER_URL}`);
 
 export default httpClient;

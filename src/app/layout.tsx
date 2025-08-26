@@ -3,10 +3,19 @@ import cn from 'classnames';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
-import MswWorker from '~/components/common/msw/MswWorker';
-import ThemeProvider from '~/contexts/ThemeProvider';
-import QueryProvider from '../contexts/QueryProvider';
+import ProviderMSW from '~/contexts/ProviderMSW';
+import ProviderTheme from '~/src/contexts/ProviderTheme';
+import ProviderQuery from '../contexts/ProviderQuery';
 import './globals.css';
+
+if (
+	process.env.NEXT_RUNTIME === 'nodejs' &&
+	process.env.NODE_ENV !== 'production' &&
+	process.env.NEXT_PUBLIC_MSW_ENABLED !== 'false'
+) {
+	const { server } = require('~/mocks/http');
+	server.listen();
+}
 
 export const metadata: Metadata = {
 	title: 'Books',
@@ -23,12 +32,13 @@ export default async function RootLayout({ children }: Readonly<IProps>) {
 	return (
 		<html lang='ko' className={mode ?? undefined}>
 			<body className={cn('font-noto antialiased')}>
-				<QueryProvider>
-					<MswWorker />
-					<AppRouterCacheProvider>
-						<ThemeProvider>{children}</ThemeProvider>
-					</AppRouterCacheProvider>
-				</QueryProvider>
+				<ProviderMSW>
+					<ProviderQuery>
+						<AppRouterCacheProvider>
+							<ProviderTheme>{children}</ProviderTheme>
+						</AppRouterCacheProvider>
+					</ProviderQuery>
+				</ProviderMSW>
 			</body>
 		</html>
 	);

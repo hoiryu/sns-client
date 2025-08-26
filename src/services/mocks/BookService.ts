@@ -5,8 +5,11 @@ abstract class AbstractBookService {
 	protected books: IBook[] = [];
 
 	constructor(n: number = 10) {
+		this.setBooks(n);
+	}
+	protected setBooks(n: number = 10) {
 		this.books = Array.from({ length: n }, () => {
-			const id = faker.number.int({ min: 1, max: n * 50 });
+			const id = faker.number.int({ min: 1, max: n * 100 });
 			const title = faker.book.title();
 
 			return {
@@ -35,6 +38,8 @@ class BookService extends AbstractBookService {
 	}
 
 	override getBooks(): IBook[] {
+		if (this.books.length === 0) this.setBooks(20);
+
 		return this.books;
 	}
 }

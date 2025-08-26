@@ -1,4 +1,5 @@
 'use client';
+import { useColorScheme } from '@mui/material';
 import cn from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,15 +10,12 @@ import Box from '~/stories/ui/containers/Box';
 
 const Header = () => {
 	const pathname = usePathname();
+	const color = useColorScheme();
 	const navs = useMemo(
 		() => [
 			{
-				href: '/search',
-				children: 'search',
-			},
-			{
-				href: '/book/1',
-				children: 'book',
+				href: '/',
+				children: 'home',
 			},
 		],
 		[],
@@ -45,12 +43,14 @@ const Header = () => {
 					<Link
 						key={nav.href}
 						className={cn('py-4 capitalize', {
-							'text-amber-200': pathname === nav.href,
+							'text-blue-700': color.mode === 'dark' && pathname === nav.href,
+							'text-blue-400': color.mode === 'light' && pathname === nav.href,
 						})}
 						{...nav}
 					/>
 				))}
-
+			</Box>
+			<Box className={cn('absolute top-2 right-0')}>
 				<SwitchTheme />
 			</Box>
 		</Container>
