@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: Readonly<IProps>) {
 				<ProviderMSW>
 					<ProviderQuery>
 						<AppRouterCacheProvider>
-							<ProviderTheme>{children}</ProviderTheme>
+							<ProviderTheme children={children} />
 						</AppRouterCacheProvider>
 					</ProviderQuery>
 				</ProviderMSW>
