@@ -2,6 +2,7 @@ import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/nextjs-vite';
 import '../src/app/globals.css';
 import ProviderTheme from '../src/contexts/ProviderTheme';
+import ProviderWithSyncTheme from '../src/contexts/ProviderWithSyncTheme';
 
 const preview: Preview = {
 	decorators: [
@@ -17,12 +18,13 @@ const preview: Preview = {
 			defaultTheme: 'dark',
 			Provider: ProviderTheme,
 		}),
+		ProviderWithSyncTheme,
 	],
 	parameters: {
 		backgrounds: {
 			options: {
 				light: { name: 'Light', value: '#FFF' },
-				dark: { name: 'Dark', value: 'oklch(27.9% 0.041 260.031)' },
+				dark: { name: 'Dark', value: '#000' },
 			},
 		},
 		controls: {

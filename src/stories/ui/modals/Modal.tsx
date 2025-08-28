@@ -12,12 +12,15 @@ interface IProps extends ModalProps {
 const Modal = ({ children, size = 'medium', ...props }: IProps) => (
 	<MuiModal {...props}>
 		<Box
-			className={cn('absolute top-1/2 left-1/2 -translate-1/2 rounded-md p-5 shadow-2xl', {
-				'w-3/10': size === 'xsmall',
-				'w-5/10': size === 'small',
-				'w-7/10': size === 'medium',
-				'w-9/10': size === 'large',
-			})}
+			className={cn(
+				'absolute top-1/2 left-1/2 w-7/10 -translate-1/2 rounded-lg p-5 shadow-2xl',
+				{
+					'lg:w-3/10': size === 'xsmall',
+					'lg:w-5/10': size === 'small',
+					'lg:w-7/10': size === 'medium',
+					'lg:w-9/10': size === 'large',
+				},
+			)}
 			sx={[
 				theme =>
 					theme.applyStyles('light', {

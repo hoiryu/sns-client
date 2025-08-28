@@ -1,8 +1,8 @@
 {
 	"plugins": ["prettier-plugin-tailwindcss"],
+	"tailwindFunctions": ["cn"],
 	"singleQuote": true,
 	"trailingComma": "all",
-	"parser": "typescript",
 	"semi": true,
 	"useTabs": true,
 	"jsxSingleQuote": true,
@@ -12,6 +12,10 @@
 	"bracketSpacing": true,
 	"arrowParens": "avoid",
 	"overrides": [
+		{
+			"files": ["**/*.{css,pcss,scss}"],
+			"options": { "parser": "css" }
+		},
 		{
 			"files": ["*.json", ".*"],
 			"options": {

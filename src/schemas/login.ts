@@ -6,11 +6,11 @@ export const loginSchema = z.object({
 	}),
 	password: z
 		.string()
-		.min(4, { message: '최소 1개 이상' })
+		.min(8, { message: '최소 8개 이상' })
 		.refine(password => /[A-Z]/.test(password), { message: '대문자 필요' })
 		.refine(password => /[a-z]/.test(password), { message: '소문자 필요' })
 		.refine(password => /[0-9]/.test(password), { message: '숫자 필요' })
-		.refine(password => /[!@#$%^&*]/.test(password), {
+		.refine(password => /[^a-zA-Z0-9]/.test(password), {
 			message: '특수문자 필요',
 		}),
 });

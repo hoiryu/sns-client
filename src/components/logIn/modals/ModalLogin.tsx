@@ -1,63 +1,59 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import cn from 'classnames';
-import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { ILoginSchema, loginSchema } from '~schemas/login';
 import Button from '~stories/ui/buttons/Button';
-import TextField from '~stories/ui/inputs/texts/TextField';
+import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
-import Text from '~stories/ui/typographys/Typography';
+import Typography from '~stories/ui/typographys/Typography';
 
 const ModalLogin = () => {
+	const router = useRouter();
 	const {
 		control,
 		handleSubmit: zodSubmit,
-		formState: { errors, isSubmitting },
+		formState,
 	} = useForm<ILoginSchema>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
 			email: '',
 			password: '',
 		},
-		mode: 'onSubmit',
+		mode: 'onChange',
 	});
 
-	const handleSubmit = async (data: ILoginSchema) => {
-		alert(JSON.stringify(data, null, 2));
-	};
+	const handleSubmit = (data: ILoginSchema) => alert(JSON.stringify(data, null, 2));
+	const handleClose = () => router.back();
 
 	return (
-		<Modal open size='xsmall' disablePortal disableAutoFocus>
+		<Modal open size='small' disablePortal disableAutoFocus onClose={handleClose}>
 			<form className={cn('flex flex-col gap-7')} onSubmit={zodSubmit(handleSubmit)}>
-				<Text variant='h4' children='로그인' />
-				<Controller
+				<Typography variant='h4' align='center' children='로그인' />
+				<ControllerTextField<ILoginSchema>
+					fieldProps={{
+						type: 'email',
+						label: 'email',
+					}}
 					name='email'
 					control={control}
-					render={({ field }) => (
-						<TextField
-							{...field}
-							label='email'
-							type='email'
-							error={!!errors.email}
-							helperText={errors.email?.message}
-							disabled={isSubmitting}
-						/>
-					)}
+					formState={formState}
 				/>
-				<Controller
+				<ControllerTextField<ILoginSchema>
+					fieldProps={{
+						type: 'password',
+						label: 'password',
+					}}
 					name='password'
 					control={control}
-					render={({ field }) => (
-						<TextField
-							{...field}
-							label='password'
-							type='password'
-							error={!!errors.password}
-							helperText={errors.password?.message}
-						/>
-					)}
+					formState={formState}
 				/>
-				<Button type='submit' children='login' />
+				<Button
+					type='submit'
+					children='로그인'
+					disabled={!!formState.errors['password'] || !!formState.errors['email']}
+				/>
 			</form>
 		</Modal>
 	);

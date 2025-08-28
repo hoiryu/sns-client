@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import ProviderMSW from '~contexts/ProviderMSW';
 import ProviderQuery from '~contexts/ProviderQuery';
-import ProviderTheme from '~src/contexts/ProviderTheme';
+import ProviderTheme, { TDefaultTheme } from '~src/contexts/ProviderTheme';
 import './globals.css';
 
 if (
@@ -18,8 +18,8 @@ if (
 }
 
 export const metadata: Metadata = {
-	title: 'Books',
-	description: '테스트용',
+	title: 'SNS',
+	description: '메인 페이지',
 };
 
 interface IProps {
@@ -27,10 +27,10 @@ interface IProps {
 }
 
 export default async function RootLayout({ children }: Readonly<IProps>) {
-	const mode = (await cookies()).get('theme')?.value as 'light' | 'dark' | undefined;
+	const mode = ((await cookies()).get('theme')?.value as TDefaultTheme) || 'dark';
 
 	return (
-		<html lang='ko' className={mode ?? undefined}>
+		<html lang='ko' className={cn(mode)}>
 			<body className={cn('font-noto antialiased')}>
 				<ProviderMSW>
 					<ProviderQuery>

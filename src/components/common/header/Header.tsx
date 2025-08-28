@@ -1,7 +1,6 @@
 'use client';
 import { useColorScheme } from '@mui/material';
 import cn from 'classnames';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import SwitchTheme from '~components/common/header/SwitchTheme';
@@ -23,7 +22,7 @@ const Header = () => {
 
 	return (
 		<Container component='header' className={cn('fixed top-0 z-10 flex justify-center py-4')}>
-			<Box
+			{/* <Box
 				className={cn(
 					'inline-flex items-center justify-center gap-8 rounded-full border px-8 backdrop-blur-3xl',
 				)}
@@ -49,8 +48,8 @@ const Header = () => {
 						{...nav}
 					/>
 				))}
-			</Box>
-			<Box className={cn('absolute top-2 right-0')}>
+			</Box> */}
+			<Box className={cn('absolute top-4 right-4')}>
 				<SwitchTheme />
 			</Box>
 		</Container>
