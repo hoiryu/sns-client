@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ILoginSchema, loginSchema } from '~schemas/login';
-import Button from '~stories/ui/buttons/Button';
+import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
 import Typography from '~stories/ui/typographys/Typography';
@@ -28,13 +28,14 @@ const ModalLogin = () => {
 	const handleClose = () => router.back();
 
 	return (
-		<Modal open size='small' disablePortal disableAutoFocus onClose={handleClose}>
+		<Modal open size='small' disablePortal onClose={handleClose}>
 			<form className={cn('flex flex-col gap-7')} onSubmit={zodSubmit(handleSubmit)}>
 				<Typography variant='h4' align='center' children='로그인' />
 				<ControllerTextField<ILoginSchema>
 					fieldProps={{
 						type: 'email',
 						label: 'email',
+						required: true,
 					}}
 					name='email'
 					control={control}
@@ -44,16 +45,14 @@ const ModalLogin = () => {
 					fieldProps={{
 						type: 'password',
 						label: 'password',
+						required: true,
 					}}
 					name='password'
 					control={control}
 					formState={formState}
 				/>
-				<Button
-					type='submit'
-					children='로그인'
-					disabled={!!formState.errors['password'] || !!formState.errors['email']}
-				/>
+
+				<ControllerButton type='submit' children='로그인' formState={formState} />
 			</form>
 		</Modal>
 	);

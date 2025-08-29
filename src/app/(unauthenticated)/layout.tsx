@@ -10,11 +10,16 @@ interface IProps {
 
 const Layout = ({ children, modal }: IProps) => {
 	return (
-		<Container className={cn('flex h-screen w-screen flex-col items-center justify-center')}>
-			<Header />
-			{children}
+		<>
+			<Container
+				component='main'
+				className={cn('flex h-screen w-screen flex-col items-center justify-center')}
+			>
+				<Header />
+				{children}
+			</Container>
 			{modal}
-		</Container>
+		</>
 	);
 };
 

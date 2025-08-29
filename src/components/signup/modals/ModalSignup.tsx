@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
 import { ISignupSchema, signupSchema } from '~schemas/signup';
-import Button from '~stories/ui/buttons/Button';
+import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
@@ -67,6 +67,7 @@ const ModalSignup = () => {
 				/>
 				<ControllerFileField<ISignupSchema>
 					fieldProps={{
+						color: 'info',
 						accept: ACCEPTED_IMAGE_TYPES,
 						maxSize: MAX_PROFILE_FILE_SIZE_MB,
 					}}
@@ -74,16 +75,8 @@ const ModalSignup = () => {
 					control={control}
 					formState={formState}
 				/>
-				<Button
-					type='submit'
-					children='가입하기'
-					disabled={
-						!!formState.errors.email ||
-						!!formState.errors.password ||
-						!!formState.errors.nickname ||
-						!!formState.errors.image
-					}
-				/>
+
+				<ControllerButton type='submit' children='가입하기' formState={formState} />
 			</form>
 		</Modal>
 	);

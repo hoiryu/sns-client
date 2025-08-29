@@ -6,6 +6,9 @@ interface IProps<T extends FieldValues> extends Omit<ControllerProps<T>, 'render
 	fieldProps: IFileFieldProps;
 }
 
+/**
+ * react-hook-form 용
+ */
 const ControllerFileField = <T extends FieldValues>({
 	fieldProps,
 	formState,
