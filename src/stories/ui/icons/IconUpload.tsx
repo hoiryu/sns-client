@@ -1,8 +1,6 @@
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { SvgIconProps } from '@mui/material';
+import Icon from '@mui/icons-material/CloudUpload';
+import { ISvgProps } from '~models/Image';
 
-interface IProps extends SvgIconProps {}
-
-const IconUpload = ({ ...props }: IProps) => <CloudUploadIcon {...props} />;
+const IconUpload = ({ ...props }: ISvgProps) => <Icon {...props} />;
 
 export default IconUpload;

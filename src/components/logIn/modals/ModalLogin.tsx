@@ -46,6 +46,7 @@ const ModalLogin = () => {
 						type: 'password',
 						label: 'password',
 						required: true,
+						autoComplete: 'on',
 					}}
 					name='password'
 					control={control}

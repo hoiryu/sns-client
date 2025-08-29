@@ -8,6 +8,7 @@ import {
 	useColorScheme,
 } from '@mui/material/styles';
 import cn from 'classnames';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { MODE_STORAGE_KEY } from '~constants/theme';
 
@@ -26,6 +27,7 @@ export const light: ThemeOptions = {
 		},
 		secondary: {
 			main: 'var(--color-secondary-light)',
+			contrastText: 'var(--color-white)',
 		},
 		error: {
 			main: 'var(--color-error-light)',
@@ -49,6 +51,7 @@ export const dark: ThemeOptions = {
 		},
 		secondary: {
 			main: 'var(--color-secondary-dark)',
+			contrastText: 'var(--color-white)',
 		},
 		error: {
 			main: 'var(--color-error-dark)',
@@ -101,11 +104,40 @@ const ProviderTheme = ({ theme, children, ...props }: IProps) => {
 					disableGutters: true,
 				},
 			},
+			MuiMenu: {
+				defaultProps: {
+					classes: {
+						paper: cn('drop-shadow-neutral-700'),
+					},
+				},
+			},
+			MuiList: {
+				defaultProps: {
+					disablePadding: true,
+				},
+			},
+			MuiMenuItem: {
+				defaultProps: {
+					classes: {
+						root: cn('min-h-11 capitalize'),
+					},
+					LinkComponent: Link,
+				},
+			},
 			MuiButton: {
 				defaultProps: {
 					classes: {
 						root: cn('hover:animate-jelly min-w-24 rounded-3xl capitalize'),
 					},
+					LinkComponent: Link,
+				},
+			},
+			MuiTab: {
+				defaultProps: {
+					classes: {
+						root: cn('min-w-24 capitalize'),
+					},
+					LinkComponent: Link,
 				},
 			},
 			MuiTextField: {

@@ -1,8 +1,6 @@
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { SvgIconProps } from '@mui/material';
+import Icon from '@mui/icons-material/DarkMode';
+import { ISvgProps } from '~models/Image';
 
-interface IProps extends SvgIconProps {}
-
-const IconDarkMode = ({ ...props }: IProps) => <DarkModeIcon {...props} />;
+const IconDarkMode = ({ ...props }: ISvgProps) => <Icon {...props} />;
 
 export default IconDarkMode;

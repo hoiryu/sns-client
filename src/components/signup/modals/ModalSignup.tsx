@@ -52,6 +52,7 @@ const ModalSignup = () => {
 					fieldProps={{
 						type: 'password',
 						label: 'password',
+						autoComplete: 'on',
 					}}
 					name='password'
 					control={control}

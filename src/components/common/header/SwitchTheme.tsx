@@ -36,13 +36,14 @@ const SwitchTheme = () => {
 					color='default'
 					checked={value || false}
 					size='medium'
-					icon={<IconLightMode fontSize='small' className='text-white' />}
-					checkedIcon={<IconDarkMode fontSize='small' className='text-white' />}
+					icon={<IconLightMode fontSize='inherit' className='text-white' />}
+					checkedIcon={<IconDarkMode fontSize='inherit' className='text-white' />}
 					classes={{
-						root: cn(''),
-						switchBase: cn('top-[3px]! p-1.5! bg-primary-dark!'),
-						track: cn('bg-primary-dark/30! opacity-100!'),
-						checked: cn('translate-x-1.5!'),
+						root: cn('h-8 py-2.5'),
+						switchBase: cn('bg-primary-dark! top-1 p-1'),
+						input: cn('left-0 w-full'),
+						track: cn('bg-primary-dark/30 opacity-100'),
+						checked: cn('translate-x-2.5'),
 					}}
 					onChange={e => {
 						const mode = !value ? 'dark' : 'light';

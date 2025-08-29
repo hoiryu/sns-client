@@ -1,8 +1,6 @@
-import LightModeIcon from '@mui/icons-material/LightMode';
-import { SvgIconProps } from '@mui/material';
+import Icon from '@mui/icons-material/LightMode';
+import { ISvgProps } from '~models/Image';
 
-interface IProps extends SvgIconProps {}
-
-const IconLightMode = ({ ...props }: IProps) => <LightModeIcon {...props} />;
+const IconLightMode = ({ ...props }: ISvgProps) => <Icon {...props} />;
 
 export default IconLightMode;

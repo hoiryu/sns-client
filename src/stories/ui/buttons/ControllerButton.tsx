@@ -1,10 +1,10 @@
 'use client';
-import { ButtonProps } from '@mui/material';
 import { useMemo } from 'react';
 import { FieldValues, FormState } from 'react-hook-form';
+import { TButtonProps } from '~models/button';
 import Button from '~stories/ui/buttons/Button';
 
-export interface IProps<T extends FieldValues> extends ButtonProps {
+export interface IProps<T extends FieldValues> extends TButtonProps {
 	formState: FormState<T>;
 }
 

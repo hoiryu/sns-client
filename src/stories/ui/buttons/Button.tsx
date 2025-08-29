@@ -1,9 +1,9 @@
-import { ButtonProps, Button as MuiButton } from '@mui/material';
+import { Button as MuiButton } from '@mui/material';
+import { TButtonProps } from '~models/button';
 
-export interface IProps extends ButtonProps {}
-export const variants: IProps['variant'][] = ['text', 'outlined', 'contained'];
-export const sizes: IProps['size'][] = ['small', 'medium', 'large'];
-export const colors: IProps['color'][] = [
+export const variants: TButtonProps['variant'][] = ['text', 'outlined', 'contained'];
+export const sizes: TButtonProps['size'][] = ['small', 'medium', 'large'];
+export const colors: TButtonProps['color'][] = [
 	'inherit',
 	'primary',
 	'secondary',
@@ -13,7 +13,7 @@ export const colors: IProps['color'][] = [
 	'warning',
 ];
 
-const Button = ({ variant = 'contained', ...props }: IProps) => (
+const Button = ({ variant = 'contained', ...props }: TButtonProps) => (
 	<MuiButton variant={variant} {...props} />
 );
 

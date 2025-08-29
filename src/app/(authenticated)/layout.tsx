@@ -1,11 +1,57 @@
+'use client';
+
+import cn from 'classnames';
 import { ReactNode } from 'react';
+import Header from '~components/common/header/Header';
+import NavigationSidebar, { IMenu } from '~components/common/navigations/NavigationSidebar';
+import Container from '~stories/ui/containers/Container';
+import IconHome from '~stories/ui/icons/IconHome';
+import IconMessage from '~stories/ui/icons/IconMessage';
+import IconPerson from '~stories/ui/icons/IconPerson';
+import IconSearch from '~stories/ui/icons/IconSearch';
 
 interface IProps {
 	readonly children: ReactNode;
 }
 
 const Layout = ({ children }: IProps) => {
-	return <div>{children}</div>;
+	const menus: IMenu[] = [
+		{
+			href: '/home',
+			name: 'home',
+			icon: <IconHome />,
+		},
+		{
+			href: '/search',
+			name: 'search',
+			icon: <IconSearch />,
+		},
+		{
+			href: '/message',
+			name: 'message',
+			icon: <IconMessage />,
+		},
+		{
+			href: '/aa/123',
+			name: 'profile',
+			icon: <IconPerson />,
+		},
+	];
+
+	return (
+		<>
+			<Container
+				component='main'
+				className={cn('grid min-h-[100dvh] min-w-[100dvw] grid-rows-[auto_1fr]')}
+			>
+				<Header />
+				<Container className={cn('grid grid-cols-[auto_1fr]')}>
+					<NavigationSidebar menus={menus} />
+					{children}
+				</Container>
+			</Container>
+		</>
+	);
 };
 
 export default Layout;
