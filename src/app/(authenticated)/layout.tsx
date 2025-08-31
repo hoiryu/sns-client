@@ -3,7 +3,8 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
 import Header from '~components/common/header/Header';
-import NavigationSidebar, { IMenu } from '~components/common/navigations/NavigationSidebar';
+import NavigationSidebar, { IMenu } from '~components/common/sidebars/NavigationSidebar';
+import SearchSidebar from '~components/common/sidebars/SearchSidebar';
 import Container from '~stories/ui/containers/Container';
 import IconHome from '~stories/ui/icons/IconHome';
 import IconMessage from '~stories/ui/icons/IconMessage';
@@ -45,9 +46,10 @@ const Layout = ({ children }: IProps) => {
 				className={cn('grid min-h-[100dvh] min-w-[100dvw] grid-rows-[auto_1fr]')}
 			>
 				<Header />
-				<Container className={cn('grid grid-cols-[auto_1fr]')}>
+				<Container className={cn('grid grid-cols-[auto_3fr_1fr]')}>
 					<NavigationSidebar menus={menus} />
 					{children}
+					<SearchSidebar />
 				</Container>
 			</Container>
 		</>

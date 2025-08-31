@@ -1,9 +1,9 @@
 import { BaseTextFieldProps, TextField as MuiTextField } from '@mui/material';
 
-interface IProps extends BaseTextFieldProps {}
-export const variants: IProps['variant'][] = ['standard', 'outlined', 'filled'];
-export const sizes: IProps['size'][] = ['small', 'medium'];
-export const colors: IProps['color'][] = [
+export interface ITextFieldProps extends BaseTextFieldProps {}
+export const variants: ITextFieldProps['variant'][] = ['standard', 'outlined', 'filled'];
+export const sizes: ITextFieldProps['size'][] = ['small', 'medium'];
+export const colors: ITextFieldProps['color'][] = [
 	'primary',
 	'secondary',
 	'error',
@@ -12,7 +12,7 @@ export const colors: IProps['color'][] = [
 	'warning',
 ];
 
-const TextField = ({ error, helperText, ...props }: IProps) => (
+const TextField = ({ error, helperText, ...props }: ITextFieldProps) => (
 	<MuiTextField error={error} helperText={!error || helperText} {...props} />
 );
 
