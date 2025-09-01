@@ -1,10 +1,13 @@
+import ContainerRecommended from '~components/post/containers/ContainerRecommended';
 import TabsMain from '~components/post/tabs/TabsMain';
+import Container from '~stories/ui/containers/Container';
 
 const Page = () => {
 	return (
-		<div>
+		<Container component='section'>
 			<TabsMain />
-		</div>
+			<ContainerRecommended />
+		</Container>
 	);
 };
 
