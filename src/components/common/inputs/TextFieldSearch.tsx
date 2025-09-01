@@ -1,3 +1,4 @@
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
@@ -47,6 +48,10 @@ const TextFieldSearch = () => {
 					return (
 						<TextFieldAuto
 							freeSolo
+							autoHighlight={false}
+							autoFocus={false}
+							autoComplete={false}
+							autoSelect={false}
 							inputProps={{
 								...field,
 								error: !!errors.keyword,

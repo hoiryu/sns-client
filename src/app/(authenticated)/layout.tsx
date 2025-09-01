@@ -1,5 +1,3 @@
-'use client';
-
 import cn from 'classnames';
 import { ReactNode } from 'react';
 import Header from '~components/common/header/Header';
@@ -43,10 +41,10 @@ const Layout = ({ children }: IProps) => {
 		<>
 			<Container
 				component='main'
-				className={cn('grid min-h-[100dvh] min-w-[100dvw] grid-rows-[auto_1fr]')}
+				className={cn('grid min-h-[100dvh] w-[100dvw] grid-rows-[auto_1fr]')}
 			>
 				<Header />
-				<Container className={cn('grid grid-cols-[auto_3fr_1fr]')}>
+				<Container className={cn('grid grid-cols-[auto_2fr_1fr] items-start')}>
 					<NavigationSidebar menus={menus} />
 					{children}
 					<SearchSidebar />

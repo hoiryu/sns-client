@@ -1,5 +1,11 @@
+import TabsMain from '~components/post/tabs/TabsMain';
+
 const Page = () => {
-	return <div>Home</div>;
+	return (
+		<div>
+			<TabsMain />
+		</div>
+	);
 };
 
 export default Page;

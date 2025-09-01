@@ -20,12 +20,13 @@ interface IProps {
 const NavigationSidebar = ({ menus }: IProps) => {
 	const segment = useSelectedLayoutSegment();
 	const value = useMemo(() => {
-		const index = menus.findIndex(({ href }) => segment && href.includes(segment));
-		return index >= 0 ? index : false;
+		if (!segment) return;
+		const value = menus.find(({ href }) => href.includes(segment))?.href || menus[0].href;
+		return value;
 	}, [segment]);
 
 	return (
-		<Container component='section' className={cn('flex flex-col gap-5 px-5')}>
+		<Container component='section' className={cn('sticky top-0 flex flex-col gap-5 px-5')}>
 			<Tabs orientation='vertical' value={value} aria-label='메인 사이드바'>
 				{menus.map(({ href, name, icon }) => (
 					<Tab
@@ -34,6 +35,7 @@ const NavigationSidebar = ({ menus }: IProps) => {
 						aria-current={href === segment && 'page'}
 						icon={icon}
 						label={name}
+						value={href}
 					/>
 				))}
 			</Tabs>

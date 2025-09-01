@@ -1,5 +1,5 @@
 import { Button as MuiButton } from '@mui/material';
-import { TButtonProps } from '~models/button';
+import { TButtonProps } from '~models/ui/button';
 
 export const variants: TButtonProps['variant'][] = ['text', 'outlined', 'contained'];
 export const sizes: TButtonProps['size'][] = ['small', 'medium', 'large'];

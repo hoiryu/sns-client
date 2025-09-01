@@ -5,6 +5,8 @@
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
 	"files.autoSave": "off",
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"javascript.preferences.importModuleSpecifier": "non-relative",
 	"git.ignoreLimitWarning": true,
 	"tailwindCSS.classFunctions": ["cn"]
 }

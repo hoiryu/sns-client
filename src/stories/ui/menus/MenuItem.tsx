@@ -1,5 +1,5 @@
 import { MenuItem as MuiMenuItem } from '@mui/material';
-import { TMenuItemProps } from '~models/menu';
+import { TMenuItemProps } from '~models/ui/menu';
 
 const MenuItem = ({ ...props }: TMenuItemProps) => <MuiMenuItem {...props} />;
 

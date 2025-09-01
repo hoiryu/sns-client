@@ -3,7 +3,7 @@ import z from 'zod';
 export const searchSchema = z.object({
 	keyword: z
 		.string()
-		.min(1, '최소 1개 이상')
+		.max(5, '최대 5개 이하')
 		.regex(/^[\p{L}\p{N}\s]+$/u, '특수문자 사용 금지'),
 });
 

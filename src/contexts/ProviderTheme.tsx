@@ -124,10 +124,15 @@ const ProviderTheme = ({ theme, children, ...props }: IProps) => {
 					LinkComponent: Link,
 				},
 			},
+			MuiListItemButton: {
+				defaultProps: {
+					LinkComponent: Link,
+				},
+			},
 			MuiButton: {
 				defaultProps: {
 					classes: {
-						root: cn('hover:animate-jelly min-w-24 rounded-3xl capitalize'),
+						root: cn('hover:animate-jelly rounded-3xl capitalize'),
 					},
 					LinkComponent: Link,
 				},

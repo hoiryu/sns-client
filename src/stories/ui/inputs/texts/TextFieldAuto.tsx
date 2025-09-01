@@ -22,9 +22,6 @@ const TextFieldAuto = ({ inputProps, ...props }: IProps) => (
 			inputRoot: cn('rounded-2xl pl-7'),
 		}}
 		disableClearable
-		autoHighlight={false}
-		autoSelect={false}
-		selectOnFocus={false}
 		color={inputProps?.color || 'primary'}
 		renderInput={renderInputProps => (
 			<>

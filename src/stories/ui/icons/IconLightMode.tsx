@@ -1,5 +1,5 @@
 import Icon from '@mui/icons-material/LightMode';
-import { ISvgProps } from '~models/Image';
+import { ISvgProps } from '~models/ui/image';
 
 const IconLightMode = ({ ...props }: ISvgProps) => <Icon {...props} />;
 
