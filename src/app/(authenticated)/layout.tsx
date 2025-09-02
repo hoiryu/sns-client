@@ -44,7 +44,7 @@ const Layout = ({ children }: IProps) => {
 				className={cn('grid min-h-[100dvh] w-[100dvw] grid-rows-[auto_1fr]')}
 			>
 				<Header />
-				<Container className={cn('grid grid-cols-[auto_2fr_1fr] items-start')}>
+				<Container className={cn('grid grid-cols-[auto_2fr_1fr]')}>
 					<NavigationSidebar menus={menus} />
 					{children}
 					<SearchSidebar />

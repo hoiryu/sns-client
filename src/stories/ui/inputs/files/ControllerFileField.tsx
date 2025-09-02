@@ -19,14 +19,16 @@ const ControllerFileField = <T extends FieldValues>({
 		<Controller
 			name={name}
 			{...props}
-			render={({ field: { onChange, value } }) => (
+			render={({ field: { onChange } }) => (
 				<FileField
 					{...fieldProps}
 					onDrop={acceptedFiles => onChange(acceptedFiles)}
 					error={!!formState.errors[name]}
 					helperText={
-						Array.isArray(formState.errors[name]) && (
+						Array.isArray(formState.errors[name]) ? (
 							<>{formState.errors[name]?.at(-1).message}</>
+						) : (
+							<>{formState.errors[name]?.message}</>
 						)
 					}
 					disabled={formState.isSubmitting}

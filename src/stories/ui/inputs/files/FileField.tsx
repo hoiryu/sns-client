@@ -1,6 +1,6 @@
 import { BaseTextFieldProps, FormHelperText, useColorScheme } from '@mui/material';
 import cn from 'classnames';
-import Dropzone, { DropzoneOptions } from 'react-dropzone';
+import Dropzone, { DropzoneProps } from 'react-dropzone';
 import Box from '~stories/ui/containers/Box';
 import IconUpload from '~stories/ui/icons/IconUpload';
 import Typography from '~stories/ui/typographys/Typography';
@@ -14,13 +14,15 @@ export const colors: BaseTextFieldProps['color'][] = [
 	'warning',
 ];
 
-export interface IFileFieldProps extends DropzoneOptions {
+export interface IFileFieldProps extends DropzoneProps {
+	className?: string;
 	color?: BaseTextFieldProps['color'];
 	error?: BaseTextFieldProps['error'];
 	helperText?: BaseTextFieldProps['helperText'];
 }
 
 const FileField = ({
+	className,
 	color = 'primary',
 	disabled,
 	error,
@@ -29,7 +31,7 @@ const FileField = ({
 }: IFileFieldProps) => (
 	<Dropzone disabled={disabled} {...props}>
 		{({ getRootProps, getInputProps, acceptedFiles }) => {
-			const { className, ...rootProps } = getRootProps();
+			const { ...rootProps } = getRootProps();
 			const { mode } = useColorScheme();
 
 			return (
@@ -37,21 +39,21 @@ const FileField = ({
 					component='section'
 					className={cn(
 						className,
-						'relative flex h-full w-full flex-col items-center justify-center gap-1 rounded-2xl border-1 border-dashed border-current px-2 py-6',
+						'relative flex h-full w-full flex-col items-center justify-center gap-1 rounded-2xl border-1 border-dashed border-current',
 						{
 							'cursor-no-drop': disabled,
-							'hover:animate-jelly cursor-pointer': !disabled,
+							'cursor-pointer': !disabled,
 						},
 					)}
 					sx={{ color: `var(--color-${color}-${mode})` }}
 					{...rootProps}
 				>
-					<IconUpload />
+					{!acceptedFiles.length && <IconUpload />}
 					<input {...getInputProps()} />
 					{!!acceptedFiles.length && (
 						<ul
 							className={cn(
-								'absolute bottom-1 left-1/2 flex w-full -translate-x-1/2 flex-wrap justify-center gap-2',
+								'absolute top-1/2 left-1/2 flex w-full -translate-1/2 flex-wrap justify-center gap-2',
 							)}
 						>
 							{acceptedFiles.map(f => (
@@ -61,7 +63,7 @@ const FileField = ({
 							))}
 						</ul>
 					)}
-					{error && helperText && <FormHelperText error>{helperText}</FormHelperText>}
+					{error && <FormHelperText error children={helperText} />}
 				</Box>
 			);
 		}}

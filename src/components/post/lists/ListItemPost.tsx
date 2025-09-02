@@ -39,6 +39,7 @@ const ListItemPost = ({
 					fill
 					className={'object-cover'}
 					sizes='280px'
+					priority
 					alt={`${datas[index].user.name} 의 이미지`}
 				/>
 			</Box>
