@@ -5,6 +5,8 @@ export interface IDataPost {
 	user: IDataUser;
 	description: string;
 	chat: boolean;
+	repost: boolean;
 	favorite: boolean;
 	imageUrl: string;
+	createAt: string | Date;
 }

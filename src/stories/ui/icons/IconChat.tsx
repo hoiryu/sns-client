@@ -1,4 +1,4 @@
-import Icon from '@mui/icons-material/ChatBubble';
+import Icon from '@mui/icons-material/ChatBubbleOutline';
 import { ISvgProps } from '~models/ui/image';
 
 const IconChat = ({ ...props }: ISvgProps) => <Icon {...props} />;

@@ -10,6 +10,7 @@ export interface ICreatePostSchema extends z.infer<typeof createPostSchema> {}
 
 export const updatePostSchema = z.object({
 	chat: z.boolean(),
+	repost: z.boolean(),
 	favorite: z.boolean(),
 });
 

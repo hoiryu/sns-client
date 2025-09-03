@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ISearchSchema, searchSchema } from '~schemas/search';
 import ControllerTextFieldAuto from '~stories/ui/inputs/texts/ControllerTextFieldAuto';
 
-const TextFieldSearch = () => {
+const FormSearch = () => {
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -58,4 +58,4 @@ const TextFieldSearch = () => {
 	);
 };
 
-export default TextFieldSearch;
+export default FormSearch;

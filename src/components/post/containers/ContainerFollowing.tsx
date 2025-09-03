@@ -13,7 +13,7 @@ const ContainerFollowing = () => {
 				email: `test${index}@gmail.com`,
 				imageUrl: `/test.com/${index}`,
 			},
-			description: `Following 테스트용 데이터 ${index}`,
+			description: `Following description ${index}`,
 			imageUrl: faker.image.urlPicsumPhotos({
 				width: 200,
 				height: 200,
@@ -21,7 +21,9 @@ const ContainerFollowing = () => {
 				blur: 0,
 			}),
 			favorite: true,
+			repost: true,
 			chat: false,
+			createAt: faker.date.recent({ days: 1 }),
 		};
 	});
 

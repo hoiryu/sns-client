@@ -2,7 +2,7 @@
 import cn from 'classnames';
 import Link from 'next/link';
 import { MouseEvent, useMemo, useState } from 'react';
-import SwitchTheme from '~components/common/header/SwitchTheme';
+import SwitchTheme from '~components/header/SwitchTheme';
 import ButtonIcon from '~stories/ui/buttons/ButtonIcon';
 import Box from '~stories/ui/containers/Box';
 import IconDarkMode from '~stories/ui/icons/IconDarkMode';

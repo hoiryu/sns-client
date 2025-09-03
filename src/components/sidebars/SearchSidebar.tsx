@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import ContainerFollows from '~components/follow/containers/ContainerFollows';
-import TextFieldSearch from '~components/search/inputs/TextFieldSearch';
+import FormSearch from '~components/search/forms/FormSearch';
 import ContainerTrends from '~components/trend/containers/ContainerTrends';
 import Container from '~stories/ui/containers/Container';
 
@@ -11,7 +11,7 @@ const SearchSidebar = () => {
 				component='article'
 				className={cn('dark:bg-dark sticky top-4 z-10 rounded-2xl bg-white')}
 			>
-				<TextFieldSearch />
+				<FormSearch />
 			</Container>
 			<ContainerTrends />
 			<ContainerFollows />

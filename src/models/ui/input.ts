@@ -83,6 +83,17 @@ export interface IControllerCheckboxProps<T extends FieldValues>
 export interface ISwitchProps extends SwitchProps {}
 
 /**
+ * Switch + Controller
+ */
+export interface IControllerSwitchProps<T extends FieldValues>
+	extends Omit<ControllerProps<T>, 'render'> {
+	onChange?: ControllerRenderProps['onChange'];
+	onBlur?: ControllerRenderProps['onBlur'];
+	formState: FormState<T>;
+	fieldProps?: ISwitchProps;
+}
+
+/**
  * File
  */
 export interface IFileFieldProps extends DropzoneProps {
@@ -92,6 +103,9 @@ export interface IFileFieldProps extends DropzoneProps {
 	helperText?: BaseTextFieldProps['helperText'];
 }
 
+/**
+ * File + Controller
+ */
 export interface IControllerFileFieldProps<T extends FieldValues>
 	extends Omit<ControllerProps<T>, 'render'> {
 	formState: FormState<T>;

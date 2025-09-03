@@ -1,7 +1,7 @@
 'use client';
 import cn from 'classnames';
 import { usePathname } from 'next/navigation';
-import MemuAccount from '~components/common/header/MemuAccount';
+import MemuAccount from '~components/header/MemuAccount';
 import Container from '~stories/ui/containers/Container';
 
 const Header = () => {

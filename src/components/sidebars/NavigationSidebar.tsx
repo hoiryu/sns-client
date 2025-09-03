@@ -22,7 +22,7 @@ const NavigationSidebar = ({ menus }: IProps) => {
 	const segment = useSelectedLayoutSegment();
 	const value = useMemo(() => {
 		if (!segment) return;
-		const value = menus.find(({ href }) => href.includes(segment))?.href || menus[0].href;
+		const value = menus.find(({ href }) => href.includes(segment))?.href || false;
 		return value;
 	}, [segment]);
 

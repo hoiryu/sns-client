@@ -1,6 +1,8 @@
 'use client';
+import cn from 'classnames';
 import { SyntheticEvent } from 'react';
 import { TTabsMainValue, useStoreTabsMain } from '~src/stores/storeTabsMain';
+import Container from '~stories/ui/containers/Container';
 import IconBookmark from '~stories/ui/icons/IconBookmark';
 import IconRecommend from '~stories/ui/icons/IconRecommend';
 import Tab from '~stories/ui/tabs/Tab';
@@ -24,17 +26,20 @@ const TabsMain = () => {
 	const handleChange = (e: SyntheticEvent, value: TTabsMainValue) => setValue(value);
 
 	return (
-		<Tabs
-			orientation='horizontal'
-			centered
-			value={value}
-			aria-label='메인 탭'
-			onChange={handleChange}
-		>
-			{tabs.map(({ name, value: v, icon }) => (
-				<Tab key={`${name}-${v}`} icon={icon} label={name} value={v} />
-			))}
-		</Tabs>
+		<Container className={cn('sticky top-0 z-10 px-4')}>
+			<Tabs
+				orientation='horizontal'
+				centered
+				value={value}
+				aria-label='메인 탭'
+				className={cn('backdrop-blur-lg')}
+				onChange={handleChange}
+			>
+				{tabs.map(({ name, value: v, icon }) => (
+					<Tab key={`${name}-${v}`} icon={icon} label={name} value={v} />
+				))}
+			</Tabs>
+		</Container>
 	);
 };
 

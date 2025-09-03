@@ -13,7 +13,7 @@ const ContainerRecommended = () => {
 				email: `test${index}@gmail.com`,
 				imageUrl: `/test.com/${index}`,
 			},
-			description: `Recommentded 테스트용 데이터 ${index}`,
+			description: `Recommentded description ${index}`,
 			imageUrl: faker.image.urlPicsumPhotos({
 				width: 200,
 				height: 200,
@@ -21,7 +21,9 @@ const ContainerRecommended = () => {
 				blur: 0,
 			}),
 			favorite: true,
+			repost: true,
 			chat: false,
+			createAt: faker.date.recent({ days: 1 }),
 		};
 	});
 
