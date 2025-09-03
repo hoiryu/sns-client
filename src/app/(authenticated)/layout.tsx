@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
-import Header from '~components/common/header/Header';
-import NavigationSidebar, { IMenu } from '~components/common/sidebars/NavigationSidebar';
-import SearchSidebar from '~components/common/sidebars/SearchSidebar';
+import Header from '~components/header/Header';
+import NavigationSidebar, { IMenu } from '~components/sidebars/NavigationSidebar';
+import SearchSidebar from '~components/sidebars/SearchSidebar';
 import Container from '~stories/ui/containers/Container';
 import IconHome from '~stories/ui/icons/IconHome';
 import IconMessage from '~stories/ui/icons/IconMessage';

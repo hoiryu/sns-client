@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import Switch, { colors, sizes } from '~stories/ui/inputs/switchs/Switch';
+import { COLORS_SWITCH, SIZES_SWITCH } from '~constants/ui/input';
+import Switch from '~stories/ui/inputs/switchs/Switch';
 
 const meta = {
 	title: 'UI/Inputs/Switch',
@@ -16,12 +17,12 @@ const meta = {
 		},
 		color: {
 			control: 'select',
-			options: colors,
+			options: COLORS_SWITCH,
 			description: '색상',
 		},
 		size: {
 			control: 'select',
-			options: sizes,
+			options: SIZES_SWITCH,
 			description: '크기',
 		},
 		disabled: {

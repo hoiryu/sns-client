@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import Button, { colors, sizes, variants } from '~stories/ui/buttons/Button';
+import { COLORS_BUTTON, SIZES_BUTTON, VARIANTS_BUTTON } from '~constants/ui/button';
+import Button from '~stories/ui/buttons/Button';
 
 const meta = {
 	title: 'UI/Buttons/Button',
@@ -16,17 +17,17 @@ const meta = {
 		},
 		variant: {
 			control: 'select',
-			options: variants,
+			options: VARIANTS_BUTTON,
 			description: '종류',
 		},
 		color: {
 			control: 'select',
-			options: colors,
+			options: COLORS_BUTTON,
 			description: '색상',
 		},
 		size: {
 			control: 'select',
-			options: sizes,
+			options: SIZES_BUTTON,
 			description: '크기',
 		},
 		onClick: {

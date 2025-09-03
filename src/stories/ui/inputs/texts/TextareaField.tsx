@@ -1,13 +1,9 @@
-import { FormHelperText, TextareaAutosize, TextareaAutosizeProps } from '@mui/material';
+import { FormHelperText, TextareaAutosize } from '@mui/material';
 import cn from 'classnames';
-import { ReactNode } from 'react';
+import { ITextareaFieldProps } from '~models/ui/input';
 import Box from '~stories/ui/containers/Box';
-interface IProps extends TextareaAutosizeProps {
-	error?: boolean;
-	helperText?: ReactNode;
-}
 
-const TextareaField = ({ error, helperText, className, ...props }: IProps) => (
+const TextareaField = ({ error, helperText, className, ...props }: ITextareaFieldProps) => (
 	<Box className={cn('relative')}>
 		<TextareaAutosize className={cn('w-full', className)} {...props} />
 		{error && helperText && (

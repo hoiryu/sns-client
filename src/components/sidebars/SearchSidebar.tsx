@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import TextFieldSearch from '~components/common/inputs/TextFieldSearch';
 import ContainerFollows from '~components/follow/containers/ContainerFollows';
+import TextFieldSearch from '~components/search/inputs/TextFieldSearch';
 import ContainerTrends from '~components/trend/containers/ContainerTrends';
 import Container from '~stories/ui/containers/Container';
 

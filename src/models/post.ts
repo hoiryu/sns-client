@@ -4,5 +4,7 @@ export interface IDataPost {
 	id: number | string;
 	user: IDataUser;
 	description: string;
+	chat: boolean;
+	favorite: boolean;
 	imageUrl: string;
 }

@@ -7,3 +7,10 @@ export const createPostSchema = z.object({
 });
 
 export interface ICreatePostSchema extends z.infer<typeof createPostSchema> {}
+
+export const updatePostSchema = z.object({
+	chat: z.boolean(),
+	favorite: z.boolean(),
+});
+
+export interface IUpdatePostSchema extends z.infer<typeof updatePostSchema> {}

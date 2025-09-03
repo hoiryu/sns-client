@@ -1,10 +1,6 @@
-import { Controller, ControllerProps, FieldValues, FormState } from 'react-hook-form';
-import FileField, { IFileFieldProps } from '~stories/ui/inputs/files/FileField';
-
-interface IProps<T extends FieldValues> extends Omit<ControllerProps<T>, 'render'> {
-	formState: FormState<T>;
-	fieldProps: IFileFieldProps;
-}
+import { Controller, FieldValues } from 'react-hook-form';
+import { IControllerFileFieldProps } from '~models/ui/input';
+import FileField from '~stories/ui/inputs/files/FileField';
 
 /**
  * react-hook-form 용
@@ -14,7 +10,7 @@ const ControllerFileField = <T extends FieldValues>({
 	formState,
 	name,
 	...props
-}: IProps<T>) => {
+}: IControllerFileFieldProps<T>) => {
 	return (
 		<Controller
 			name={name}

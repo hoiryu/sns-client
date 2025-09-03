@@ -20,6 +20,8 @@ const ContainerFollowing = () => {
 				grayscale: false,
 				blur: 0,
 			}),
+			favorite: true,
+			chat: false,
 		};
 	});
 

@@ -1,11 +1,6 @@
-import { BaseTextFieldProps } from '@mui/material';
-import { Controller, ControllerProps, FieldValues, FormState } from 'react-hook-form';
+import { Controller, FieldValues } from 'react-hook-form';
+import { IControllerTextFieldProps } from '~models/ui/input';
 import TextField from '~stories/ui/inputs/texts/TextField';
-
-interface IProps<T extends FieldValues> extends Omit<ControllerProps<T>, 'render'> {
-	formState: FormState<T>;
-	fieldProps: BaseTextFieldProps;
-}
 
 /**
  * react-hook-form 용
@@ -15,7 +10,7 @@ const ControllerTextField = <T extends FieldValues>({
 	formState,
 	name,
 	...props
-}: IProps<T>) => (
+}: IControllerTextFieldProps<T>) => (
 	<Controller
 		name={name}
 		{...props}

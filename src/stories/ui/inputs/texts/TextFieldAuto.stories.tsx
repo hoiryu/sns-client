@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { debounce } from 'lodash';
 import { SyntheticEvent, useMemo, useState } from 'react';
 import { fn } from 'storybook/test';
-import TextFieldAuto, { colors, sizes, variants } from '~stories/ui/inputs/texts/TextFieldAuto';
+import { COLORS_TEXT_FIELD, SIZES_TEXT_FIELD, VARIANTS_TEXT_FIELD } from '~constants/ui/input';
+import TextFieldAuto from '~stories/ui/inputs/texts/TextFieldAuto';
 
 const meta = {
 	title: 'UI/Inputs/AutoText',
@@ -16,12 +17,12 @@ const meta = {
 			control: 'object',
 			variant: {
 				control: 'select',
-				options: variants,
+				options: VARIANTS_TEXT_FIELD,
 				description: '종류',
 			},
 			color: {
 				control: 'select',
-				options: colors,
+				options: COLORS_TEXT_FIELD,
 				description: '색상',
 			},
 			required: {
@@ -31,7 +32,7 @@ const meta = {
 			},
 			size: {
 				control: 'select',
-				options: sizes,
+				options: SIZES_TEXT_FIELD,
 				description: '크기',
 			},
 			disabled: {

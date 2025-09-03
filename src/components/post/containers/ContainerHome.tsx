@@ -32,7 +32,7 @@ const ContainerHome = () => {
 		alert(JSON.stringify(data, ['description'], 2));
 		console.log(data.image);
 	};
-	console.log(formState.errors);
+
 	return (
 		<>
 			<Container

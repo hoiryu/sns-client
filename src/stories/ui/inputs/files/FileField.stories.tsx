@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import FileField, { colors } from '~stories/ui/inputs/files/FileField';
+import { COLORS } from '~constants/ui/input';
+import FileField from '~stories/ui/inputs/files/FileField';
 
 const meta = {
 	title: 'UI/Inputs/File',
@@ -28,7 +29,7 @@ const meta = {
 		},
 		color: {
 			control: 'select',
-			options: colors,
+			options: COLORS,
 			description: '색상',
 		},
 		disabled: {

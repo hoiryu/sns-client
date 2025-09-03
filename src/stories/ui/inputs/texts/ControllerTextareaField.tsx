@@ -1,11 +1,6 @@
-import { TextareaAutosizeProps } from '@mui/material';
-import { Controller, ControllerProps, FieldValues, FormState } from 'react-hook-form';
+import { Controller, FieldValues } from 'react-hook-form';
+import { IControllerTextareaFieldProps } from '~models/ui/input';
 import TextareaField from '~stories/ui/inputs/texts/TextareaField';
-
-interface IProps<T extends FieldValues> extends Omit<ControllerProps<T>, 'render'> {
-	formState: FormState<T>;
-	fieldProps: TextareaAutosizeProps;
-}
 
 /**
  * react-hook-form 용
@@ -15,14 +10,14 @@ const ControllerTextareaField = <T extends FieldValues>({
 	formState,
 	name,
 	...props
-}: IProps<T>) => (
+}: IControllerTextareaFieldProps<T>) => (
 	<Controller
 		name={name}
 		{...props}
 		render={({ field }) => (
 			<TextareaField
-				{...fieldProps}
 				{...field}
+				{...fieldProps}
 				error={!!formState.errors[name]}
 				helperText={<>{formState.errors[name]?.message}</>}
 				disabled={formState.isSubmitting}

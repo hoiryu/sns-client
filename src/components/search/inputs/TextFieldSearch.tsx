@@ -3,15 +3,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { ISearchSchema, searchSchema } from '~schemas/search';
-import TextFieldAuto from '~stories/ui/inputs/texts/TextFieldAuto';
+import ControllerTextFieldAuto from '~stories/ui/inputs/texts/ControllerTextFieldAuto';
 
 const TextFieldSearch = () => {
 	const {
 		control,
-		handleSubmit,
-		formState: { errors, isSubmitting },
+		handleSubmit: zodSubmit,
+		formState,
 	} = useForm<ISearchSchema>({
 		resolver: zodResolver(searchSchema),
 		defaultValues: {
@@ -22,7 +22,7 @@ const TextFieldSearch = () => {
 	const [options, setOptions] = useState<string[]>([]);
 	const router = useRouter();
 
-	const onSubmit = useMemo(
+	const handleSubmit = useMemo(
 		() =>
 			debounce((data: ISearchSchema) => {
 				const { keyword } = data;
@@ -37,30 +37,21 @@ const TextFieldSearch = () => {
 		[options],
 	);
 
-	useEffect(() => () => onSubmit.cancel(), [onSubmit]);
+	useEffect(() => () => handleSubmit.cancel(), [handleSubmit]);
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<Controller
+		<form onSubmit={zodSubmit(handleSubmit)}>
+			<ControllerTextFieldAuto
 				name='keyword'
 				control={control}
-				render={({ field }) => {
-					return (
-						<TextFieldAuto
-							freeSolo
-							autoHighlight={false}
-							autoFocus={false}
-							autoComplete={false}
-							autoSelect={false}
-							inputProps={{
-								...field,
-								error: !!errors.keyword,
-								helperText: errors.keyword?.message,
-								disabled: isSubmitting,
-							}}
-							options={options}
-						/>
-					);
+				formState={formState}
+				fieldProps={{
+					freeSolo: true,
+					autoHighlight: false,
+					autoFocus: false,
+					autoComplete: false,
+					autoSelect: false,
+					options: options,
 				}}
 			/>
 		</form>

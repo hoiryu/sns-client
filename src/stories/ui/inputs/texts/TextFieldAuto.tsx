@@ -1,21 +1,10 @@
 import cn from 'classnames';
+import { ITextFieldAutoProps } from '~models/ui/input';
 import IconSearch from '~stories/ui/icons/IconSearch';
-import Autocomplete, { IAutocompleteProps } from '~stories/ui/inputs/texts/Autocomplete';
-import TextField, { ITextFieldProps } from '~stories/ui/inputs/texts/TextField';
+import Autocomplete from '~stories/ui/inputs/texts/Autocomplete';
+import TextField from '~stories/ui/inputs/texts/TextField';
 
-interface IProps extends Omit<IAutocompleteProps, 'renderInput'> {}
-export const variants: ITextFieldProps['variant'][] = ['standard', 'outlined', 'filled'];
-export const sizes: ITextFieldProps['size'][] = ['small', 'medium'];
-export const colors: ITextFieldProps['color'][] = [
-	'primary',
-	'secondary',
-	'error',
-	'info',
-	'success',
-	'warning',
-];
-
-const TextFieldAuto = ({ inputProps, ...props }: IProps) => (
+const TextFieldAuto = ({ inputProps, ...props }: ITextFieldAutoProps) => (
 	<Autocomplete
 		classes={{
 			root: cn('group relative'),
@@ -30,7 +19,6 @@ const TextFieldAuto = ({ inputProps, ...props }: IProps) => (
 					{...renderInputProps}
 					{...inputProps}
 					type='search'
-					autoComplete={'off'}
 					aria-label='search'
 				/>
 			</>

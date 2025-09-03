@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import TextField, { colors, sizes, variants } from '~stories/ui/inputs/texts/TextField';
+import { COLORS_TEXT_FIELD, SIZES_TEXT_FIELD, VARIANTS_TEXT_FIELD } from '~constants/ui/input';
+import TextField from '~stories/ui/inputs/texts/TextField';
 
 const meta = {
 	title: 'UI/Inputs/Text',
@@ -16,17 +17,17 @@ const meta = {
 		},
 		variant: {
 			control: 'select',
-			options: variants,
+			options: VARIANTS_TEXT_FIELD,
 			description: '종류',
 		},
 		color: {
 			control: 'select',
-			options: colors,
+			options: COLORS_TEXT_FIELD,
 			description: '색상',
 		},
 		size: {
 			control: 'select',
-			options: sizes,
+			options: SIZES_TEXT_FIELD,
 			description: '크기',
 		},
 		required: {

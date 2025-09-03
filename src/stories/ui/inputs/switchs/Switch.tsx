@@ -1,17 +1,6 @@
-import { Switch as MuiSwitch, SwitchProps } from '@mui/material';
+import { Switch as MuiSwitch } from '@mui/material';
+import { ISwitchProps } from '~models/ui/input';
 
-interface IProps extends SwitchProps {}
-export const sizes: IProps['size'][] = ['small', 'medium'];
-export const colors: IProps['color'][] = [
-	'primary',
-	'secondary',
-	'error',
-	'info',
-	'success',
-	'warning',
-	'default',
-];
-
-const Switch = ({ ...props }: IProps) => <MuiSwitch {...props} />;
+const Switch = ({ ...props }: ISwitchProps) => <MuiSwitch {...props} />;
 
 export default Switch;

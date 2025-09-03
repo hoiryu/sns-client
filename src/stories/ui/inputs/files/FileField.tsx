@@ -1,25 +1,10 @@
-import { BaseTextFieldProps, FormHelperText, useColorScheme } from '@mui/material';
+import { FormHelperText, useColorScheme } from '@mui/material';
 import cn from 'classnames';
-import Dropzone, { DropzoneProps } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
+import { IFileFieldProps } from '~models/ui/input';
 import Box from '~stories/ui/containers/Box';
 import IconUpload from '~stories/ui/icons/IconUpload';
 import Typography from '~stories/ui/typographys/Typography';
-
-export const colors: BaseTextFieldProps['color'][] = [
-	'primary',
-	'secondary',
-	'error',
-	'info',
-	'success',
-	'warning',
-];
-
-export interface IFileFieldProps extends DropzoneProps {
-	className?: string;
-	color?: BaseTextFieldProps['color'];
-	error?: BaseTextFieldProps['error'];
-	helperText?: BaseTextFieldProps['helperText'];
-}
 
 const FileField = ({
 	className,
@@ -71,12 +56,3 @@ const FileField = ({
 );
 
 export default FileField;
-
-{
-	/* 
-	{errors &&
-		errors.image &&
-		(errors.image as { message: string }[]).map(
-			err => err?.message && <p className='text-red-500'>{err.message}</p>,
-		)} */
-}
