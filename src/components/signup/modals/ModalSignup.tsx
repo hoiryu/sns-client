@@ -68,6 +68,7 @@ const ModalSignup = () => {
 				/>
 				<ControllerFileField<ISignupSchema>
 					fieldProps={{
+						className: cn('p-4'),
 						color: 'info',
 						accept: ACCEPTED_IMAGE_TYPES,
 						maxSize: MAX_PROFILE_FILE_SIZE_MB,

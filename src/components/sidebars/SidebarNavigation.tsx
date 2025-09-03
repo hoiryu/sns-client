@@ -2,7 +2,7 @@
 import { Tab } from '@mui/material';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
-import Button from '~stories/ui/buttons/Button';
+import ButtonCreatePost from '~components/post/buttons/ButtonCreatePost';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import Tabs from '~stories/ui/tabs/Tabs';
@@ -41,7 +41,7 @@ const SidebarNavigation = ({ menus }: IProps) => {
 						/>
 					))}
 				</Tabs>
-				<Button href='/compose/post' children='post' />
+				<ButtonCreatePost />
 			</Box>
 		</Container>
 	);

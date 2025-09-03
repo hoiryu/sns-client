@@ -11,9 +11,10 @@ import { cn } from '~utils/cn';
 
 interface IProps {
 	readonly children: ReactNode;
+	readonly modal: ReactNode;
 }
 
-const Layout = ({ children }: IProps) => {
+const Layout = ({ children, modal }: IProps) => {
 	const menus: IMenu[] = [
 		{
 			href: '/home',
@@ -50,6 +51,7 @@ const Layout = ({ children }: IProps) => {
 					<SidebarSearch />
 				</Container>
 			</Container>
+			{modal}
 		</>
 	);
 };

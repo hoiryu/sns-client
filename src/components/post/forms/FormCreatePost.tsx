@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
 import { createPostSchema, ICreatePostSchema } from '~schemas/post';
-import Button from '~stories/ui/buttons/Button';
+import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import Box from '~stories/ui/containers/Box';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextareaField from '~stories/ui/inputs/texts/ControllerTextareaField';
@@ -31,7 +31,7 @@ const FormCreatePost = () => {
 	return (
 		<Container
 			component='form'
-			className={cn('grid grid-cols-1 p-4')}
+			className={cn('grid grid-cols-1 gap-4 p-4')}
 			onSubmit={zodSubmit(handleSubmit)}
 		>
 			<ControllerTextareaField
@@ -60,7 +60,12 @@ const FormCreatePost = () => {
 						formState={formState}
 					/>
 				</Box>
-				<Button type='submit' variant='outlined' children='post' />
+				<ControllerButton
+					type='submit'
+					variant='outlined'
+					children='post'
+					formState={formState}
+				/>
 			</Box>
 		</Container>
 	);
