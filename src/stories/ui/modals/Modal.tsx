@@ -1,5 +1,5 @@
 import { ModalProps, Modal as MuiModal } from '@mui/material';
-import cn from 'classnames';
+import { cn } from '~utils/cn';
 import Box from '../containers/Box';
 
 type TSize = 'xsmall' | 'small' | 'medium' | 'large';

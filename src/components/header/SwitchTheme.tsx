@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useColorScheme } from '@mui/material/styles';
-import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { IThemeSchema, themeSchema } from '~schemas/theme';
 import IconDarkMode from '~stories/ui/icons/IconDarkMode';
 import IconLightMode from '~stories/ui/icons/IconLightMode';
 import ControllerSwitch from '~stories/ui/inputs/switchs/ControllerSwitch';
+import { cn } from '~utils/cn';
 
 const SwitchTheme = () => {
 	const { mode, setMode } = useColorScheme();

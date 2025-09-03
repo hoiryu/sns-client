@@ -1,8 +1,8 @@
-import cn from 'classnames';
 import { ITextFieldAutoProps } from '~models/ui/input';
 import IconSearch from '~stories/ui/icons/IconSearch';
 import Autocomplete from '~stories/ui/inputs/texts/Autocomplete';
 import TextField from '~stories/ui/inputs/texts/TextField';
+import { cn } from '~utils/cn';
 
 const TextFieldAuto = ({ inputProps, ...props }: ITextFieldAutoProps) => (
 	<Autocomplete

@@ -1,5 +1,4 @@
 'use client';
-import cn from 'classnames';
 import Link from 'next/link';
 import { MouseEvent, useMemo, useState } from 'react';
 import SwitchTheme from '~components/header/SwitchTheme';
@@ -13,6 +12,7 @@ import MenuItem from '~stories/ui/menus/MenuItem';
 import Avatar from '~stories/ui/profiles/Avatar';
 import Tooltip from '~stories/ui/tooltips/Tooltip';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const MemuAccount = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

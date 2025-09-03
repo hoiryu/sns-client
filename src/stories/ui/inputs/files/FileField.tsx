@@ -1,10 +1,10 @@
 import { FormHelperText, useColorScheme } from '@mui/material';
-import cn from 'classnames';
 import Dropzone from 'react-dropzone';
 import { IFileFieldProps } from '~models/ui/input';
 import Box from '~stories/ui/containers/Box';
 import IconUpload from '~stories/ui/icons/IconUpload';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const FileField = ({
 	className,

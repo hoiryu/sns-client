@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { RowComponentProps } from 'react-window';
 import { IDataUser } from '~models/user';
 import Button from '~stories/ui/buttons/Button';
@@ -6,6 +5,7 @@ import Box from '~stories/ui/containers/Box';
 import ListItem from '~stories/ui/lists/ListItem';
 import Avatar from '~stories/ui/profiles/Avatar';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ListItemFollow = ({
 	index,

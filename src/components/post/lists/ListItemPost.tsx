@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
-import cn from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -14,6 +13,7 @@ import Box from '~stories/ui/containers/Box';
 import ListItem from '~stories/ui/lists/ListItem';
 import Avatar from '~stories/ui/profiles/Avatar';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 import { formatTimeAgo } from '~utils/date';
 
 const ListItemPost = ({

@@ -1,8 +1,8 @@
-import cn from 'classnames';
 import ListFollows from '~components/follow/lists/ListFollows';
 import { IDataUser } from '~models/user';
 import Container from '~stories/ui/containers/Container';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ContainerFollows = () => {
 	const datas: IDataUser[] = Array.from({ length: 20 }, (_, index) => {

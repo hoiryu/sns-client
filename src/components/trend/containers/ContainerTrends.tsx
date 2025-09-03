@@ -1,8 +1,8 @@
-import cn from 'classnames';
 import ListTrends from '~components/trend/lists/ListTrends';
 import { IDataTrend } from '~models/trend';
 import Container from '~stories/ui/containers/Container';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ContainerTrends = () => {
 	const datas: IDataTrend[] = Array.from({ length: 20 }, (_, index) => {

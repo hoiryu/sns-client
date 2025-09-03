@@ -1,6 +1,5 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
@@ -10,6 +9,7 @@ import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ModalSignup = () => {
 	const router = useRouter();

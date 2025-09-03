@@ -1,9 +1,9 @@
-import cn from 'classnames';
 import Link from 'next/link';
 import { RowComponentProps } from 'react-window';
 import { IDataTrend } from '~models/trend';
 import ListItemButton from '~stories/ui/lists/ListItemButton';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ListItemTrend = ({
 	index,

@@ -1,12 +1,12 @@
 'use client';
 import { Tab } from '@mui/material';
-import cn from 'classnames';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
 import Button from '~stories/ui/buttons/Button';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import Tabs from '~stories/ui/tabs/Tabs';
+import { cn } from '~utils/cn';
 
 export interface IMenu {
 	href: string;
@@ -18,7 +18,7 @@ interface IProps {
 	menus: IMenu[];
 }
 
-const NavigationSidebar = ({ menus }: IProps) => {
+const SidebarNavigation = ({ menus }: IProps) => {
 	const segment = useSelectedLayoutSegment();
 	const value = useMemo(() => {
 		if (!segment) return;
@@ -28,7 +28,7 @@ const NavigationSidebar = ({ menus }: IProps) => {
 
 	return (
 		<Container component='section'>
-			<Box className={cn('sticky top-4 flex flex-col gap-5 px-5')}>
+			<Box className={cn('sticky top-0 flex flex-col gap-5 px-5')}>
 				<Tabs orientation='vertical' value={value} aria-label='메인 사이드바'>
 					{menus.map(({ href, name, icon }) => (
 						<Tab
@@ -47,4 +47,4 @@ const NavigationSidebar = ({ menus }: IProps) => {
 	);
 };
 
-export default NavigationSidebar;
+export default SidebarNavigation;

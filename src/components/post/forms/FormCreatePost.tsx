@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
-import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
 import { createPostSchema, ICreatePostSchema } from '~schemas/post';
@@ -8,6 +7,7 @@ import Button from '~stories/ui/buttons/Button';
 import Box from '~stories/ui/containers/Box';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextareaField from '~stories/ui/inputs/texts/ControllerTextareaField';
+import { cn } from '~utils/cn';
 
 const FormCreatePost = () => {
 	const {

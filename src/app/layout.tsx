@@ -1,11 +1,11 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import cn from 'classnames';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import ProviderMSW from '~contexts/ProviderMSW';
 import ProviderQuery from '~contexts/ProviderQuery';
 import ProviderTheme, { TDefaultTheme } from '~src/contexts/ProviderTheme';
+import { cn } from '~utils/cn';
 import './globals.css';
 
 if (

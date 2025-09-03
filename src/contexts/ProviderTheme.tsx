@@ -7,10 +7,10 @@ import {
 	createTheme,
 	useColorScheme,
 } from '@mui/material/styles';
-import cn from 'classnames';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { MODE_STORAGE_KEY } from '~constants/theme';
+import { cn } from '~utils/cn';
 
 export type TDefaultTheme = 'dark' | 'light';
 

@@ -1,6 +1,5 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ILoginSchema, loginSchema } from '~schemas/login';
@@ -8,6 +7,7 @@ import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
 import Typography from '~stories/ui/typographys/Typography';
+import { cn } from '~utils/cn';
 
 const ModalLogin = () => {
 	const router = useRouter();

@@ -1,6 +1,6 @@
-import cn from 'classnames';
 import { ReactNode } from 'react';
 import Container from '~stories/ui/containers/Container';
+import { cn } from '~utils/cn';
 
 interface IProps {
 	children: ReactNode;

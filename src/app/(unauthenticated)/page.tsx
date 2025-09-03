@@ -1,7 +1,7 @@
-import cn from 'classnames';
 import { ReactNode } from 'react';
 import Button from '~stories/ui/buttons/Button';
 import Box from '~stories/ui/containers/Box';
+import { cn } from '~utils/cn';
 interface IProps {
 	children: ReactNode;
 	modal: ReactNode;

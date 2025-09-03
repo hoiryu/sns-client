@@ -1,5 +1,4 @@
 'use client';
-import cn from 'classnames';
 import { SyntheticEvent } from 'react';
 import { TTabsMainValue, useStoreTabsMain } from '~src/stores/storeTabsMain';
 import Container from '~stories/ui/containers/Container';
@@ -7,6 +6,7 @@ import IconBookmark from '~stories/ui/icons/IconBookmark';
 import IconRecommend from '~stories/ui/icons/IconRecommend';
 import Tab from '~stories/ui/tabs/Tab';
 import Tabs from '~stories/ui/tabs/Tabs';
+import { cn } from '~utils/cn';
 
 const TabsMain = () => {
 	const { value, setValue } = useStoreTabsMain();

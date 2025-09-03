@@ -1,13 +1,13 @@
-import cn from 'classnames';
 import { ReactNode } from 'react';
 import Header from '~components/header/Header';
-import NavigationSidebar, { IMenu } from '~components/sidebars/NavigationSidebar';
-import SearchSidebar from '~components/sidebars/SearchSidebar';
+import SidebarNavigation, { IMenu } from '~components/sidebars/SidebarNavigation';
+import SidebarSearch from '~components/sidebars/SidebarSearch';
 import Container from '~stories/ui/containers/Container';
 import IconHome from '~stories/ui/icons/IconHome';
 import IconMessage from '~stories/ui/icons/IconMessage';
 import IconPerson from '~stories/ui/icons/IconPerson';
 import IconSearch from '~stories/ui/icons/IconSearch';
+import { cn } from '~utils/cn';
 
 interface IProps {
 	readonly children: ReactNode;
@@ -45,9 +45,9 @@ const Layout = ({ children }: IProps) => {
 			>
 				<Header />
 				<Container className={cn('grid grid-cols-[auto_2fr_1fr]')}>
-					<NavigationSidebar menus={menus} />
+					<SidebarNavigation menus={menus} />
 					{children}
-					<SearchSidebar />
+					<SidebarSearch />
 				</Container>
 			</Container>
 		</>
