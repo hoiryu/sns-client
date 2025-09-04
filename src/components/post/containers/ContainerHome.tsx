@@ -11,7 +11,7 @@ const ContainerHome = () => {
 
 	return (
 		<Container component='section' className={cn('flex flex-col gap-8')}>
-			<FormCreatePost />
+			<FormCreatePost maxRows={2} minRows={2} />
 			{value === 'recommended' && <ContainerRecommended />}
 			{value === 'following' && <ContainerFollowing />}
 		</Container>

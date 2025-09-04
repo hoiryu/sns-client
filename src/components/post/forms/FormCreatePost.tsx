@@ -9,7 +9,12 @@ import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextareaField from '~stories/ui/inputs/texts/ControllerTextareaField';
 import { cn } from '~utils/cn';
 
-const FormCreatePost = () => {
+interface IProps {
+	maxRows: number;
+	minRows: number;
+}
+
+const FormCreatePost = ({ maxRows, minRows }: IProps) => {
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -37,8 +42,8 @@ const FormCreatePost = () => {
 			<ControllerTextareaField
 				fieldProps={{
 					className: cn('rounded-2xl border p-2 outline-none'),
-					maxRows: 2,
-					minRows: 2,
+					maxRows,
+					minRows,
 					'aria-label': 'Create Post',
 					placeholder: 'Create Post',
 				}}

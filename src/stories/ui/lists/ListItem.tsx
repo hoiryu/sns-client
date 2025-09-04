@@ -1,8 +1,6 @@
-import { ListItemProps, ListItem as MuiListItem } from '@mui/material';
-import { LinkProps } from 'next/link';
+import { ListItem as MuiListItem } from '@mui/material';
+import { IListItemProps } from '~models/ui/list';
 
-export type TProps = ListItemProps & Partial<LinkProps>;
-
-const ListItem = ({ ...props }: TProps) => <MuiListItem {...props} />;
+const ListItem = ({ ...props }: IListItemProps) => <MuiListItem {...props} />;
 
 export default ListItem;

@@ -1,4 +1,7 @@
+import { IDataUser } from '~models/user';
+
 export interface IDataTrend {
-	name: string;
+	user: IDataUser;
+	title: string;
 	posts: number;
 }

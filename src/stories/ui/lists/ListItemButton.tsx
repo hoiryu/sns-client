@@ -1,8 +1,6 @@
-import { ListItemButtonProps, ListItemButton as MuiListItemButton } from '@mui/material';
-import { LinkProps } from 'next/link';
+import { ListItemButton as MuiListItemButton } from '@mui/material';
+import { IListItemButtonProps } from '~models/ui/list';
 
-export type TProps = ListItemButtonProps & Partial<LinkProps>;
-
-const ListItemButton = ({ ...props }: TProps) => <MuiListItemButton {...props} />;
+const ListItemButton = ({ ...props }: IListItemButtonProps) => <MuiListItemButton {...props} />;
 
 export default ListItemButton;

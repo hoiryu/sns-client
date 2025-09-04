@@ -1,4 +1,4 @@
-import { RowComponentProps } from 'react-window';
+import { IListItemProps } from '~models/ui/list';
 import { IDataUser } from '~models/user';
 import Button from '~stories/ui/buttons/Button';
 import Box from '~stories/ui/containers/Box';
@@ -7,20 +7,21 @@ import Avatar from '~stories/ui/profiles/Avatar';
 import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
-const ListItemFollow = ({
-	index,
-	datas,
-	style,
-}: RowComponentProps<{
-	datas: IDataUser[];
-}>) => (
-	<ListItem key={index} className={cn('flex flex-wrap items-center gap-2')} style={style}>
-		<Avatar classes={{ root: cn('hidden h-9 w-9 lg:flex') }} />
-		<Box className='mr-auto max-w-full'>
-			<Typography className={cn('truncate text-sm')} children={`${datas[index].name}`} />
-			<Typography className={cn('truncate text-sm')} children={`${datas[index].email}`} />
+interface IProps extends IListItemProps {
+	data: IDataUser;
+}
+
+const ListItemFollow = ({ data, className, style }: IProps) => (
+	<ListItem
+		className={cn(className, 'grid grid-cols-[auto_1fr_auto] items-center gap-2')}
+		style={style}
+	>
+		<Avatar src={data.imageUrl} classes={{ root: cn('h-8 w-8') }} />
+		<Box className={cn('overflow-hidden')}>
+			<Typography className={cn('truncate text-sm')} children={`${data.name}`} />
+			<Typography className={cn('truncate text-sm')} children={`${data.email}`} />
 		</Box>
-		<Button className='min-w-0' variant='outlined' size='small' children='follow' />
+		<Button className='min-w-0 shrink-0' variant='outlined' size='small' children='follow' />
 	</ListItem>
 );
 

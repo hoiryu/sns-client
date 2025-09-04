@@ -8,15 +8,6 @@ import ProviderTheme, { TDefaultTheme } from '~src/contexts/ProviderTheme';
 import { cn } from '~utils/cn';
 import './globals.css';
 
-if (
-	process.env.NEXT_RUNTIME === 'nodejs' &&
-	process.env.NODE_ENV !== 'production' &&
-	process.env.NEXT_PUBLIC_MSW_ENABLED !== 'false'
-) {
-	const { server } = require('~mocks/http');
-	server.listen();
-}
-
 export const metadata: Metadata = {
 	title: 'SNS',
 	description: '메인 페이지',

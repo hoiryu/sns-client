@@ -9,7 +9,7 @@ const ModalCreatePost = () => {
 
 	return (
 		<Modal open size='small' disablePortal onClose={handleClose}>
-			<FormCreatePost />
+			<FormCreatePost maxRows={4} minRows={4} />
 		</Modal>
 	);
 };

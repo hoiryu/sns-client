@@ -1,36 +1,22 @@
-import { faker } from '@faker-js/faker';
-import ListPosts from '~components/post/lists/ListPosts';
+import { useQuery } from '@tanstack/react-query';
+import ListWindowScrollPosts from '~components/post/lists/ListWindowScrollPosts';
 import { IDataPost } from '~models/post';
+import httpClient from '~networks/http';
 import Container from '~stories/ui/containers/Container';
 
 const ContainerFollowing = () => {
-	const datas: IDataPost[] = Array.from({ length: 2 }, (_, index) => {
-		return {
-			id: index,
-			user: {
-				id: index,
-				name: `유저 ${index}`,
-				email: `test${index}@gmail.com`,
-				imageUrl: `/test.com/${index}`,
-			},
-			description: `Following description ${index}`,
-			imageUrl: faker.image.urlPicsumPhotos({
-				width: 200,
-				height: 200,
-				grayscale: false,
-				blur: 0,
-			}),
-			favorite: true,
-			repost: true,
-			chat: false,
-			createAt: faker.date.recent({ days: 1 }),
-		};
+	const { data } = useQuery({
+		queryKey: ['post'],
+		queryFn: () =>
+			httpClient
+				.fetch<null, IDataPost[]>('/posts', {
+					method: 'GET',
+				})
+				.then(res => res.data),
 	});
 
 	return (
-		<Container component='section'>
-			<ListPosts datas={datas} />
-		</Container>
+		<Container component='section'>{data && <ListWindowScrollPosts data={data} />}</Container>
 	);
 };
 

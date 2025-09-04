@@ -3,11 +3,11 @@ import { Container } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { RowComponentProps } from 'react-window';
 import CheckboxChat from '~components/post/checkboxs/CheckboxChat';
 import CheckboxFavorite from '~components/post/checkboxs/CheckboxFavorite';
 import CheckboxRepost from '~components/post/checkboxs/CheckboxRepost';
 import { IDataPost } from '~models/post';
+import { IListItemProps } from '~models/ui/list';
 import { IUpdatePostSchema, updatePostSchema } from '~schemas/post';
 import Box from '~stories/ui/containers/Box';
 import ListItem from '~stories/ui/lists/ListItem';
@@ -16,13 +16,11 @@ import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 import { formatTimeAgo } from '~utils/date';
 
-const ListItemPost = ({
-	index,
-	datas,
-	style,
-}: RowComponentProps<{
-	datas: IDataPost[];
-}>) => {
+interface IProps extends IListItemProps {
+	data: IDataPost;
+}
+
+const ListItemPost = ({ data, ...props }: IProps) => {
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -30,7 +28,7 @@ const ListItemPost = ({
 	} = useForm<IUpdatePostSchema>({
 		resolver: zodResolver(updatePostSchema),
 		defaultValues: async () => {
-			const { chat, repost, favorite } = datas[index];
+			const { chat, repost, favorite } = data;
 			return {
 				chat,
 				repost,
@@ -45,49 +43,47 @@ const ListItemPost = ({
 	};
 
 	return (
-		<ListItem key={index} component='article' style={style}>
+		<ListItem component='article' {...props}>
 			<Container
 				component='section'
 				className={cn(
-					'grid h-full grid-cols-1 grid-rows-[auto_1fr_auto] justify-between gap-2',
+					'grid h-full w-full grid-cols-1 grid-rows-[auto_1fr_auto] justify-between gap-2',
 				)}
 			>
 				<ListItem
 					component={Link}
-					href={`/${datas[index].user.name}`}
-					alignItems='flex-start'
+					href={`/${data.user.name}`}
 					disableGutters
 					dense
-					className={cn('flex flex-col gap-1')}
+					className={cn('grid grid-cols-1 gap-1')}
 				>
 					<Box className={cn('flex max-w-full items-center gap-2')}>
-						<Avatar classes={{ root: cn('hidden h-9 w-9 lg:flex') }} />
+						<Avatar src={data.user.imageUrl} classes={{ root: cn('h-8 w-8') }} />
 						<Typography
 							className={cn('truncate text-sm')}
-							children={`${datas[index].user.name}`}
+							children={`${data.user.name}`}
 						/>
 						<Typography
 							className={cn('truncate text-sm')}
-							children={`${datas[index].user.email}`}
+							children={`${data.user.email}`}
 						/>
 						<Typography
 							className={cn('truncate text-xs text-gray-300')}
-							children={formatTimeAgo(datas[index].createAt)}
+							children={formatTimeAgo(data.createAt)}
 						/>
 					</Box>
 					<Typography
 						className={cn('truncate text-sm')}
-						children={`${datas[index].description}`}
+						children={`${data.description}`}
 					/>
 				</ListItem>
 				<Box className={cn('relative overflow-hidden rounded-2xl')}>
 					<Image
-						src={datas[index].imageUrl}
+						src={data.imageUrl}
 						fill
 						className={'object-cover'}
-						sizes='212px'
-						priority
-						alt={`${datas[index].user.name} 의 이미지`}
+						sizes='200px'
+						alt={`${data.user.name} 의 이미지`}
 					/>
 				</Box>
 				<Box component='form' className='flex items-center justify-between'>

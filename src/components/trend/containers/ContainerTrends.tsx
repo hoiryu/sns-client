@@ -1,26 +1,31 @@
-import ListTrends from '~components/trend/lists/ListTrends';
+import { useQuery } from '@tanstack/react-query';
 import { IDataTrend } from '~models/trend';
+import httpClient from '~networks/http';
 import Container from '~stories/ui/containers/Container';
 import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
-const ContainerTrends = () => {
-	const datas: IDataTrend[] = Array.from({ length: 20 }, (_, index) => {
-		return {
-			name: `유저 ${index}`,
-			posts: index,
-		};
+interface IProps {
+	className?: string;
+	limit?: number;
+}
+
+const ContainerTrends = ({ className, limit }: IProps) => {
+	const { data } = useQuery({
+		queryKey: ['trend'],
+		queryFn: () =>
+			httpClient
+				.fetch<null, IDataTrend[]>('/trends', {
+					method: 'GET',
+				})
+				.then(res => res.data),
 	});
 
 	return (
 		<Container component='section'>
 			<Typography className={cn('p-4')} children='Trends for you' />
-			<Container
-				className={cn(
-					'dark:bg-dark overflow-hidden rounded-2xl border-1 border-neutral-100 shadow-lg dark:border-transparent',
-				)}
-			>
-				<ListTrends datas={datas} />
+			<Container className={cn(className)}>
+				{/* {data && <ListTrends limit={limit} data={data} />} */}
 			</Container>
 		</Container>
 	);
