@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { IDataPost } from '~models/post';
 import { IDataTrend } from '~models/trend';
 import { IDataUser } from '~models/user';
+import { IException, IResponse } from '~networks/http';
 import PostService from '~services/mocks/postService';
 import TrendService from '~services/mocks/trendService';
 import UserService from '~services/mocks/userService';
@@ -48,4 +49,34 @@ export const handlers = [
 		const data = postService.getPosts();
 		return HttpResponse.json({ data }, { status: 200 });
 	}),
+
+	// 특정 포스트 가져오기 (category)
+	http.get<never, never, { data: IDataPost[] }>(`${url}/posts`, () => {
+		const data = postService.getPosts();
+		return HttpResponse.json({ data }, { status: 200 });
+	}),
+
+	// http.get('https://test.com/user', ({ request }) => {
+	// 	const url = new URL(request.url);
+	// 	const id = url.searchParams.get('id');
+	// 	const name = url.searchParams.get('name');
+
+	// 	return HttpResponse.json({ data }, { status: 200 });
+	// }),
+
+	// 특정 포스트 가져오기 (id)
+	http.get<{ id: string }, never, IResponse<IDataPost> | IException>(
+		`${url}/post/:id`,
+		({ params }) => {
+			const { id } = params;
+			const data = postService.getPostById(id);
+			if (!data)
+				return HttpResponse.json<IException>(
+					{ success: false, code: 404, message: `Not found id: ${id}` },
+					{ status: 404 },
+				);
+
+			return HttpResponse.json({ data }, { status: 200 });
+		},
+	),
 ];

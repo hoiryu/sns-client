@@ -26,12 +26,12 @@ const SidebarLeft = () => {
 	const menus: IMenu[] = useMemo(
 		() => [
 			{
-				href: '/home',
+				href: '/home?category=recommended',
 				name: 'home',
 				icon: <IconHome />,
 			},
 			{
-				href: '/search',
+				href: '/search?category=popular',
 				name: 'search',
 				icon: <IconSearch />,
 			},

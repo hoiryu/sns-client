@@ -1,9 +1,9 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { debounce } from 'lodash';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQueryString } from '~hooks/useQueryString';
 import { ISearchSchema, searchSchema } from '~schemas/search';
 import ControllerTextFieldAuto from '~stories/ui/inputs/texts/ControllerTextFieldAuto';
 
@@ -20,20 +20,21 @@ const FormSearch = () => {
 		mode: 'onChange',
 	});
 	const [options, setOptions] = useState<string[]>([]);
-	const router = useRouter();
+	const { setQueryString } = useQueryString();
 
 	const handleSubmit = useMemo(
 		() =>
 			debounce((data: ISearchSchema) => {
 				const { keyword } = data;
+				setQueryString({ keyword });
 
-				if (!options.includes(keyword)) {
+				if (!options.includes(keyword) && keyword) {
 					setOptions(prev => {
 						if (prev.length < 5) return [...prev, keyword];
 						return [...prev.slice(1), keyword];
 					});
 				}
-			}, 500),
+			}, 200),
 		[options],
 	);
 

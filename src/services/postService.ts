@@ -22,6 +22,32 @@ class PostService implements IPostService {
 					.then(res => res.data),
 		});
 	}
+
+	public getPostsByCategory({ category }: { category: string }) {
+		return useQuery({
+			queryKey: ['posts'],
+			staleTime: 10 * MINUTE,
+			queryFn: () =>
+				httpClient
+					.fetch<null, IDataPost[]>(`/posts?category=${category}`, {
+						method: 'GET',
+					})
+					.then(res => res.data),
+		});
+	}
+
+	public getPostById(id: string | number) {
+		return useQuery({
+			queryKey: ['post', id],
+			staleTime: 10 * MINUTE,
+			queryFn: () =>
+				httpClient
+					.fetch<null, IDataPost>(`/post/${id}`, {
+						method: 'GET',
+					})
+					.then(res => res.data),
+		});
+	}
 }
 
 const postService = new PostService();

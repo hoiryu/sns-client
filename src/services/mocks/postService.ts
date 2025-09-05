@@ -5,6 +5,7 @@ import { IUserService } from '~services/mocks/userService';
 
 interface IPostService {
 	getPosts(): IDataPost[];
+	getPostById(id: string | number): IDataPost | undefined;
 }
 
 export default class PostService implements IPostService {
@@ -35,7 +36,17 @@ export default class PostService implements IPostService {
 		});
 	}
 
-	public getPosts(): IDataPost[] {
+	/**
+	 * 모든 Post 가져오기
+	 */
+	public getPosts() {
 		return this.data;
+	}
+
+	/**
+	 * 특정 Post 가져오기 (id)
+	 */
+	public getPostById(id: string | number) {
+		return this.data.find(post => post.id === id);
 	}
 }

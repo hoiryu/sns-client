@@ -1,7 +1,13 @@
 type TMethod = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELTE';
 
-export interface IResponse<T> extends Response {
+export interface IResponse<T> {
 	data: T;
+}
+
+export interface IException {
+	success: boolean;
+	code: number;
+	message: string;
 }
 
 interface IRequestInit<T extends RequestInit['body']> extends RequestInit {

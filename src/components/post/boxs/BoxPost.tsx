@@ -20,7 +20,7 @@ interface IProps extends IListItemProps {
 	data: IDataPost;
 }
 
-const ListItemPost = ({ data, ...props }: IProps) => {
+const BoxPost = ({ data, ...props }: IProps) => {
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -57,29 +57,16 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
 						<Avatar src={data.user.imageUrl} classes={{ root: cn('h-8 w-8') }} />
+						<Typography className={cn('text-sm')} children={`${data.user.name}`} />
+						<Typography className={cn('text-sm')} children={`${data.user.email}`} />
 						<Typography
-							className={cn('truncate text-sm')}
-							children={`${data.user.name}`}
-						/>
-						<Typography
-							className={cn('truncate text-sm')}
-							children={`${data.user.email}`}
-						/>
-						<Typography
-							className={cn('truncate text-xs text-gray-300')}
+							className={cn('text-xs text-gray-300')}
 							children={formatTimeAgo(data.createAt)}
 						/>
 					</ListItem>
-					<Typography
-						className={cn('truncate text-sm')}
-						children={`${data.description}`}
-					/>
+					<Typography className={cn('text-sm')} children={`${data.description}`} />
 				</Box>
-				<ListItem
-					component={Link}
-					href={`/${data.user.name}/${data.id}`}
-					className={cn('relative overflow-hidden rounded-2xl p-0')}
-				>
+				<Box className={cn('relative overflow-hidden rounded-2xl')}>
 					<Image
 						src={data.imageUrl}
 						fill
@@ -87,7 +74,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						sizes='200px'
 						alt={`${data.user.name} 의 이미지`}
 					/>
-				</ListItem>
+				</Box>
 				<Box component='form' className='flex items-center justify-between'>
 					<CheckboxChat<IUpdatePostSchema>
 						name='chat'
@@ -113,4 +100,4 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 	);
 };
 
-export default ListItemPost;
+export default BoxPost;

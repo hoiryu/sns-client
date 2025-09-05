@@ -1,16 +1,24 @@
+import TabsSearch from '~authenticated/search/_components/tabs/TabsSearch';
+import ListWindowScrollPosts from '~components/post/lists/ListWindowScrollPosts';
 import FormSearch from '~components/search/forms/FormSearch';
-import ListWindowScrollTrends from '~components/trend/lists/ListWindowScrollTrends';
 import Container from '~stories/ui/containers/Container';
-import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
-const Page = () => {
+interface IProps {
+	searchParams: Promise<{ category: string }>;
+}
+
+const Page = async ({ searchParams }: IProps) => {
+	const { category } = await searchParams;
+
 	return (
-		<Container component='section'>
-			<FormSearch />
-			<Container component='section'>
-				<Typography className={cn('p-4')} children='Trends for you' />
-				<ListWindowScrollTrends />
+		<Container component='section' className={cn('relative')}>
+			<Container component='article' className={cn('px-4')}>
+				<FormSearch />
+			</Container>
+			<TabsSearch />
+			<Container component='article'>
+				<ListWindowScrollPosts category={category} />
 			</Container>
 		</Container>
 	);

@@ -1,32 +1,28 @@
 'use client';
 import { SyntheticEvent, useCallback } from 'react';
 import { useQueryString } from '~hooks/useQueryString';
-import { ITabsValueHome } from '~src/stores/home';
+import { ITabsValueSearch } from '~src/stores/search';
 import Container from '~stories/ui/containers/Container';
-import IconBookmark from '~stories/ui/icons/IconBookmark';
-import IconRecommend from '~stories/ui/icons/IconRecommend';
 import Tab from '~stories/ui/tabs/Tab';
 import Tabs from '~stories/ui/tabs/Tabs';
 import { cn } from '~utils/cn';
 
-const TabsPost = () => {
+const TabsSearch = () => {
 	const { getQueryString, setQueryString } = useQueryString();
 	const value = getQueryString('category');
 	const tabs = [
 		{
-			name: 'recommended',
-			value: 'recommended',
-			icon: <IconRecommend />,
+			name: 'popular',
+			value: 'popular',
 		},
 		{
-			name: 'following',
-			value: 'following',
-			icon: <IconBookmark />,
+			name: 'live',
+			value: 'live',
 		},
 	];
 
 	const handleChange = useCallback(
-		(_: SyntheticEvent, value: ITabsValueHome) => setQueryString({ category: value }),
+		(_: SyntheticEvent, value: ITabsValueSearch) => setQueryString({ category: value }),
 		[setQueryString],
 	);
 
@@ -35,17 +31,17 @@ const TabsPost = () => {
 			<Tabs
 				orientation='horizontal'
 				centered
-				value={value || 'recommended'}
-				aria-label='메인 탭'
+				value={value || 'popular'}
+				aria-label='Search Tab'
 				className={cn('backdrop-blur-lg')}
 				onChange={handleChange}
 			>
-				{tabs.map(({ name, value: v, icon }) => (
-					<Tab key={`${name}-${v}`} icon={icon} label={name} value={v} />
+				{tabs.map(({ name, value: v }) => (
+					<Tab key={`${name}-${v}`} label={name} value={v} />
 				))}
 			</Tabs>
 		</Container>
 	);
 };
 
-export default TabsPost;
+export default TabsSearch;
