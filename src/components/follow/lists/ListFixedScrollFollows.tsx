@@ -1,14 +1,13 @@
 'use client';
 import ListItemFollow from '~components/follow/lists/ListItemFollow';
 import { IDataUser } from '~models/user';
+import userService from '~services/userService';
 import ListFixedScroll from '~stories/ui/lists/ListFixedScroll';
 
-interface IProps {
-	data: IDataUser[];
-}
+const ListFixedScrollFollows = () => {
+	const { data } = userService.getUsers();
 
-const ListFixedScrollFollows = ({ data }: IProps) => (
-	<ListFixedScroll<IDataUser> component={ListItemFollow} data={data} size={70} />
-);
+	return data && <ListFixedScroll<IDataUser> component={ListItemFollow} data={data} size={70} />;
+};
 
 export default ListFixedScrollFollows;

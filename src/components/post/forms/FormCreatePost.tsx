@@ -1,3 +1,4 @@
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
 import { useForm } from 'react-hook-form';

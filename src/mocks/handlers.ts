@@ -13,11 +13,29 @@ const trendService = new TrendService(userService, 30);
 const postService = new PostService(userService, 30);
 
 export const handlers = [
+	// 자기 자신 가져오기
+	http.get<never, never, { data: IDataUser | undefined }>(`${url}/me`, async () => {
+		const data = userService.getMe();
+		if (!data) return HttpResponse.json({ data: undefined }, { status: 404 });
+		return HttpResponse.json({ data }, { status: 200 });
+	}),
+
 	// 모든 유저 가져오기
 	http.get<never, never, { data: IDataUser[] }>(`${url}/users`, () => {
 		const data = userService.getUsers();
 		return HttpResponse.json({ data }, { status: 200 });
 	}),
+
+	// 유저 이름으로 가져오기
+	http.get<never, { name: string }, { data: IDataUser | undefined }>(
+		`${url}/user`,
+		async ({ request }) => {
+			const { name } = await request.json();
+			const data = userService.getUserByName(name);
+			if (!data) return HttpResponse.json({ data: undefined }, { status: 404 });
+			return HttpResponse.json({ data }, { status: 200 });
+		},
+	),
 
 	// 모든 트렌드 가져오기
 	http.get<never, never, { data: IDataTrend[] }>(`${url}/trends`, () => {

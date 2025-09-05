@@ -3,8 +3,13 @@ import { Tab } from '@mui/material';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
 import ButtonCreatePost from '~components/post/buttons/ButtonCreatePost';
+import userService from '~services/userService';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
+import IconHome from '~stories/ui/icons/IconHome';
+import IconMessage from '~stories/ui/icons/IconMessage';
+import IconPerson from '~stories/ui/icons/IconPerson';
+import IconSearch from '~stories/ui/icons/IconSearch';
 import Tabs from '~stories/ui/tabs/Tabs';
 import { cn } from '~utils/cn';
 
@@ -14,12 +19,36 @@ export interface IMenu {
 	icon?: ReactElement;
 }
 
-interface IProps {
-	menus: IMenu[];
-}
-
-const SidebarNavigation = ({ menus }: IProps) => {
+const SidebarLeft = () => {
 	const segment = useSelectedLayoutSegment();
+	const { data } = userService.getMe();
+
+	const menus: IMenu[] = useMemo(
+		() => [
+			{
+				href: '/home',
+				name: 'home',
+				icon: <IconHome />,
+			},
+			{
+				href: '/search',
+				name: 'search',
+				icon: <IconSearch />,
+			},
+			{
+				href: '/message',
+				name: 'message',
+				icon: <IconMessage />,
+			},
+			{
+				href: `/${data?.name}`,
+				name: 'profile',
+				icon: <IconPerson />,
+			},
+		],
+		[data],
+	);
+
 	const value = useMemo(() => {
 		if (!segment) return;
 		const value = menus.find(({ href }) => href.includes(segment))?.href || false;
@@ -47,4 +76,4 @@ const SidebarNavigation = ({ menus }: IProps) => {
 	);
 };
 
-export default SidebarNavigation;
+export default SidebarLeft;

@@ -1,3 +1,4 @@
+'use client';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { ElementType, useRef } from 'react';
 import Box from '~stories/ui/containers/Box';

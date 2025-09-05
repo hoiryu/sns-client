@@ -10,7 +10,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
 	title: 'SNS',
-	description: '메인 페이지',
+	description: 'SNS 페이지',
 };
 
 interface IProps {

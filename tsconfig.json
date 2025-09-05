@@ -32,6 +32,8 @@
 			"~constants/*": ["./src/constants/*"],
 			"~mocks/*": ["./src/mocks/*"],
 			"~components/*": ["./src/components/*"],
+			"~authenticated/*": ["./src/app/(authenticated)/*"],
+			"~unauthenticated/*": ["./src/app/(unauthenticated)/*"],
 			"~app/*": ["./src/app/*"],
 			"~src/*": ["./src/*"],
 			"~/*": ["./*"]

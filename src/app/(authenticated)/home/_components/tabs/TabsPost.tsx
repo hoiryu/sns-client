@@ -1,6 +1,6 @@
 'use client';
 import { SyntheticEvent } from 'react';
-import { TTabsMainValue, useStoreTabsMain } from '~src/stores/storeTabsMain';
+import { ITabsValuePost, storeTabsPost } from '~src/stores/storeTabsPost';
 import Container from '~stories/ui/containers/Container';
 import IconBookmark from '~stories/ui/icons/IconBookmark';
 import IconRecommend from '~stories/ui/icons/IconRecommend';
@@ -8,8 +8,8 @@ import Tab from '~stories/ui/tabs/Tab';
 import Tabs from '~stories/ui/tabs/Tabs';
 import { cn } from '~utils/cn';
 
-const TabsMain = () => {
-	const { value, setValue } = useStoreTabsMain();
+const TabsPost = () => {
+	const { value, setValue } = storeTabsPost();
 	const tabs = [
 		{
 			name: 'recommended',
@@ -23,7 +23,7 @@ const TabsMain = () => {
 		},
 	];
 
-	const handleChange = (e: SyntheticEvent, value: TTabsMainValue) => setValue(value);
+	const handleChange = (e: SyntheticEvent, value: ITabsValuePost) => setValue(value);
 
 	return (
 		<Container className={cn('sticky top-0 z-10 px-4')}>
@@ -43,4 +43,4 @@ const TabsMain = () => {
 	);
 };
 
-export default TabsMain;
+export default TabsPost;
