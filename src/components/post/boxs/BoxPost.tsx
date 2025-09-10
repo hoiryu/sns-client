@@ -56,7 +56,7 @@ const BoxPost = ({ data, ...props }: IProps) => {
 						href={`/${data.user.name}`}
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
-						<Avatar src={data.user.imageUrl} classes={{ root: cn('h-8 w-8') }} />
+						<Avatar src={data.user.image} classes={{ root: cn('h-8 w-8') }} />
 						<Typography className={cn('text-sm')} children={`${data.user.name}`} />
 						<Typography className={cn('text-sm')} children={`${data.user.email}`} />
 						<Typography
@@ -68,7 +68,7 @@ const BoxPost = ({ data, ...props }: IProps) => {
 				</Box>
 				<Box className={cn('relative overflow-hidden rounded-2xl')}>
 					<Image
-						src={data.imageUrl}
+						src={data.image}
 						fill
 						className={'object-cover'}
 						sizes='200px'

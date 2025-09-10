@@ -1,13 +1,14 @@
 'use client';
 import ListWindowScrollPosts from '~components/post/lists/ListWindowScrollPosts';
+import { TCategorysPost } from '~models/post';
 import postService from '~services/postService';
 
 interface IProps {
-	username: string;
+	category: TCategorysPost;
 }
 
-const ContainerPosts = ({ username }: IProps) => {
-	const { data } = postService.getPostsByUsername(username);
+const ContainerPosts = ({ category }: IProps) => {
+	const { data } = postService.getPostsByCategory(category);
 
 	return data && <ListWindowScrollPosts data={data} />;
 };

@@ -6,13 +6,11 @@ import Container from '~stories/ui/containers/Container';
 import { cn } from '~utils/cn';
 
 interface IProps {
-	query: {
-		id: string;
-	};
+	postId: string;
 }
 
-const ContainerDetailPost = ({ query }: IProps) => {
-	const { data } = postService.getPostById(query.id);
+const ContainerPost = ({ postId }: IProps) => {
+	const { data } = postService.getPostById(postId);
 
 	return (
 		<Container component='section'>
@@ -22,4 +20,4 @@ const ContainerDetailPost = ({ query }: IProps) => {
 	);
 };
 
-export default ContainerDetailPost;
+export default ContainerPost;

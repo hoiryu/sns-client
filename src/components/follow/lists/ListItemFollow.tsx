@@ -16,7 +16,7 @@ const ListItemFollow = ({ data, className, style }: IProps) => (
 		className={cn(className, 'grid grid-cols-[auto_1fr_auto] items-center gap-2')}
 		style={style}
 	>
-		<Avatar src={data.imageUrl} classes={{ root: cn('h-8 w-8') }} />
+		<Avatar src={data.image} classes={{ root: cn('h-8 w-8') }} />
 		<Box className={cn('overflow-hidden')}>
 			<Typography className={cn('truncate text-sm')} children={`${data.name}`} />
 			<Typography className={cn('truncate text-sm')} children={`${data.email}`} />

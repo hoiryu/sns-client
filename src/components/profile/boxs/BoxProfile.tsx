@@ -9,14 +9,20 @@ import { cn } from '~utils/cn';
 interface IProps {}
 
 const BoxProfile = ({}: IProps) => {
-	const { data } = userService.getMe();
+	const { data: session } = userService.getMe();
 
 	return (
 		<Box className={cn('grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-5')}>
-			<Avatar src={data?.imageUrl} className={cn('h-24 w-24')} />
+			<Avatar src={session?.user?.image || undefined} className={cn('h-24 w-24')} />
 			<Box className={cn('overflow-hidden')}>
-				<Typography className={cn('truncate text-sm')} children={`${data?.name}`} />
-				<Typography className={cn('truncate text-sm')} children={`${data?.email}`} />
+				<Typography
+					className={cn('truncate text-sm')}
+					children={`${session?.user?.name}`}
+				/>
+				<Typography
+					className={cn('truncate text-sm')}
+					children={`${session?.user?.email}`}
+				/>
 			</Box>
 			<Button
 				className='min-w-0 shrink-0'

@@ -56,7 +56,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						href={`/${data.user.name}`}
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
-						<Avatar src={data.user.imageUrl} classes={{ root: cn('h-8 w-8') }} />
+						<Avatar src={data.user.image} classes={{ root: cn('h-8 w-8') }} />
 						<Typography
 							className={cn('truncate text-sm')}
 							children={`${data.user.name}`}
@@ -68,6 +68,10 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						<Typography
 							className={cn('truncate text-xs text-gray-300')}
 							children={formatTimeAgo(data.createAt)}
+						/>
+						<Typography
+							className={cn('truncate text-xs text-neutral-500')}
+							children={data.category}
 						/>
 					</ListItem>
 					<Typography
@@ -81,7 +85,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 					className={cn('relative overflow-hidden rounded-2xl p-0')}
 				>
 					<Image
-						src={data.imageUrl}
+						src={data.image}
 						fill
 						className={'object-cover'}
 						sizes='200px'

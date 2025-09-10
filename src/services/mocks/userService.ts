@@ -3,7 +3,13 @@ import { uniqueId } from 'lodash';
 import { IDataUser } from '~models/user';
 
 export interface IUserService {
-	getUsers(): IDataUser[];
+	/**
+	 * 모든 Users 가져오기
+	 */
+	getUsers(): IDataUser[] | undefined;
+	/**
+	 * 특정 User 가져오기 (Name)
+	 */
 	getUserByName(name: string): IDataUser | undefined;
 }
 
@@ -11,13 +17,6 @@ export default class UserService implements IUserService {
 	private readonly data: IDataUser[] = [];
 
 	constructor(n: number) {
-		const me = {
-			id: uniqueId('user-'),
-			name: 'hoiryu',
-			email: 'hoiryu@test.com',
-			imageUrl: faker.image.avatarGitHub(),
-		};
-
 		this.data = Array.from({ length: n }, () => ({
 			id: uniqueId('user-'),
 			name: faker.person.fullName({ sex: undefined }),
@@ -25,17 +24,11 @@ export default class UserService implements IUserService {
 				lastName: undefined,
 				allowSpecialCharacters: undefined,
 			}),
-			imageUrl: faker.image.avatarGitHub(),
+			image: faker.image.avatarGitHub(),
 		}));
-
-		this.data.push(me);
 	}
 
-	public getMe(): IDataUser | undefined {
-		return this.data.find(user => user.name === 'hoiryu');
-	}
-
-	public getUsers(): IDataUser[] {
+	public getUsers(): IDataUser[] | undefined {
 		return this.data;
 	}
 

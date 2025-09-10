@@ -20,7 +20,7 @@
 			}
 		],
 		"paths": {
-			"~api/*": ["./src/api/*"],
+			"~apis/*": ["./src/apis/*"],
 			"~networks/*": ["./src/networks/*"],
 			"~models/*": ["./src/models/*"],
 			"~schemas/*": ["./src/schemas/*"],

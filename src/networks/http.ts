@@ -46,7 +46,11 @@ class HttpClient implements IHttpClient {
 			if (!error.message) {
 				const { message } = error;
 				if (!message)
-					throw { ...error, success: false, message: 'Unknown Error' } as IException;
+					throw {
+						...error,
+						success: false,
+						message: 'Unknown Error',
+					};
 			}
 		});
 

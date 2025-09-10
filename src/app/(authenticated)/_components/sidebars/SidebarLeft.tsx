@@ -17,11 +17,12 @@ export interface IMenu {
 	href: string;
 	name: string;
 	icon?: ReactElement;
+	value: string;
 }
 
 const SidebarLeft = () => {
 	const segment = useSelectedLayoutSegment();
-	const { data } = userService.getMe();
+	const { data: session } = userService.getMe();
 
 	const menus: IMenu[] = useMemo(
 		() => [
@@ -29,44 +30,47 @@ const SidebarLeft = () => {
 				href: '/home?category=recommended',
 				name: 'home',
 				icon: <IconHome />,
+				value: 'home',
 			},
 			{
 				href: '/search?category=popular',
 				name: 'search',
 				icon: <IconSearch />,
+				value: 'search',
 			},
 			{
 				href: '/message',
 				name: 'message',
 				icon: <IconMessage />,
+				value: 'message',
 			},
 			{
-				href: `/${data?.name}`,
+				href: session?.user?.name ? `/${encodeURIComponent(session.user.name)}` : '',
 				name: 'profile',
 				icon: <IconPerson />,
+				value: 'profile',
 			},
 		],
-		[data],
+		[session],
 	);
 
 	const value = useMemo(() => {
-		if (!segment) return;
-		const value = menus.find(({ href }) => href.includes(segment))?.href || false;
-		return value;
-	}, [segment]);
+		if (!segment || !session) return false;
+		return menus.find(({ href }) => href.includes(segment))?.value || false;
+	}, [segment, session]);
 
 	return (
 		<Container component='section'>
 			<Box className={cn('sticky top-0 flex flex-col gap-5 px-5')}>
 				<Tabs orientation='vertical' value={value} aria-label='메인 사이드바'>
-					{menus.map(({ href, name, icon }) => (
+					{menus.map(({ href, name, icon, value }) => (
 						<Tab
-							key={`${href}-${name}`}
-							href={href}
+							key={`${name}-${value}`}
+							{...(href ? { href } : {})}
 							aria-current={href === segment && 'page'}
 							icon={icon}
 							label={name}
-							value={href}
+							value={value}
 						/>
 					))}
 				</Tabs>

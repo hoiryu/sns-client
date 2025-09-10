@@ -30,7 +30,7 @@ export const authOptions: NextAuthConfig = {
 			return session;
 		},
 		async jwt({ token, account, profile }) {
-			if (account && profile) token.id = profile.sub; // 구글 사용자 ID
+			if (account && profile) token.id = profile.sub; // 사용자 ID
 			return token;
 		},
 		async signIn({ user, account, profile }) {
@@ -44,8 +44,7 @@ export const authOptions: NextAuthConfig = {
 	},
 	session: {
 		strategy: 'jwt',
-		maxAge: 60, // 세션 만료 시간(sec)
-		// maxAge: 60 * 60 * 24, // 세션 만료 시간(sec)
+		maxAge: 60 * 10, // 세션 만료 시간(sec)
 	},
 	pages: {
 		signIn: '/signin',

@@ -3,6 +3,7 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { MouseEvent, useMemo, useState } from 'react';
 import SwitchTheme from '~components/header/SwitchTheme';
+import userService from '~services/userService';
 import ButtonIcon from '~stories/ui/buttons/ButtonIcon';
 import Box from '~stories/ui/containers/Box';
 import IconDarkMode from '~stories/ui/icons/IconDarkMode';
@@ -16,6 +17,7 @@ import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 const MemuAccount = () => {
+	const { data: session } = userService.getMe();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
 
@@ -33,7 +35,7 @@ const MemuAccount = () => {
 						aria-controls='프로필 메뉴'
 						aria-haspopup='menu'
 						aria-expanded={open}
-						children={<Avatar />}
+						children={<Avatar src={session?.user?.image || undefined} />}
 						onClick={handleClick}
 					/>
 				}
@@ -49,7 +51,7 @@ const MemuAccount = () => {
 			>
 				<Typography
 					className={cn('flex items-center px-3 py-2 text-sm')}
-					children='유저명'
+					children={session?.user?.name}
 				/>
 
 				<MenuItem
@@ -71,7 +73,7 @@ const MemuAccount = () => {
 				/>
 				<MenuItem
 					component={Link}
-					href='/aa/123'
+					href={`/${session?.user?.name}`}
 					className={cn('gap-2')}
 					onClick={handleClose}
 					children={

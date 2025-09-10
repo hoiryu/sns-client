@@ -1,17 +1,14 @@
 'use client';
-import { useEffect } from 'react';
 import ListItemPost from '~components/post/lists/ListItemPost';
-import postService from '~services/postService';
+import { IDataPost } from '~models/post';
 import ListWindowScroll from '~stories/ui/lists/ListWindowScroll';
 
 interface IProps {
-	category?: string; // QueryString
+	data: IDataPost[];
 }
 
-const ListWindowScrollPosts = ({ category = '' }: IProps) => {
-	const { data } = postService.getPostsByCategory({ category });
-	useEffect(() => console.log(category), [category]);
-	return data && <ListWindowScroll component={ListItemPost} data={data} size={400} />;
+const ListWindowScrollPosts = ({ data }: IProps) => {
+	return <ListWindowScroll component={ListItemPost} data={data} size={400} />;
 };
 
 export default ListWindowScrollPosts;

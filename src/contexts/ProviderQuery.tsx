@@ -2,7 +2,16 @@
 import { QueryClient, QueryClientProvider, QueryClientProviderProps } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			retryOnMount: true,
+			refetchOnReconnect: false,
+			retry: false,
+		},
+	},
+});
 
 const ProviderQuery = ({ children, ...props }: Omit<QueryClientProviderProps, 'client'>) => {
 	return (

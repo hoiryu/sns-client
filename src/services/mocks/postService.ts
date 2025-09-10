@@ -1,11 +1,26 @@
 import { faker } from '@faker-js/faker';
 import _ from 'lodash';
-import { IDataPost } from '~models/post';
+import { CATEGORYS_POST } from '~constants/post';
+import { IDataPost, TCategorysPost } from '~models/post';
 import { IUserService } from '~services/mocks/userService';
 
 interface IPostService {
-	getPosts(): IDataPost[];
-	getPostById(id: string | number): IDataPost | undefined;
+	/**
+	 * 모든 Posts 가져오기
+	 */
+	getPosts(): IDataPost[] | undefined;
+	/**
+	 * 특정 Posts 가져오기 (Category)
+	 */
+	getPostsByCategory(category: TCategorysPost): IDataPost[] | undefined;
+	/**
+	 * 특정 Posts 가져오기 (username)
+	 */
+	getPostsByUsername(username: string): IDataPost[] | undefined;
+	/**
+	 * 특정 Post 가져오기 (Id)
+	 */
+	getPostById(id: string): IDataPost | undefined;
 }
 
 export default class PostService implements IPostService {
@@ -13,6 +28,7 @@ export default class PostService implements IPostService {
 
 	constructor(userService: IUserService, n: number = 10) {
 		const users = userService.getUsers();
+		if (!users) return;
 
 		this.data = Array.from({ length: n }, () => {
 			const index = faker.number.int({ min: 0, max: users.length - 1 });
@@ -22,31 +38,35 @@ export default class PostService implements IPostService {
 				title: faker.lorem.lines(1),
 				user: users[index],
 				description: faker.lorem.lines(3),
-				imageUrl: faker.image.urlPicsumPhotos({
+				image: faker.image.urlPicsumPhotos({
 					width: 200,
 					height: 200,
 					grayscale: false,
 					blur: 0,
 				}),
-				favorite: Math.round(faker.number.float()) === 1 ? true : false,
-				repost: Math.round(faker.number.float()) === 1 ? true : false,
-				chat: Math.round(faker.number.float()) === 1 ? true : false,
+				category:
+					CATEGORYS_POST[faker.number.int({ min: 0, max: CATEGORYS_POST.length - 1 })],
+				favorite: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
+				repost: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
+				chat: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
 				createAt: faker.date.recent({ days: 1 }),
 			};
 		});
 	}
 
-	/**
-	 * 모든 Post 가져오기
-	 */
 	public getPosts() {
 		return this.data;
 	}
 
-	/**
-	 * 특정 Post 가져오기 (id)
-	 */
-	public getPostById(id: string | number) {
+	public getPostsByCategory(category: TCategorysPost) {
+		return this.data.filter(post => post.category === category);
+	}
+
+	public getPostsByUsername(username: string) {
+		return this.data.filter(post => post.user.name === username);
+	}
+
+	public getPostById(id: string) {
 		return this.data.find(post => post.id === id);
 	}
 }

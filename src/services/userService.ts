@@ -1,52 +1,49 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { MINUTE } from '~constants/query';
 import { IDataUser } from '~models/user';
-import httpClient from '~networks/http';
+import { getUserByName, getUsers } from '~src/apis/user';
+
+type TUseSessionOptions<T extends boolean> = Parameters<typeof useSession<T>>[0];
+type TUseSessionReturn<T extends boolean> = ReturnType<typeof useSession<T>>;
 
 interface IUserService {
-	getMe(): UseQueryResult<IDataUser>;
+	/**
+	 * 현재 User 가져오기
+	 */
+	getMe<T extends boolean>(options?: TUseSessionOptions<T>): TUseSessionReturn<T>;
+	/**
+	 * 모든 User 가져오기
+	 */
 	getUsers(): UseQueryResult<IDataUser[]>;
+	/**
+	 * 특정 User 가져오기 (Name)
+	 */
+	getUserByName(name: string): UseQueryResult<IDataUser>;
 }
 
 class UserService implements IUserService {
 	constructor() {}
 
-	public getMe() {
-		return useQuery({
-			queryKey: ['me'],
-			staleTime: 10 * MINUTE,
-			queryFn: () =>
-				httpClient
-					.fetch<IDataUser>('/me', {
-						method: 'GET',
-					})
-					.then(res => res.data),
-		});
+	public getMe<T extends boolean>(options?: TUseSessionOptions<T>): TUseSessionReturn<T> {
+		return useSession<T>(options);
 	}
 
 	public getUsers() {
 		return useQuery({
 			queryKey: ['users'],
 			staleTime: 10 * MINUTE,
-			queryFn: () =>
-				httpClient
-					.fetch<IDataUser[]>('/users', {
-						method: 'GET',
-					})
-					.then(res => res.data),
+			gcTime: 11 * MINUTE,
+			queryFn: getUsers,
 		});
 	}
 
 	public getUserByName(name: string) {
 		return useQuery({
-			queryKey: ['users'],
+			queryKey: ['user', name],
 			staleTime: 10 * MINUTE,
-			queryFn: () =>
-				httpClient
-					.fetch<IDataUser[]>('/user/:username', {
-						method: 'GET',
-					})
-					.then(res => res.data),
+			gcTime: 11 * MINUTE,
+			queryFn: getUserByName,
 		});
 	}
 }
