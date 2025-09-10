@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import ContainerDetailPost from '~authenticated/[username]/_components/containers/ContainerDetailPost';
+
+export const metadata: Metadata = {
+	title: 'Post Detail',
+	description: 'Post Detail Description',
+};
 
 /**
  * Post 상세화면

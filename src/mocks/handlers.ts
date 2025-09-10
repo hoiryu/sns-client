@@ -56,6 +56,7 @@ export const handlers = [
 		return HttpResponse.json({ data }, { status: 200 });
 	}),
 
+	// query
 	// http.get('https://test.com/user', ({ request }) => {
 	// 	const url = new URL(request.url);
 	// 	const id = url.searchParams.get('id');
@@ -72,7 +73,7 @@ export const handlers = [
 			const data = postService.getPostById(id);
 			if (!data)
 				return HttpResponse.json<IException>(
-					{ success: false, code: 404, message: `Not found id: ${id}` },
+					{ success: false, status: 404, message: `Not found id: ${id}` },
 					{ status: 404 },
 				);
 

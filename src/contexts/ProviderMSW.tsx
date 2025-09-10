@@ -10,6 +10,7 @@ const mockingEnabledPromise =
 				await worker.start({
 					onUnhandledRequest(request, print) {
 						if (request.url.includes('_next')) return;
+
 						// mocking 안한 경우 확인 가능
 						// print.warning();
 					},
@@ -25,18 +26,18 @@ const mockingEnabledPromise =
 		: Promise.resolve();
 
 interface IProps {
-	readonly children: ReactNode;
+	children: ReactNode;
 }
 
-export default function ProviderMSW({ children }: IProps) {
+export default function ProviderMSW({ children }: Readonly<IProps>) {
 	return (
 		<Suspense fallback={null}>
-			<ProviderWrapperMSW>{children}</ProviderWrapperMSW>
+			<Provider>{children}</Provider>
 		</Suspense>
 	);
 }
 
-function ProviderWrapperMSW({ children }: IProps) {
+function Provider({ children }: IProps) {
 	use(mockingEnabledPromise);
 	return children;
 }

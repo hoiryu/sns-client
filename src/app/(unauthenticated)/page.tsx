@@ -12,7 +12,7 @@ interface IProps {
 const Page = ({ children }: Readonly<IProps>) => {
 	return (
 		<Box className={cn('flex flex-col gap-4')}>
-			<Button component={Link} href='/login' scroll={false} children='login' />
+			<Button component={Link} href='/signin' scroll={false} children='signin' />
 			<Button
 				component={Link}
 				href='/signup'

@@ -1,4 +1,5 @@
 'use client';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { MouseEvent, useMemo, useState } from 'react';
 import SwitchTheme from '~components/header/SwitchTheme';
@@ -20,6 +21,7 @@ const MemuAccount = () => {
 
 	const handleClick = (e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
 	const handleClose = () => setAnchorEl(null);
+	const handleLogout = () => signOut({ callbackUrl: '/' });
 
 	return (
 		<>
@@ -80,10 +82,8 @@ const MemuAccount = () => {
 					}
 				/>
 				<MenuItem
-					component={Link}
-					href='/logout'
 					className={cn('gap-2 border-t border-neutral-400')}
-					onClick={handleClose}
+					onClick={handleLogout}
 					children={
 						<>
 							<IconLogout fontSize='small' />

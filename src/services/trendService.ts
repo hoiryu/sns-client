@@ -16,7 +16,7 @@ class TrendService implements ITrendService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataTrend[]>('/trends', {
+					.fetch<IDataTrend[]>('/trends', {
 						method: 'GET',
 					})
 					.then(res => res.data),

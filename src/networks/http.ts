@@ -1,4 +1,8 @@
-type TMethod = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELTE';
+type TMethod = 'HEAD' | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
+
+export interface IRequestInit extends Omit<RequestInit, 'method'> {
+	method: TMethod;
+}
 
 export interface IResponse<T> {
 	data: T;
@@ -6,44 +10,44 @@ export interface IResponse<T> {
 
 export interface IException {
 	success: boolean;
-	code: number;
+	status: number;
 	message: string;
-}
-
-interface IRequestInit<T extends RequestInit['body']> extends RequestInit {
-	method: TMethod;
-	body?: T;
 }
 
 interface IHttpClient {
 	/**
-	 * fetch
-	 * T: Request body
-	 * U: Response body
+	 * Fetch
+	 * T: Response data
 	 */
-	fetch: <T extends RequestInit['body'], U>(
-		url: string,
-		options: IRequestInit<T>,
-	) => Promise<IResponse<U>>;
+	fetch: <T>(url: string, options: IRequestInit) => Promise<IResponse<T>>;
 }
 
 class HttpClient implements IHttpClient {
 	private readonly baseURL?: string;
 
 	constructor(baseURL: string) {
-		this.baseURL = baseURL;
+		this.baseURL = baseURL.replace(/\/+$/, '');
 	}
 
-	async fetch<T extends RequestInit['body'], U = unknown>(
-		url: string,
-		options: IRequestInit<T>,
-	): Promise<IResponse<U>> {
-		const response = fetch(`${this.baseURL}${url}`, options);
+	async fetch<T>(url: string, options: IRequestInit): Promise<IResponse<T>> {
+		const { headers, method, ...rest } = options;
+
+		const response = fetch(`${this.baseURL}${url}`, {
+			...rest,
+			method: method,
+			credentials: 'include',
+			headers: {
+				...headers,
+				'Content-Type': 'application/json',
+			},
+		});
 
 		response.catch(error => {
-			const { message } = error;
-			if (!message || !error.status)
-				throw { ...error, status: 500, message: 'Api server error' };
+			if (!error.message) {
+				const { message } = error;
+				if (!message)
+					throw { ...error, success: false, message: 'Unknown Error' } as IException;
+			}
 		});
 
 		return (await response).json();

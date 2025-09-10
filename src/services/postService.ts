@@ -16,7 +16,7 @@ class PostService implements IPostService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataPost[]>('/posts', {
+					.fetch<IDataPost[]>('/posts', {
 						method: 'GET',
 					})
 					.then(res => res.data),
@@ -29,7 +29,7 @@ class PostService implements IPostService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataPost[]>(`/posts?category=${category}`, {
+					.fetch<IDataPost[]>(`/posts?category=${category}`, {
 						method: 'GET',
 					})
 					.then(res => res.data),
@@ -42,7 +42,7 @@ class PostService implements IPostService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataPost>(`/post/${id}`, {
+					.fetch<IDataPost>(`/post/${id}`, {
 						method: 'GET',
 					})
 					.then(res => res.data),

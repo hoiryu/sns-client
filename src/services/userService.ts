@@ -17,7 +17,7 @@ class UserService implements IUserService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataUser>('/me', {
+					.fetch<IDataUser>('/me', {
 						method: 'GET',
 					})
 					.then(res => res.data),
@@ -30,7 +30,20 @@ class UserService implements IUserService {
 			staleTime: 10 * MINUTE,
 			queryFn: () =>
 				httpClient
-					.fetch<null, IDataUser[]>('/users', {
+					.fetch<IDataUser[]>('/users', {
+						method: 'GET',
+					})
+					.then(res => res.data),
+		});
+	}
+
+	public getUserByName(name: string) {
+		return useQuery({
+			queryKey: ['users'],
+			staleTime: 10 * MINUTE,
+			queryFn: () =>
+				httpClient
+					.fetch<IDataUser[]>('/user/:username', {
 						method: 'GET',
 					})
 					.then(res => res.data),
