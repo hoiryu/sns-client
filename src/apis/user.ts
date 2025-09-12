@@ -3,7 +3,7 @@ import { IDataUser } from '~models/user';
 import httpClient from '~networks/http';
 
 /**
- * 모든 유저 가져오기
+ * 모든 User 가져오기
  */
 export const getUsers: QueryFunction<IDataUser[], string[]> = () =>
 	httpClient
@@ -16,11 +16,11 @@ export const getUsers: QueryFunction<IDataUser[], string[]> = () =>
 		.then(res => res.data);
 
 /**
- * 특정 유져 가져오기 (Name)
+ * 특정 User 가져오기 (Name)
  */
 export const getUserByName: QueryFunction<IDataUser, string[]> = context =>
 	httpClient
-		.fetch<IDataUser>('/user/:username', {
+		.fetch<IDataUser>(`/user/${context.queryKey[1]}`, {
 			method: 'GET',
 			next: {
 				tags: ['user', context.queryKey[1]],

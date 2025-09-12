@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
-import { userService } from '~mocks/handlers';
 import { IDataUser } from '~models/user';
 import { IException, IResponse } from '~networks/http';
+import userService from '~services/mocks/userService';
 
 const API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
@@ -18,24 +18,24 @@ export const handlerUser = [
 					{ status: 404 },
 				);
 
-			return HttpResponse.json({ data }, { status: 200 });
+			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 
 	// 특정 User 가져오기 (Name)
-	http.get<never, { name: string }, IResponse<IDataUser> | IException>(
-		`${API_SERVER_URL}/user`,
-		async ({ request }) => {
-			const { name } = await request.json();
-			const data = userService.getUserByName(name);
+	http.get<{ username: string }, IResponse<IDataUser> | IException>(
+		`${API_SERVER_URL}/user/:username`,
+		async ({ params }) => {
+			const { username } = params;
+			const data = userService.getUserByName(username);
 
 			if (!data)
 				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `No data` },
+					{ success: false, status: 404, message: `Not found` },
 					{ status: 404 },
 				);
 
-			return HttpResponse.json({ data }, { status: 200 });
+			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 ];

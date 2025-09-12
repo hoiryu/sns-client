@@ -22,7 +22,7 @@ const Page = async ({ params }: IProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
-		queryKey: ['posts', username],
+		queryKey: ['posts', decodeURI(username)],
 		queryFn: getPostsByUsername,
 		staleTime: 10 * MINUTE,
 		gcTime: 11 * MINUTE,
@@ -32,9 +32,9 @@ const Page = async ({ params }: IProps) => {
 
 	return (
 		<Container>
-			<BoxProfile />
+			<BoxProfile name={decodeURI(username)} />
 			<HydrationBoundary state={dehydratedState}>
-				<ContainerPosts username={username} />
+				<ContainerPosts username={decodeURI(username)} />
 			</HydrationBoundary>
 		</Container>
 	);

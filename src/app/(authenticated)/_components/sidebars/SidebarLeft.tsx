@@ -45,7 +45,7 @@ const SidebarLeft = () => {
 				value: 'message',
 			},
 			{
-				href: session?.user?.name ? `/${encodeURIComponent(session.user.name)}` : '',
+				href: session?.user?.name ? `/${session.user.name}` : '',
 				name: 'profile',
 				icon: <IconPerson />,
 				value: 'profile',
@@ -56,7 +56,7 @@ const SidebarLeft = () => {
 
 	const value = useMemo(() => {
 		if (!segment || !session) return false;
-		return menus.find(({ href }) => href.includes(segment))?.value || false;
+		return menus.find(({ href }) => href.includes(decodeURI(segment)))?.value || false;
 	}, [segment, session]);
 
 	return (
@@ -67,7 +67,7 @@ const SidebarLeft = () => {
 						<Tab
 							key={`${name}-${value}`}
 							{...(href ? { href } : {})}
-							aria-current={href === segment && 'page'}
+							aria-current={href === decodeURI(segment!) && 'page'}
 							icon={icon}
 							label={name}
 							value={value}

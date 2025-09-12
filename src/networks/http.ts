@@ -5,6 +5,7 @@ export interface IRequestInit extends Omit<RequestInit, 'method'> {
 }
 
 export interface IResponse<T> {
+	success: boolean;
 	data: T;
 }
 

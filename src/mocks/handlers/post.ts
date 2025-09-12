@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
-import { postService } from '~mocks/handlers';
 import { IDataPost, TCategorysPost } from '~models/post';
 import { IException, IResponse } from '~networks/http';
+import postService from '~services/mocks/postService';
 
 const API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
@@ -9,11 +9,9 @@ export const handlerPost = [
 	/**
 	 * 모든 Posts 가져오기
 	 */
-	http.get<never, never, { data: IDataPost[] }>(`${API_SERVER_URL}/posts/all`, ({ request }) => {
-		const { searchParams } = new URL(request.url);
-		const category = searchParams.get('category') as TCategorysPost;
+	http.get<never, never, IResponse<IDataPost[]>>(`${API_SERVER_URL}/posts/all`, ({ request }) => {
 		const data = postService.getPosts();
-		return HttpResponse.json({ data }, { status: 200 });
+		return HttpResponse.json({ success: true, data }, { status: 200 });
 	}),
 
 	/**
@@ -32,7 +30,7 @@ export const handlerPost = [
 					{ status: 404 },
 				);
 
-			return HttpResponse.json({ data }, { status: 200 });
+			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 
@@ -42,14 +40,13 @@ export const handlerPost = [
 		({ params }) => {
 			const { username } = params;
 			const data = postService.getPostsByUsername(username);
-
 			if (!data)
 				return HttpResponse.json<IException>(
 					{ success: false, status: 404, message: `No data` },
 					{ status: 404 },
 				);
 
-			return HttpResponse.json({ data }, { status: 200 });
+			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 
@@ -66,7 +63,7 @@ export const handlerPost = [
 					{ status: 404 },
 				);
 
-			return HttpResponse.json({ data }, { status: 200 });
+			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 ];

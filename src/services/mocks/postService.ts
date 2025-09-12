@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import _ from 'lodash';
 import { CATEGORYS_POST } from '~constants/post';
 import { IDataPost, TCategorysPost } from '~models/post';
-import { IUserService } from '~services/mocks/userService';
+import userService from '~services/mocks/userService';
 
 interface IPostService {
 	/**
@@ -23,10 +23,10 @@ interface IPostService {
 	getPostById(id: string): IDataPost | undefined;
 }
 
-export default class PostService implements IPostService {
+class PostService implements IPostService {
 	private readonly data: IDataPost[] = [];
 
-	constructor(userService: IUserService, n: number = 10) {
+	constructor(n: number = 10) {
 		const users = userService.getUsers();
 		if (!users) return;
 
@@ -63,10 +63,14 @@ export default class PostService implements IPostService {
 	}
 
 	public getPostsByUsername(username: string) {
-		return this.data.filter(post => post.user.name === username);
+		return this.data.filter(post => post.user.name === decodeURI(username));
 	}
 
 	public getPostById(id: string) {
 		return this.data.find(post => post.id === id);
 	}
 }
+
+const postService = new PostService(60);
+
+export default postService;

@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { ReactNode } from 'react';
 import SidebarNavigation from '~app/(authenticated)/_components/sidebars/SidebarLeft';
 import SidebarSearch from '~app/(authenticated)/_components/sidebars/SidebarRight';
@@ -6,11 +5,6 @@ import Header from '~components/header/Header';
 import ProviderSession from '~contexts/ProviderSession';
 import Container from '~stories/ui/containers/Container';
 import { cn } from '~utils/cn';
-
-export const metadata: Metadata = {
-	title: 'Search',
-	description: 'Search Description',
-};
 
 interface IProps {
 	readonly children: ReactNode;
@@ -33,5 +27,4 @@ const Layout = ({ children, modal }: IProps) => (
 		{modal}
 	</ProviderSession>
 );
-
 export default Layout;
