@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { IDataUser } from '~models/user';
 import { IException, IResponse } from '~networks/http';
 import userService from '~services/mocks/userService';
@@ -9,8 +9,10 @@ export const handlerUser = [
 	// 모든 Users 가져오기
 	http.get<never, never, IResponse<IDataUser[]> | IException>(
 		`${API_SERVER_URL}/users/all`,
-		() => {
+		async () => {
 			const data = userService.getUsers();
+
+			await delay(1000);
 
 			if (!data || !data.length)
 				return HttpResponse.json<IException>(
@@ -28,6 +30,8 @@ export const handlerUser = [
 		async ({ params }) => {
 			const { username } = params;
 			const data = userService.getUserByName(username);
+
+			await delay(1000);
 
 			if (!data)
 				return HttpResponse.json<IException>(

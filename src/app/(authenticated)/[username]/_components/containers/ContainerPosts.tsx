@@ -7,9 +7,9 @@ interface IProps {
 }
 
 const ContainerPosts = ({ username }: IProps) => {
-	const { data } = postService.getPostsByUsername(username);
+	const query = postService.getPostsByUsername(username);
 
-	return data && <ListWindowScrollPosts data={data} />;
+	return <ListWindowScrollPosts query={query} />;
 };
 
 export default ContainerPosts;

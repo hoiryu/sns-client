@@ -8,9 +8,9 @@ interface IProps {
 }
 
 const ContainerPosts = ({ category }: IProps) => {
-	const { data } = postService.getPostsByCategory(category);
+	const query = postService.getPostsByCategory(category);
 
-	return data && <ListWindowScrollPosts data={data} />;
+	return <ListWindowScrollPosts query={query} />;
 };
 
 export default ContainerPosts;
