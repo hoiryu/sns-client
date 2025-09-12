@@ -10,6 +10,9 @@ const queryClient = new QueryClient({
 			refetchOnReconnect: false,
 			retry: false,
 		},
+		mutations: {
+			retry: false,
+		},
 	},
 });
 

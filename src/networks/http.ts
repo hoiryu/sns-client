@@ -20,7 +20,7 @@ interface IHttpClient {
 	 * Fetch
 	 * T: Response data
 	 */
-	fetch: <T>(url: string, options: IRequestInit) => Promise<IResponse<T>>;
+	fetch: <T>(url: string, options: IRequestInit) => Promise<T>;
 }
 
 class HttpClient implements IHttpClient {
@@ -30,10 +30,10 @@ class HttpClient implements IHttpClient {
 		this.baseURL = baseURL.replace(/\/+$/, '');
 	}
 
-	async fetch<T>(url: string, options: IRequestInit): Promise<IResponse<T>> {
+	async fetch<T>(url: string, options: IRequestInit): Promise<T> {
 		const { headers, method, ...rest } = options;
 
-		const response = fetch(`${this.baseURL}${url}`, {
+		const response = await fetch(`${this.baseURL}${url}`, {
 			...rest,
 			method: method,
 			credentials: 'include',
@@ -43,19 +43,12 @@ class HttpClient implements IHttpClient {
 			},
 		});
 
-		response.catch(error => {
-			if (!error.message) {
-				const { message } = error;
-				if (!message)
-					throw {
-						...error,
-						success: false,
-						message: 'Unknown Error',
-					};
-			}
-		});
+		const body = await response.json();
 
-		return (await response).json();
+		if (!response.ok || !body.success || body.message)
+			throw new Error(body.message || 'Unknown Error');
+
+		return body.data as T;
 	}
 }
 

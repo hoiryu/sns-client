@@ -11,10 +11,21 @@ interface IProps {
 }
 
 const BoxProfile = ({ name }: IProps) => {
-	const { data } = userService.getUserByName(name);
+	const { data, error, isError } = userService.getUserByName(name);
 
 	return (
 		<Box className={cn('grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-5')}>
+			{isError && (
+				<>
+					<Avatar className={cn('h-24 w-24')} />
+					<Box className={cn('overflow-hidden')}>
+						<Typography
+							className={cn('truncate text-sm')}
+							children={`${error?.message}`}
+						/>
+					</Box>
+				</>
+			)}
 			{data && (
 				<>
 					<Avatar src={data.image} className={cn('h-24 w-24')} />

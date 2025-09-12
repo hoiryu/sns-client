@@ -44,7 +44,6 @@ class UserService implements IUserService {
 	}
 
 	public getUserByName(name: string): IDataUser | undefined {
-		console.log(this.data);
 		return this.data.find(user => user.name === name);
 	}
 

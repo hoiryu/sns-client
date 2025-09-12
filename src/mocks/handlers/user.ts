@@ -12,9 +12,9 @@ export const handlerUser = [
 		() => {
 			const data = userService.getUsers();
 
-			if (!data)
+			if (!data || !data.length)
 				return HttpResponse.json<IException>(
-					{ success: false, status: 400, message: `No data` },
+					{ success: false, status: 404, message: `Not found` },
 					{ status: 404 },
 				);
 

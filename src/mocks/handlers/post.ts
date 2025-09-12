@@ -24,9 +24,9 @@ export const handlerPost = [
 			const category = (searchParams.get('category') as TCategorysPost) || 'recommended';
 			const data = postService.getPostsByCategory(category);
 
-			if (!data)
+			if (!data || !data.length)
 				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `No data` },
+					{ success: false, status: 404, message: `Not found` },
 					{ status: 404 },
 				);
 
@@ -40,9 +40,9 @@ export const handlerPost = [
 		({ params }) => {
 			const { username } = params;
 			const data = postService.getPostsByUsername(username);
-			if (!data)
+			if (!data || !data.length)
 				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `No data` },
+					{ success: false, status: 404, message: `Not found` },
 					{ status: 404 },
 				);
 
@@ -50,7 +50,7 @@ export const handlerPost = [
 		},
 	),
 
-	// 특정 Posts 가져오기 (username)
+	// 특정 Post 가져오기 (username)
 	http.get<{ id: string }, never, IResponse<IDataPost> | IException>(
 		`${API_SERVER_URL}/post/:id`,
 		({ params }) => {
@@ -59,7 +59,7 @@ export const handlerPost = [
 
 			if (!data)
 				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `No data` },
+					{ success: false, status: 404, message: `Not found` },
 					{ status: 404 },
 				);
 
