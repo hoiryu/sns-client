@@ -1,4 +1,5 @@
 import { QueryFunction } from '@tanstack/react-query';
+import { LIMIT_POST } from '~constants/post';
 import { IDataPost } from '~models/post';
 import httpClient from '~networks/http';
 
@@ -16,24 +17,38 @@ export const getPosts: QueryFunction<IDataPost[]> = () =>
 /**
  * 특정 Posts 가져오기 (Category)
  */
-export const getPostsByCategory: QueryFunction<IDataPost[], string[]> = context =>
-	httpClient.fetch<IDataPost[]>(`/posts?category=${context.queryKey[1]}`, {
-		method: 'GET',
-		next: {
-			tags: ['posts', context.queryKey[1]],
+export const getPostsByCategory: QueryFunction<
+	IDataPost[] | null,
+	string[],
+	string | null
+> = context =>
+	httpClient.fetch<IDataPost[]>(
+		`/posts?category=${context.queryKey[1]}&cursor=${context.pageParam}&limit=${LIMIT_POST}`,
+		{
+			method: 'GET',
+			next: {
+				tags: ['posts', context.queryKey[1]],
+			},
 		},
-	});
+	);
 
 /**
  * 특정 Posts 가져오기 (Username)
  */
-export const getPostsByUsername: QueryFunction<IDataPost[], string[]> = context =>
-	httpClient.fetch<IDataPost[]>(`/posts/${context.queryKey[1]}`, {
-		method: 'GET',
-		next: {
-			tags: ['posts', context.queryKey[1]],
+export const getPostsByUsername: QueryFunction<
+	IDataPost[] | null,
+	string[],
+	string | null
+> = context =>
+	httpClient.fetch<IDataPost[]>(
+		`/posts/${context.queryKey[1]}?&cursor=${context.pageParam}&limit=${LIMIT_POST}`,
+		{
+			method: 'GET',
+			next: {
+				tags: ['posts', context.queryKey[1]],
+			},
 		},
-	});
+	);
 
 /**
  * 특정 Post 가져오기 (Id)

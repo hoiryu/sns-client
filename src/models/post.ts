@@ -4,7 +4,7 @@ import { IDataUser } from '~models/user';
 export type TCategorysPost = (typeof CATEGORYS_POST)[number];
 
 export interface IDataPost {
-	id: number | string;
+	id: string;
 	category: TCategorysPost;
 	user: IDataUser;
 	description: string;

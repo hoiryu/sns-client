@@ -1,6 +1,6 @@
 import { delay, http, HttpResponse } from 'msw';
+import { IException, IResponse } from '~models/api';
 import { IDataUser } from '~models/user';
-import { IException, IResponse } from '~networks/http';
 import userService from '~services/mocks/userService';
 
 const API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;

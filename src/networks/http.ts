@@ -1,19 +1,4 @@
-type TMethod = 'HEAD' | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
-
-export interface IRequestInit extends Omit<RequestInit, 'method'> {
-	method: TMethod;
-}
-
-export interface IResponse<T> {
-	success: boolean;
-	data: T;
-}
-
-export interface IException {
-	success: boolean;
-	status: number;
-	message: string;
-}
+import { IRequestInit } from '~models/api';
 
 interface IHttpClient {
 	/**

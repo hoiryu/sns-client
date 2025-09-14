@@ -4,7 +4,7 @@ import ContainerPosts from '~authenticated/home/_components/containers/Container
 import TabsPost from '~authenticated/home/_components/tabs/TabsPost';
 import FormCreatePost from '~components/post/forms/FormCreatePost';
 import { MINUTE } from '~constants/query';
-import { TCategorysPost } from '~models/post';
+import { IDataPost, TCategorysPost } from '~models/post';
 import { getPostsByCategory } from '~src/apis/post';
 import Container from '~stories/ui/containers/Container';
 
@@ -21,9 +21,11 @@ const Page = async ({ searchParams }: IProps) => {
 	const { category = 'recommended' } = await searchParams;
 	const queryClient = new QueryClient();
 
-	await queryClient.prefetchQuery({
+	await queryClient.prefetchInfiniteQuery({
 		queryKey: ['posts', category],
 		queryFn: getPostsByCategory,
+		getNextPageParam: (lastPage: IDataPost[]) => lastPage.at(-1)?.id,
+		initialPageParam: 0,
 		staleTime: 10 * MINUTE,
 		gcTime: 11 * MINUTE,
 	});

@@ -1,7 +1,8 @@
 import { delay, http, HttpResponse } from 'msw';
+import { IException, IResponse } from '~models/api';
 import { IDataPost, TCategorysPost } from '~models/post';
-import { IException, IResponse } from '~networks/http';
 import postService from '~services/mocks/postService';
+import { parseNullish } from '~utils/parse';
 
 const API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
@@ -20,39 +21,38 @@ export const handlerPost = [
 	/**
 	 * 특정 Posts 가져오기 (Category)
 	 */
-	http.get<never, never, IResponse<IDataPost[]> | IException>(
+	http.get<never, never, IResponse<IDataPost[] | null> | IException>(
 		`${API_SERVER_URL}/posts`,
 		async ({ request }) => {
 			const { searchParams } = new URL(request.url);
 			const category = (searchParams.get('category') as TCategorysPost) || 'recommended';
-			const data = postService.getPostsByCategory(category);
+			const cursor = parseNullish(searchParams.get('cursor'));
+			const limit = Number(searchParams.get('limit'));
 
-			await delay(1000);
+			const data = postService.getPostsByCategory({ query: { category }, cursor, limit });
 
-			if (!data || !data.length)
-				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `Not found` },
-					{ status: 404 },
-				);
+			await delay(3000);
 
 			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 
 	// 특정 Posts 가져오기 (username)
-	http.get<{ username: string }, never, IResponse<IDataPost[]> | IException>(
+	http.get<{ username: string }, never, IResponse<IDataPost[] | null> | IException>(
 		`${API_SERVER_URL}/posts/:username`,
-		async ({ params }) => {
+		async ({ request, params }) => {
+			const { searchParams } = new URL(request.url);
+			const cursor = parseNullish(searchParams.get('cursor'));
+			const limit = Number(searchParams.get('limit'));
 			const { username } = params;
-			const data = postService.getPostsByUsername(username);
 
-			await delay(1000);
+			const data = postService.getPostsByUsername({
+				query: { username: decodeURI(username) },
+				cursor,
+				limit,
+			});
 
-			if (!data || !data.length)
-				return HttpResponse.json<IException>(
-					{ success: false, status: 404, message: `Not found` },
-					{ status: 404 },
-				);
+			await delay(3000);
 
 			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},

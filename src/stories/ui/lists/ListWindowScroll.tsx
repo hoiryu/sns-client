@@ -1,51 +1,129 @@
+'use client';
+import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import { ElementType, useRef } from 'react';
+import { ElementType, Fragment, useEffect, useMemo, useRef } from 'react';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
+import ProgressCircular from '~stories/ui/progress/ProgressCircular';
+import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
-interface IProps<T> {
-	component: ElementType;
-	data: T[];
+interface IProps {
+	component: ElementType; // UI
+	componentSkeleton: ElementType; // Skeleton UI
+	componentEmpty: ElementType; // No data UI
+	query: UseInfiniteQueryResult<InfiniteData<Object>, Error>;
 	size?: number;
 }
 
 /**
  * Window
  * body scroll 을 Virtualizer 로 사용.
- * size 있을 경우 고정
+ * @property component UI
+ * @property query Infinite Query
+ * @property size UI Height 값 (Default: 100)
  */
-const ListWindowScroll = <T,>({ data, component, size }: IProps<T>) => {
-	const Component = component;
+const ListWindowScroll = ({
+	component,
+	componentSkeleton,
+	componentEmpty,
+	query,
+	size,
+}: IProps) => {
+	const Component = useMemo(() => component, []);
+	const ComponentSkeleton = useMemo(() => componentSkeleton, []);
+	const ComponentEmpty = useMemo(() => componentEmpty, []);
+
 	const ref = useRef<HTMLDivElement | null>(null);
+	const { data, status, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
+	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
 
 	const virtualizer = useWindowVirtualizer({
-		count: data ? data.length : 0,
+		count: totalRows.length + 1,
 		estimateSize: () => size || 100,
-		overscan: 5,
+		overscan: 1,
 		scrollMargin: ref.current?.offsetTop ?? 0,
 		measureElement: size ? undefined : el => el.getBoundingClientRect().height,
 	});
 
-	const items = virtualizer.getVirtualItems();
+	const virtualItems = useMemo(
+		() => virtualizer.getVirtualItems(),
+		[virtualizer.getVirtualItems()],
+	);
+
+	useEffect(() => {
+		const lastItem = virtualItems.at(-1);
+		if (!lastItem) return;
+
+		// 다음 Cursor 요청
+		if (lastItem.index > totalRows.length - 1 && hasNextPage && !isFetchingNextPage)
+			fetchNextPage();
+	}, [hasNextPage, fetchNextPage, totalRows.length, isFetchingNextPage, virtualItems]);
 
 	return (
 		<Container ref={ref}>
-			<Box className={cn('relative w-full')} style={{ height: virtualizer.getTotalSize() }}>
-				{items.map(({ key, index, start, size }) => (
-					<Component
-						key={key}
-						ref={virtualizer.measureElement}
-						data-index={index}
-						data={data[index]}
-						className={cn('absolute top-0 left-0 w-full')}
-						style={{
-							height: `${size ? `${size}px` : undefined}`,
-							translate: `0 ${start - virtualizer.options.scrollMargin}px`,
-						}}
-					/>
-				))}
-			</Box>
+			{status === 'pending' &&
+				Array.from({ length: 5 }, (_, index) => <ComponentSkeleton key={index} />)}
+			{status === 'success' && !data.pages[0] && <ComponentEmpty />}
+			{status === 'success' && data.pages[0] && (
+				<Box
+					className={cn('relative w-full')}
+					style={{ height: virtualizer.getTotalSize() }}
+				>
+					{virtualItems.map(({ key, index, start, size }) => {
+						const isLoaderRow = index >= totalRows.length;
+						const row = totalRows[index];
+
+						if (isLoaderRow)
+							return (
+								<Fragment key={key}>
+									{hasNextPage && (
+										<Box
+											className={cn('absolute top-0 left-0 w-full')}
+											style={{
+												height: `${size ? `${size}px` : undefined}`,
+												translate: `0 ${start - virtualizer.options.scrollMargin}px`,
+											}}
+											children={
+												<Box
+													className={cn(
+														'flex h-full items-center justify-center',
+													)}
+												>
+													<ProgressCircular color='warning' size={80} />
+												</Box>
+											}
+										/>
+									)}
+									{!hasNextPage && (
+										<Typography
+											className={cn('absolute top-0 left-0 z-10 w-full')}
+											children='Nothing more to load'
+											style={{
+												height: `${size ? `${size}px` : undefined}`,
+												translate: `0 ${start - virtualizer.options.scrollMargin}px`,
+											}}
+										/>
+									)}
+								</Fragment>
+							);
+
+						return (
+							<Component
+								key={key}
+								ref={virtualizer.measureElement}
+								data-index={index}
+								data={row}
+								className={cn('absolute top-0 left-0 w-full')}
+								style={{
+									height: `${size ? `${size}px` : undefined}`,
+									translate: `0 ${start - virtualizer.options.scrollMargin}px`,
+								}}
+							/>
+						);
+					})}
+				</Box>
+			)}
 		</Container>
 	);
 };
