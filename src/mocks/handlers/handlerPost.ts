@@ -21,7 +21,7 @@ export const handlerPost = [
 	/**
 	 * 특정 Posts 가져오기 (Category)
 	 */
-	http.get<never, never, IResponse<IDataPost[] | null> | IException>(
+	http.get<never, never, IResponse<IDataPost[]> | IException>(
 		`${API_SERVER_URL}/posts`,
 		async ({ request }) => {
 			const { searchParams } = new URL(request.url);
@@ -31,14 +31,14 @@ export const handlerPost = [
 
 			const data = postService.getPostsByCategory({ query: { category }, cursor, limit });
 
-			await delay(3000);
+			await delay(1000);
 
 			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},
 	),
 
 	// 특정 Posts 가져오기 (username)
-	http.get<{ username: string }, never, IResponse<IDataPost[] | null> | IException>(
+	http.get<{ username: string }, never, IResponse<IDataPost[]> | IException>(
 		`${API_SERVER_URL}/posts/:username`,
 		async ({ request, params }) => {
 			const { searchParams } = new URL(request.url);
@@ -52,7 +52,7 @@ export const handlerPost = [
 				limit,
 			});
 
-			await delay(3000);
+			await delay(1000);
 
 			return HttpResponse.json({ success: true, data }, { status: 200 });
 		},

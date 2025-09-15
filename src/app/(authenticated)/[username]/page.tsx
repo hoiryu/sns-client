@@ -1,9 +1,8 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
-import { getPostsByUsername } from '~apis/post';
-import ContainerPosts from '~authenticated/[username]/_components/containers/ContainerPosts';
+import { Suspense } from 'react';
+import ContainerSuspensePosts from '~authenticated/[username]/_components/containers/ContainerSuspensePosts';
+import ListItemSkeletonPost from '~components/post/lists/ListItemSkeletonPost';
 import BoxProfile from '~components/profile/boxs/BoxProfile';
-import { MINUTE } from '~constants/query';
 import Container from '~stories/ui/containers/Container';
 
 export const metadata: Metadata = {
@@ -19,23 +18,17 @@ interface IProps {
 
 const Page = async ({ params }: IProps) => {
 	const { username } = await params;
-	const queryClient = new QueryClient();
-
-	await queryClient.prefetchQuery({
-		queryKey: ['posts', decodeURI(username)],
-		queryFn: getPostsByUsername,
-		staleTime: 10 * MINUTE,
-		gcTime: 11 * MINUTE,
-	});
-
-	const dehydratedState = dehydrate(queryClient);
 
 	return (
 		<Container>
 			<BoxProfile name={decodeURI(username)} />
-			<HydrationBoundary state={dehydratedState}>
-				<ContainerPosts username={decodeURI(username)} />
-			</HydrationBoundary>
+			<Suspense
+				fallback={Array.from({ length: 5 }, (_1, index) => (
+					<ListItemSkeletonPost key={index} />
+				))}
+			>
+				<ContainerSuspensePosts username={username} />
+			</Suspense>
 		</Container>
 	);
 };

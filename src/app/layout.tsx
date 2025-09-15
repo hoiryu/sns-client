@@ -8,6 +8,16 @@ import ProviderTheme, { TDefaultTheme } from '~src/contexts/ProviderTheme';
 import { cn } from '~utils/cn';
 import './globals.css';
 
+if (
+	process.env.NEXT_RUNTIME === 'nodejs' ||
+	process.env.NODE_ENV !== 'production' ||
+	process.env.NEXT_PUBLIC_MSW_ENABLED === 'false'
+) {
+	const { server } = require('~mocks/node');
+	server.listen();
+	console.info('[MSW] node server started');
+}
+
 export const metadata: Metadata = {
 	title: 'SNS',
 	description: 'SNS 페이지',

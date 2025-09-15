@@ -1,46 +1,28 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
-import ContainerPosts from '~authenticated/home/_components/containers/ContainerPosts';
+import { Suspense } from 'react';
+import ContainerSuspensePosts from '~authenticated/home/_components/containers/ContainerSuspensePosts';
 import TabsPost from '~authenticated/home/_components/tabs/TabsPost';
 import FormCreatePost from '~components/post/forms/FormCreatePost';
-import { MINUTE } from '~constants/query';
-import { IDataPost, TCategorysPost } from '~models/post';
-import { getPostsByCategory } from '~src/apis/post';
+import ListItemSkeletonPost from '~components/post/lists/ListItemSkeletonPost';
 import Container from '~stories/ui/containers/Container';
 
 export const metadata: Metadata = {
-	title: 'Home',
+	title: 'SNS Home',
 	description: 'Home Description',
 };
 
-interface IProps {
-	searchParams: Promise<{ category: TCategorysPost }>;
-}
-
-const Page = async ({ searchParams }: IProps) => {
-	const { category = 'recommended' } = await searchParams;
-	const queryClient = new QueryClient();
-
-	await queryClient.prefetchInfiniteQuery({
-		queryKey: ['posts', category],
-		queryFn: getPostsByCategory,
-		getNextPageParam: (lastPage: IDataPost[]) => lastPage.at(-1)?.id,
-		initialPageParam: 0,
-		staleTime: 10 * MINUTE,
-		gcTime: 11 * MINUTE,
-	});
-
-	const dehydratedState = dehydrate(queryClient);
-
+const Page = () => {
 	return (
 		<Container component='section'>
 			<TabsPost />
 			<FormCreatePost maxRows={2} minRows={2} />
-			<Container component='article'>
-				<HydrationBoundary state={dehydratedState}>
-					<ContainerPosts category={category} />
-				</HydrationBoundary>
-			</Container>
+			<Suspense
+				fallback={Array.from({ length: 5 }, (_1, index) => (
+					<ListItemSkeletonPost key={index} />
+				))}
+			>
+				<ContainerSuspensePosts />
+			</Suspense>
 		</Container>
 	);
 };

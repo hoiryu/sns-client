@@ -1,4 +1,4 @@
-import { handlerPost } from '~mocks/handlers/post';
-import { handlerUser } from '~mocks/handlers/user';
+import { handlerPost } from '~mocks/handlers/handlerPost';
+import { handlerUser } from '~mocks/handlers/handlerUser';
 
 export const handlers = handlerUser.concat(handlerPost);

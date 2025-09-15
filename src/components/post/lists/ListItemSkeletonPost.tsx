@@ -1,3 +1,4 @@
+'use client';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import IconChat from '~stories/ui/icons/IconChat';

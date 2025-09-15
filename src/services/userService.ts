@@ -1,3 +1,4 @@
+'use client';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { MINUTE } from '~constants/query';

@@ -1,45 +1,41 @@
 'use client';
 import { SyntheticEvent, useCallback, useEffect, useMemo } from 'react';
 import { useQueryString } from '~hooks/useQueryString';
-import { TTabsValueCategoryHome, useStoreCategoryHome } from '~src/stores/storeHome';
+import { TTabsValueCategorySearch, useStoreCategorySearch } from '~src/stores/storeSearch';
 import Container from '~stories/ui/containers/Container';
-import IconBookmark from '~stories/ui/icons/IconBookmark';
-import IconRecommend from '~stories/ui/icons/IconRecommend';
 import Tab from '~stories/ui/tabs/Tab';
 import Tabs from '~stories/ui/tabs/Tabs';
 import { cn } from '~utils/cn';
 
 const TabsPost = () => {
-	const { getQueryString, setQueryString } = useQueryString<TTabsValueCategoryHome>();
+	const { getQueryString, setQueryString } = useQueryString<TTabsValueCategorySearch>();
 	const queryCategory = getQueryString('category');
-	const { category, setCategory } = useStoreCategoryHome();
+	const { category, setCategory } = useStoreCategorySearch();
 
 	const tabs = useMemo(
 		() => [
 			{
-				name: 'recommended',
-				value: 'recommended',
-				icon: <IconRecommend />,
+				name: 'popular',
+				value: 'popular',
 			},
 			{
-				name: 'following',
-				value: 'following',
-				icon: <IconBookmark />,
+				name: 'live',
+				value: 'live',
 			},
 		],
 		[],
 	);
 
-	const handleChange = useCallback((_: SyntheticEvent, value: TTabsValueCategoryHome) => {
+	const handleChange = useCallback((_1: SyntheticEvent, value: TTabsValueCategorySearch) => {
 		setQueryString({ category: value });
 		setCategory(value);
 	}, []);
 
 	useEffect(() => {
-		if (tabs.some(tab => tab.value === queryCategory)) setCategory(queryCategory);
+		if (queryCategory) setCategory(queryCategory);
 		else {
-			setCategory('recommended');
-			setQueryString({ category: 'recommended' });
+			setCategory('popular');
+			setQueryString({ category: 'popular' });
 		}
 	}, []);
 
@@ -53,8 +49,8 @@ const TabsPost = () => {
 				className={cn('backdrop-blur-lg')}
 				onChange={handleChange}
 			>
-				{tabs.map(({ name, value: v, icon }) => (
-					<Tab key={`${name}-${v}`} icon={icon} label={name} value={v} />
+				{tabs.map(({ name, value }) => (
+					<Tab key={`${name}-${value}`} label={name} value={value} />
 				))}
 			</Tabs>
 		</Container>

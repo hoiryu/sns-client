@@ -1,5 +1,5 @@
 'use client';
-import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { InfiniteData, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { ElementType, Fragment, useEffect, useMemo, useRef } from 'react';
 import Box from '~stories/ui/containers/Box';
@@ -10,9 +10,8 @@ import { cn } from '~utils/cn';
 
 interface IProps {
 	component: ElementType; // UI
-	componentSkeleton: ElementType; // Skeleton UI
 	componentEmpty: ElementType; // No data UI
-	query: UseInfiniteQueryResult<InfiniteData<Object>, Error>;
+	query: UseSuspenseInfiniteQueryResult<InfiniteData<Object>, Error>;
 	size?: number;
 }
 
@@ -23,19 +22,11 @@ interface IProps {
  * @property query Infinite Query
  * @property size UI Height 값 (Default: 100)
  */
-const ListWindowScroll = ({
-	component,
-	componentSkeleton,
-	componentEmpty,
-	query,
-	size,
-}: IProps) => {
+const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) => {
 	const Component = useMemo(() => component, []);
-	const ComponentSkeleton = useMemo(() => componentSkeleton, []);
 	const ComponentEmpty = useMemo(() => componentEmpty, []);
-
 	const ref = useRef<HTMLDivElement | null>(null);
-	const { data, status, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
+	const { data, status, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
 	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
 
 	const virtualizer = useWindowVirtualizer({
@@ -62,8 +53,6 @@ const ListWindowScroll = ({
 
 	return (
 		<Container ref={ref}>
-			{status === 'pending' &&
-				Array.from({ length: 5 }, (_, index) => <ComponentSkeleton key={index} />)}
 			{status === 'success' && !data.pages[0] && <ComponentEmpty />}
 			{status === 'success' && data.pages[0] && (
 				<Box

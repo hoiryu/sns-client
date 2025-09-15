@@ -17,7 +17,6 @@ class HttpClient implements IHttpClient {
 
 	async fetch<T>(url: string, options: IRequestInit): Promise<T> {
 		const { headers, method, ...rest } = options;
-
 		const response = await fetch(`${this.baseURL}${url}`, {
 			...rest,
 			method: method,
@@ -30,8 +29,12 @@ class HttpClient implements IHttpClient {
 
 		const body = await response.json();
 
-		if (!response.ok || !body.success || body.message)
-			throw new Error(body.message || 'Unknown Error');
+		// if (!response.ok || !body.success || !body.message)
+		// 	throw {
+		// 		success: false,
+		// 		message: body.message || 'Unknown Error',
+		// 		status: 400,
+		// 	} as IException;
 
 		return body.data as T;
 	}

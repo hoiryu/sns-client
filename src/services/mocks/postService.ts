@@ -76,12 +76,12 @@ class PostService implements IPostService {
 		const startIndex = cursor ? _.findIndex(filtered, { id: cursor }) : 0;
 
 		// 못 찾을 경우
-		if (startIndex <= -1) return null;
+		if (startIndex <= -1) return [];
 		const nextIndex = cursor ? startIndex + 1 : startIndex;
 		// 많은 경우
-		if (filtered.length <= nextIndex) return null;
+		if (filtered.length <= nextIndex) return [];
 
-		return _.slice(filtered, nextIndex, nextIndex + limit);
+		return _.slice(filtered, nextIndex, nextIndex + limit) || [];
 	}
 
 	public getPostsByUsername({
@@ -94,10 +94,10 @@ class PostService implements IPostService {
 		const startIndex = cursor ? _.findIndex(filtered, { id: cursor }) : 0;
 
 		// 못 찾을 경우
-		if (startIndex <= -1) return null;
+		if (startIndex <= -1) return [];
 		const nextIndex = cursor ? startIndex + 1 : startIndex;
 		// 많은 경우
-		if (filtered.length <= nextIndex) return null;
+		if (filtered.length <= nextIndex) return [];
 
 		return _.slice(filtered, nextIndex, nextIndex + limit);
 	}

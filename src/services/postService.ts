@@ -1,9 +1,10 @@
+'use client';
 import {
 	InfiniteData,
-	useInfiniteQuery,
-	UseInfiniteQueryResult,
 	useQuery,
 	UseQueryResult,
+	useSuspenseInfiniteQuery,
+	UseSuspenseInfiniteQueryResult,
 } from '@tanstack/react-query';
 import _ from 'lodash';
 import { LIMIT_POST } from '~constants/post';
@@ -19,11 +20,15 @@ interface IPostService {
 	/**
 	 * 특정 Posts 가져오기 (Category)
 	 */
-	getPostsByCategory(category: string): UseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
+	getPostsByCategory(
+		category: string,
+	): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
 	/**
 	 * 특정 Posts 가져오기 (Username)
 	 */
-	getPostsByUsername(username: string): UseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
+	getPostsByUsername(
+		username: string,
+	): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
 
 	/**
 	 * 특정 Post 가져오기 (Id)
@@ -44,28 +49,28 @@ class PostService implements IPostService {
 	}
 
 	public getPostsByCategory(category: string) {
-		return useInfiniteQuery({
+		return useSuspenseInfiniteQuery({
 			queryKey: ['posts', category],
 			queryFn: getPostsByCategory,
 			getNextPageParam: lastPage => {
-				if (!lastPage || lastPage.length < LIMIT_POST) return null;
-				return _.last(lastPage)?.id || null;
+				if (!lastPage || lastPage.length < LIMIT_POST) return;
+				return _.last(lastPage)?.id;
 			},
-			initialPageParam: null,
+			initialPageParam: '',
 			staleTime: 10 * MINUTE,
 			gcTime: 11 * MINUTE,
 		});
 	}
 
 	public getPostsByUsername(username: string) {
-		return useInfiniteQuery({
+		return useSuspenseInfiniteQuery({
 			queryKey: ['posts', username],
 			queryFn: getPostsByUsername,
 			getNextPageParam: lastPage => {
-				if (!lastPage || lastPage.length < LIMIT_POST) return null;
-				return _.last(lastPage)?.id || null;
+				if (!lastPage || lastPage.length < LIMIT_POST) return;
+				return _.last(lastPage)?.id;
 			},
-			initialPageParam: null,
+			initialPageParam: '',
 			staleTime: 10 * MINUTE,
 			gcTime: 11 * MINUTE,
 		});

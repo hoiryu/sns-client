@@ -17,11 +17,7 @@ export const getPosts: QueryFunction<IDataPost[]> = () =>
 /**
  * 특정 Posts 가져오기 (Category)
  */
-export const getPostsByCategory: QueryFunction<
-	IDataPost[] | null,
-	string[],
-	string | null
-> = context =>
+export const getPostsByCategory: QueryFunction<IDataPost[], string[], string> = context =>
 	httpClient.fetch<IDataPost[]>(
 		`/posts?category=${context.queryKey[1]}&cursor=${context.pageParam}&limit=${LIMIT_POST}`,
 		{
@@ -35,11 +31,7 @@ export const getPostsByCategory: QueryFunction<
 /**
  * 특정 Posts 가져오기 (Username)
  */
-export const getPostsByUsername: QueryFunction<
-	IDataPost[] | null,
-	string[],
-	string | null
-> = context =>
+export const getPostsByUsername: QueryFunction<IDataPost[], string[], string> = context =>
 	httpClient.fetch<IDataPost[]>(
 		`/posts/${context.queryKey[1]}?&cursor=${context.pageParam}&limit=${LIMIT_POST}`,
 		{
