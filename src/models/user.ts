@@ -3,4 +3,6 @@ export interface IDataUser {
 	name: string;
 	email: string;
 	image: string;
+	followers: string[];
+	followings: string[];
 }

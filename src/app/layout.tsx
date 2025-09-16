@@ -15,7 +15,7 @@ if (
 ) {
 	const { server } = require('~mocks/node');
 	server.listen();
-	console.info('[MSW] node server started');
+	console.info('========== [MSW] node server started ==========');
 }
 
 export const metadata: Metadata = {

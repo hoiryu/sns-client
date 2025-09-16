@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthConfig } from 'next-auth';
 import Google from 'next-auth/providers/google';
+import { createUser } from '~apis/user';
 
 export const authOptions: NextAuthConfig = {
 	providers: [
@@ -34,6 +35,11 @@ export const authOptions: NextAuthConfig = {
 			return token;
 		},
 		async signIn({ user, account, profile }) {
+			const { name, email, image } = user;
+			if (!name || !email || !image) return false;
+
+			await createUser({ name, email, image });
+
 			return true;
 		},
 		async redirect({ url, baseUrl }) {

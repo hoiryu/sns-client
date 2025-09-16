@@ -27,14 +27,16 @@ class HttpClient implements IHttpClient {
 			},
 		});
 
-		const body = await response.json();
-
-		// if (!response.ok || !body.success || !body.message)
+		// if (!response.ok)
 		// 	throw {
-		// 		success: false,
-		// 		message: body.message || 'Unknown Error',
-		// 		status: 400,
+		// 		...response,
+		// 		data: {
+		// 			...body,
+		// 			message: body.message || 'Unknown Error',
+		// 		},
 		// 	} as IException;
+
+		const body = await response.json();
 
 		return body.data as T;
 	}

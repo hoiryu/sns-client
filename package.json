@@ -36,6 +36,7 @@
 		"@eslint/eslintrc": "^3.3.1",
 		"@faker-js/faker": "^9.9.0",
 		"@hookform/resolvers": "^5.2.1",
+		"@mswjs/data": "^0.16.2",
 		"@storybook/addon-a11y": "^9.1.4",
 		"@storybook/addon-docs": "^9.1.4",
 		"@storybook/addon-themes": "^9.1.4",

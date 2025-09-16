@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import { delay, http, HttpResponse } from 'msw';
+import { db } from '~mocks/db';
 import { IException, IResponse } from '~models/api';
 import { IDataPost, TCategorysPost } from '~models/post';
-import postService from '~services/mocks/postService';
 import { parseNullish } from '~utils/parse';
 
 const API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
@@ -11,7 +12,7 @@ export const handlerPost = [
 	 * 모든 Posts 가져오기
 	 */
 	http.get<never, never, IResponse<IDataPost[]>>(`${API_SERVER_URL}/posts/all`, async () => {
-		const data = postService.getPosts();
+		const data = db.posts.getAll() as IDataPost[];
 
 		await delay(1000);
 
@@ -29,7 +30,26 @@ export const handlerPost = [
 			const cursor = parseNullish(searchParams.get('cursor'));
 			const limit = Number(searchParams.get('limit'));
 
-			const data = postService.getPostsByCategory({ query: { category }, cursor, limit });
+			const filtered = db.posts.findMany({
+				where: {
+					category: {
+						equals: category,
+					},
+				},
+			});
+
+			const startIndex = cursor ? _.findIndex(filtered, { id: cursor }) : 0;
+
+			// 못 찾을 경우
+			if (startIndex <= -1)
+				return HttpResponse.json({ success: true, data: [] }, { status: 200 });
+			const nextIndex = cursor ? startIndex + 1 : startIndex;
+
+			// 많은 경우
+			if (filtered.length <= nextIndex)
+				return HttpResponse.json({ success: true, data: [] }, { status: 200 });
+
+			const data = _.slice(filtered, nextIndex, nextIndex + limit) as IDataPost[];
 
 			await delay(1000);
 
@@ -46,11 +66,28 @@ export const handlerPost = [
 			const limit = Number(searchParams.get('limit'));
 			const { username } = params;
 
-			const data = postService.getPostsByUsername({
-				query: { username: decodeURI(username) },
-				cursor,
-				limit,
-			});
+			const filtered = db.posts.findMany({
+				where: {
+					user: {
+						name: {
+							equals: decodeURI(username),
+						},
+					},
+				},
+			}) as IDataPost[];
+
+			const startIndex = cursor ? _.findIndex(filtered, { id: cursor }) : 0;
+
+			// 못 찾을 경우
+			if (startIndex <= -1)
+				return HttpResponse.json({ success: true, data: [] }, { status: 200 });
+			const nextIndex = cursor ? startIndex + 1 : startIndex;
+
+			// 많은 경우
+			if (filtered.length <= nextIndex)
+				return HttpResponse.json({ success: true, data: [] }, { status: 200 });
+
+			const data = _.slice(filtered, nextIndex, nextIndex + limit) as IDataPost[];
 
 			await delay(1000);
 
@@ -63,7 +100,15 @@ export const handlerPost = [
 		`${API_SERVER_URL}/post/:id`,
 		({ params }) => {
 			const { id } = params;
-			const data = postService.getPostById(id);
+			const data = db.posts.findFirst({
+				where: {
+					user: {
+						id: {
+							equals: id,
+						},
+					},
+				},
+			}) as IDataPost;
 
 			if (!data)
 				return HttpResponse.json<IException>(

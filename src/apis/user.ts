@@ -1,12 +1,30 @@
 import { QueryFunction } from '@tanstack/react-query';
+import { LIMIT_USER } from '~constants/user';
 import { IDataUser } from '~models/user';
 import httpClient from '~networks/http';
 
 /**
- * 모든 User 가져오기
+ * User 추가하기
  */
-export const getUsers: QueryFunction<IDataUser[], string[]> = () =>
-	httpClient.fetch<IDataUser[]>('/users/all', {
+export const createUser = ({
+	name,
+	email,
+	image,
+}: Omit<IDataUser, 'id' | 'followers' | 'followings'>) =>
+	httpClient.fetch<IDataUser>('/user', {
+		method: 'POST',
+		body: JSON.stringify({
+			name,
+			email,
+			image,
+		}),
+	});
+
+/**
+ * 모든 Users 가져오기
+ */
+export const getUsers: QueryFunction<IDataUser[], string[], string> = context =>
+	httpClient.fetch<IDataUser[]>(`/users/all?&cursor=${context.pageParam}&limit=${LIMIT_USER}`, {
 		method: 'GET',
 		next: {
 			tags: ['users'],

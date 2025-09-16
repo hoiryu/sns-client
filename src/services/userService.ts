@@ -1,7 +1,15 @@
 'use client';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+	InfiniteData,
+	useInfiniteQuery,
+	UseInfiniteQueryResult,
+	useQuery,
+	UseQueryResult,
+} from '@tanstack/react-query';
+import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { MINUTE } from '~constants/query';
+import { LIMIT_USER } from '~constants/user';
 import { IDataUser } from '~models/user';
 import { getUserByName, getUsers } from '~src/apis/user';
 
@@ -16,7 +24,7 @@ interface IUserService {
 	/**
 	 * 모든 User 가져오기
 	 */
-	getUsers(): UseQueryResult<IDataUser[]>;
+	getUsers(): UseInfiniteQueryResult<InfiniteData<IDataUser[]>>;
 	/**
 	 * 특정 User 가져오기 (Name)
 	 */
@@ -31,11 +39,16 @@ class UserService implements IUserService {
 	}
 
 	public getUsers() {
-		return useQuery({
+		return useInfiniteQuery({
 			queryKey: ['users'],
+			queryFn: getUsers,
+			getNextPageParam: lastPage => {
+				if (!lastPage || lastPage.length < LIMIT_USER) return;
+				return _.last(lastPage)?.id;
+			},
+			initialPageParam: '',
 			staleTime: 10 * MINUTE,
 			gcTime: 11 * MINUTE,
-			queryFn: getUsers,
 		});
 	}
 

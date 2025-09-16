@@ -1,13 +1,22 @@
 'use client';
+import ListItemEmptyFollow from '~components/follow/lists/ListItemEmptyFollow';
 import ListItemFollow from '~components/follow/lists/ListItemFollow';
-import { IDataUser } from '~models/user';
+import ListItemSkeletonFollow from '~components/follow/lists/ListItemSkeletonFollow';
 import userService from '~services/userService';
 import ListFixedScroll from '~stories/ui/lists/ListFixedScroll';
 
 const ListFixedScrollFollows = () => {
-	const { data } = userService.getUsers();
+	const query = userService.getUsers();
 
-	return data && <ListFixedScroll<IDataUser> component={ListItemFollow} data={data} size={70} />;
+	return (
+		<ListFixedScroll
+			component={ListItemFollow}
+			componentEmpty={ListItemEmptyFollow}
+			componentSkeleton={ListItemSkeletonFollow}
+			query={query}
+			size={70}
+		/>
+	);
 };
 
 export default ListFixedScrollFollows;

@@ -18,7 +18,8 @@ interface IProps {
 /**
  * Window
  * body scroll 을 Virtualizer 로 사용.
- * @property component UI
+ * @property component 값이 있는 경우
+ * @property componentEmpty 값이 없는 경우
  * @property query Infinite Query
  * @property size UI Height 값 (Default: 100)
  */
@@ -26,14 +27,14 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 	const Component = useMemo(() => component, []);
 	const ComponentEmpty = useMemo(() => componentEmpty, []);
 	const ref = useRef<HTMLDivElement | null>(null);
-	const { data, status, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
+	const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
 	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
 
 	const virtualizer = useWindowVirtualizer({
 		count: totalRows.length + 1,
-		estimateSize: () => size || 100,
 		overscan: 1,
 		scrollMargin: ref.current?.offsetTop ?? 0,
+		estimateSize: () => size || 100,
 		measureElement: size ? undefined : el => el.getBoundingClientRect().height,
 	});
 

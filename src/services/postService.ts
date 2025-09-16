@@ -20,15 +20,11 @@ interface IPostService {
 	/**
 	 * 특정 Posts 가져오기 (Category)
 	 */
-	getPostsByCategory(
-		category: string,
-	): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
+	getPostsByCategory(category: string): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[]>>;
 	/**
 	 * 특정 Posts 가져오기 (Username)
 	 */
-	getPostsByUsername(
-		username: string,
-	): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[] | null>>;
+	getPostsByUsername(username: string): UseSuspenseInfiniteQueryResult<InfiniteData<IDataPost[]>>;
 
 	/**
 	 * 특정 Post 가져오기 (Id)
