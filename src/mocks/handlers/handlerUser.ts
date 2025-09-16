@@ -25,6 +25,7 @@ export const handlerUser = [
 			);
 
 		const data = { id: _.uniqueId('user-'), email, name, image, followers: [], followings: [] };
+
 		db.users.create(data);
 
 		if (!data)
@@ -37,11 +38,13 @@ export const handlerUser = [
 
 		return HttpResponse.json({ success: true, data }, { status: 200 });
 	}),
+
 	// 모든 Users 가져오기
 	http.get<never, never, IResponse<IDataUser[]> | IException>(
 		`${API_SERVER_URL}/users/all`,
 		async ({ request }) => {
 			const { searchParams } = new URL(request.url);
+			console.log(request);
 			const cursor = parseNullish(searchParams.get('cursor'));
 			const limit = Number(searchParams.get('limit'));
 
@@ -76,11 +79,11 @@ export const handlerUser = [
 		`${API_SERVER_URL}/user/:username`,
 		async ({ params }) => {
 			const { username } = params;
-
+			console.log(username);
 			const data = db.users.findFirst({
 				where: { name: { equals: username } },
 			});
-
+			console.log(data);
 			await delay(1000);
 
 			if (!data)

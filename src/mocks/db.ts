@@ -37,7 +37,16 @@ export const db = factory({
 });
 
 export const seeding = () => {
-	Array.from({ length: 20 }, () =>
+	db.users.create({
+		id: _.uniqueId('user-'),
+		email: 'comzkow@gmail.com',
+		name: '류승호',
+		image: 'https://lh3.googleusercontent.com/a/ACg8ocLgEJhtihZj0dLgqSbvFPvhnwcYcLNlAVeIlf7LUN5Zpuv4RDM=s96-c',
+		followers: [],
+		followings: [],
+	});
+
+	Array.from({ length: 5 }, () =>
 		db.users.create({
 			id: _.uniqueId('user-'),
 			name: faker.person.fullName({ sex: undefined }),
@@ -51,9 +60,11 @@ export const seeding = () => {
 		}),
 	);
 
+	const users = db.users.getAll();
+
 	Array.from({ length: 50 }, () => {
-		const users = db.users.getAll();
 		const random = faker.number.int({ min: 0, max: users.length - 1 });
+
 		db.posts.create({
 			id: _.uniqueId('post-'),
 			user: users[random],

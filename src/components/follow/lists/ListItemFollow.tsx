@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { IListItemProps } from '~models/ui/list';
 import { IDataUser } from '~models/user';
 import Button from '~stories/ui/buttons/Button';
@@ -13,6 +14,8 @@ interface IProps extends IListItemProps {
 
 const ListItemFollow = ({ data, className, style }: IProps) => (
 	<ListItem
+		component={Link}
+		href={`/${data.name}`}
 		className={cn(className, 'grid grid-cols-[auto_1fr_auto] items-center gap-2')}
 		style={style}
 	>
