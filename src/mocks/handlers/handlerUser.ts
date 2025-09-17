@@ -44,7 +44,6 @@ export const handlerUser = [
 		`${API_SERVER_URL}/users/all`,
 		async ({ request }) => {
 			const { searchParams } = new URL(request.url);
-			console.log(request);
 			const cursor = parseNullish(searchParams.get('cursor'));
 			const limit = Number(searchParams.get('limit'));
 
@@ -79,11 +78,10 @@ export const handlerUser = [
 		`${API_SERVER_URL}/user/:username`,
 		async ({ params }) => {
 			const { username } = params;
-			console.log(username);
 			const data = db.users.findFirst({
 				where: { name: { equals: username } },
 			});
-			console.log(data);
+
 			await delay(1000);
 
 			if (!data)

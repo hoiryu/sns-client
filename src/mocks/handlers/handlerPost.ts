@@ -95,17 +95,15 @@ export const handlerPost = [
 		},
 	),
 
-	// 특정 Post 가져오기 (username)
+	// 특정 Post 가져오기 (id)
 	http.get<{ id: string }, never, IResponse<IDataPost> | IException>(
 		`${API_SERVER_URL}/post/:id`,
 		({ params }) => {
 			const { id } = params;
 			const data = db.posts.findFirst({
 				where: {
-					user: {
-						id: {
-							equals: id,
-						},
+					id: {
+						equals: id,
 					},
 				},
 			}) as IDataPost;

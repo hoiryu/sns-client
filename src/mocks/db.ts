@@ -24,9 +24,9 @@ const schemaPost = {
 	},
 	category: String,
 	description: String,
-	chat: Boolean,
-	repost: Boolean,
-	favorite: Boolean,
+	chat: Array,
+	repost: Array,
+	favorite: Array,
 	image: String,
 	createAt: String,
 };
@@ -37,8 +37,10 @@ export const db = factory({
 });
 
 export const seeding = () => {
+	faker.seed(100);
+
 	db.users.create({
-		id: _.uniqueId('user-'),
+		id: 'user-999',
 		email: 'comzkow@gmail.com',
 		name: '류승호',
 		image: 'https://lh3.googleusercontent.com/a/ACg8ocLgEJhtihZj0dLgqSbvFPvhnwcYcLNlAVeIlf7LUN5Zpuv4RDM=s96-c',
@@ -46,7 +48,7 @@ export const seeding = () => {
 		followings: [],
 	});
 
-	Array.from({ length: 5 }, () =>
+	Array.from({ length: 20 }, () =>
 		db.users.create({
 			id: _.uniqueId('user-'),
 			name: faker.person.fullName({ sex: undefined }),
@@ -62,9 +64,9 @@ export const seeding = () => {
 
 	const users = db.users.getAll();
 
-	Array.from({ length: 50 }, () => {
+	Array.from({ length: 80 }, () => {
 		const random = faker.number.int({ min: 0, max: users.length - 1 });
-
+		const ids = users.map(user => user.id);
 		db.posts.create({
 			id: _.uniqueId('post-'),
 			user: users[random],
@@ -76,9 +78,18 @@ export const seeding = () => {
 				blur: 0,
 			}),
 			category: CATEGORYS_POST[faker.number.int({ min: 0, max: CATEGORYS_POST.length - 1 })],
-			favorite: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
-			repost: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
-			chat: faker.number.int({ min: 0, max: 1 }) === 1 ? true : false,
+			favorite: faker.helpers.arrayElements(
+				ids,
+				faker.number.int({ min: 0, max: ids.length - 1 }),
+			),
+			repost: faker.helpers.arrayElements(
+				ids,
+				faker.number.int({ min: 0, max: ids.length - 1 }),
+			),
+			chat: faker.helpers.arrayElements(
+				ids,
+				faker.number.int({ min: 0, max: ids.length - 1 }),
+			),
 			createAt: faker.date.recent({ days: 1 }).toISOString(),
 		});
 	});

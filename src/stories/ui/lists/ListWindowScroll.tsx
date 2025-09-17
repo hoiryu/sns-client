@@ -5,7 +5,6 @@ import { ElementType, Fragment, useEffect, useMemo, useRef } from 'react';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import ProgressCircular from '~stories/ui/progress/ProgressCircular';
-import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 interface IProps {
@@ -31,7 +30,7 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
 
 	const virtualizer = useWindowVirtualizer({
-		count: totalRows.length + 1,
+		count: hasNextPage ? totalRows.length + 1 : totalRows.length,
 		overscan: 1,
 		scrollMargin: ref.current?.offsetTop ?? 0,
 		estimateSize: () => size || 100,
@@ -85,7 +84,7 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 											}
 										/>
 									)}
-									{!hasNextPage && (
+									{/* {!hasNextPage && (
 										<Typography
 											className={cn('absolute top-0 left-0 z-10 w-full')}
 											children='Nothing more to load'
@@ -94,7 +93,7 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 												translate: `0 ${start - virtualizer.options.scrollMargin}px`,
 											}}
 										/>
-									)}
+									)} */}
 								</Fragment>
 							);
 

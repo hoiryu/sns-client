@@ -8,9 +8,9 @@ export interface IDataPost {
 	category: TCategorysPost;
 	user: IDataUser;
 	description: string;
-	chat: boolean;
-	repost: boolean;
-	favorite: boolean;
+	chat: string[];
+	repost: string[];
+	favorite: string[];
 	image: string;
 	createAt: string | Date;
 }

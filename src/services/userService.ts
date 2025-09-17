@@ -57,7 +57,7 @@ class UserService implements IUserService {
 			queryKey: ['user', name],
 			staleTime: 10 * MINUTE,
 			gcTime: 11 * MINUTE,
-			queryFn: getUserByName,
+			queryFn: ({ queryKey }) => getUserByName(queryKey[1]),
 		});
 	}
 }

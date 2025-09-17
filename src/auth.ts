@@ -27,11 +27,12 @@ export const authOptions: NextAuthConfig = {
 			return !!auth;
 		},
 		async session({ session, token, user }) {
-			// Session Custom
+			if (session.user && token.id) session.user.id = token.id as string;
 			return session;
 		},
 		async jwt({ token, account, profile }) {
-			if (account && profile) token.id = profile.sub; // 사용자 ID
+			// if (account && profile) token.id = profile.sub; // 사용자 ID
+			if (account && profile) token.id = 'user-999'; // 사용자 ID
 			return token;
 		},
 		async signIn({ user, account, profile }) {

@@ -34,10 +34,10 @@ export const getUsers: QueryFunction<IDataUser[], string[], string> = context =>
 /**
  * 특정 User 가져오기 (Name)
  */
-export const getUserByName: QueryFunction<IDataUser, string[]> = context =>
-	httpClient.fetch<IDataUser>(`/user/${context.queryKey[1]}`, {
+export const getUserByName = (name: string) =>
+	httpClient.fetch<IDataUser>(`/user/${name}`, {
 		method: 'GET',
 		next: {
-			tags: ['user', context.queryKey[1]],
+			tags: ['user', name],
 		},
 	});

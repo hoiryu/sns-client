@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
+import _ from 'lodash';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -21,6 +23,7 @@ interface IProps extends IListItemProps {
 }
 
 const ListItemPost = ({ data, ...props }: IProps) => {
+	const { data: session } = useSession();
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -29,10 +32,14 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 		resolver: zodResolver(updatePostSchema),
 		defaultValues: async () => {
 			const { chat, repost, favorite } = data;
+			const checkedChat = _.includes(chat, session?.user?.id);
+			const checkedRepost = _.includes(repost, session?.user?.id);
+			const checkedFavorite = _.includes(favorite, session?.user?.id);
+
 			return {
-				chat,
-				repost,
-				favorite,
+				chat: checkedChat,
+				repost: checkedRepost,
+				favorite: checkedFavorite,
 			};
 		},
 		mode: 'onChange',
@@ -93,24 +100,33 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 					/>
 				</ListItem>
 				<Box component='form' className='flex items-center justify-between'>
-					<CheckboxChat<IUpdatePostSchema>
-						name='chat'
-						control={control}
-						formState={formState}
-						onChange={zodSubmit(handleSubmit)}
-					/>
-					<CheckboxRepost
-						name='repost'
-						control={control}
-						formState={formState}
-						onChange={zodSubmit(handleSubmit)}
-					/>
-					<CheckboxFavorite<IUpdatePostSchema>
-						name='favorite'
-						control={control}
-						formState={formState}
-						onChange={zodSubmit(handleSubmit)}
-					/>
+					<Box className={cn('flex items-center')}>
+						<CheckboxChat<IUpdatePostSchema>
+							name='chat'
+							control={control}
+							formState={formState}
+							onChange={zodSubmit(handleSubmit)}
+						/>
+						<Typography children={data.chat.length} />
+					</Box>
+					<Box className={cn('flex items-center')}>
+						<CheckboxRepost
+							name='repost'
+							control={control}
+							formState={formState}
+							onChange={zodSubmit(handleSubmit)}
+						/>
+						<Typography children={data.repost.length} />
+					</Box>
+					<Box className={cn('flex items-center')}>
+						<CheckboxFavorite<IUpdatePostSchema>
+							name='favorite'
+							control={control}
+							formState={formState}
+							onChange={zodSubmit(handleSubmit)}
+						/>
+						<Typography children={data.favorite.length} />
+					</Box>
 				</Box>
 			</Container>
 		</ListItem>

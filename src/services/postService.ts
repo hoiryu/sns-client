@@ -77,7 +77,7 @@ class PostService implements IPostService {
 			queryKey: ['post', id],
 			staleTime: 10 * MINUTE,
 			gcTime: 11 * MINUTE,
-			queryFn: getPostById,
+			queryFn: ({ queryKey }) => getPostById(queryKey[1]),
 		});
 	}
 }

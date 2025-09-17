@@ -45,10 +45,10 @@ export const getPostsByUsername: QueryFunction<IDataPost[], string[], string> = 
 /**
  * 특정 Post 가져오기 (Id)
  */
-export const getPostById: QueryFunction<IDataPost, string[]> = context =>
-	httpClient.fetch<IDataPost>(`/post/${context.queryKey[1]}`, {
+export const getPostById = (id: string) =>
+	httpClient.fetch<IDataPost>(`/post/${id}`, {
 		method: 'GET',
 		next: {
-			tags: ['post', context.queryKey[1]],
+			tags: ['post', id],
 		},
 	});
