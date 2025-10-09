@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
-import { COLORS_SWITCH, SIZES_SWITCH } from '~constants/ui/input';
+import { COLORS_SWITCH, SIZES_SWITCH } from '~src/consts/ui/input';
 import Switch from '~stories/ui/inputs/switchs/Switch';
 
 const meta = {

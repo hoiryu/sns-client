@@ -1,14 +1,14 @@
 type TMethod = 'HEAD' | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
 
 /**
- * Request 공통
+ * Request
  */
 export interface IRequestInit extends Omit<RequestInit, 'method'> {
 	method: TMethod;
 }
 
 /**
- * Response 공통
+ * Response
  */
 export interface IResponse<T> {
 	success: boolean;
@@ -16,7 +16,7 @@ export interface IResponse<T> {
 }
 
 /**
- * Exception 공통
+ * Exception
  */
 export interface IException {
 	success: boolean;
@@ -24,11 +24,19 @@ export interface IException {
 	message: string;
 }
 
+export interface IAuthTokens {
+	accessToken: string;
+	refreshToken: string;
+}
+
 /**
- * Infinite Scroll 공통
+ * Infinite Scroll
  */
-export interface IParamsInfiniteScroll<T> {
-	query: T;
-	cursor: string | null;
-	limit: number;
+export interface IPaginate<T> {
+	data: T;
+	cursor: {
+		after: number | null;
+	};
+	count: number;
+	next: string | null;
 }

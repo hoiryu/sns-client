@@ -20,7 +20,6 @@ const MemuAccount = () => {
 	const { data: session } = userService.getMe();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
-
 	const handleClick = (e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 	const handleLogout = () => signOut({ callbackUrl: '/' });
@@ -51,7 +50,7 @@ const MemuAccount = () => {
 			>
 				<Typography
 					className={cn('flex items-center px-3 py-2 text-sm')}
-					children={session?.user?.name}
+					children={session?.user?.nickname}
 				/>
 
 				<MenuItem
@@ -73,7 +72,7 @@ const MemuAccount = () => {
 				/>
 				<MenuItem
 					component={Link}
-					href={`/${session?.user?.name}`}
+					href={`/${session?.user?.nickname}`}
 					className={cn('gap-2')}
 					onClick={handleClose}
 					children={

@@ -5,6 +5,7 @@
 	"scripts": {
 		"start": "next start",
 		"start:dev": "next dev --turbopack",
+		"start:debug": "NODE_OPTIONS='--inspect=9229' next dev --turbopack",
 		"build": "next build",
 		"start:mock": "npx tsx watch ./src/mocks/index.ts",
 		"start:story": "storybook dev -p 6006",
@@ -22,6 +23,7 @@
 		"@tanstack/react-query": "^5.85.9",
 		"@tanstack/react-virtual": "^3.13.12",
 		"date-fns": "^4.1.0",
+		"jwt-decode": "^4.0.0",
 		"next": "15.4.6",
 		"next-auth": "5.0.0-beta.29",
 		"react": "19.1.0",

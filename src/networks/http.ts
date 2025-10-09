@@ -1,23 +1,26 @@
 import { IRequestInit } from '~models/api';
 
-interface IHttpClient {
-	/**
-	 * Fetch
-	 * T: Response data
-	 */
-	fetch: <T>(url: string, options: IRequestInit) => Promise<T>;
-}
+// interface IHttpClient {
+// 	/**
+// 	 * Fetch
+// 	 * T: Response data
+// 	 */
+// 	fetch: <T>(url: string, options: IRequestInit) => Promise<T>;
+// }
 
-class HttpClient implements IHttpClient {
+class HttpClient {
 	private readonly baseURL?: string;
 
 	constructor(baseURL: string) {
-		this.baseURL = baseURL.replace(/\/+$/, '');
+		this.baseURL = baseURL || 'no';
 	}
 
 	async fetch<T>(url: string, options: IRequestInit): Promise<T> {
 		const { headers, method, ...rest } = options;
-		const response = await fetch(`${this.baseURL}${url}`, {
+
+		const fullURL = url.includes(this.baseURL as string) ? url : `${this.baseURL}${url}`;
+
+		const response = await fetch(fullURL, {
 			...rest,
 			method: method,
 			credentials: 'include',
@@ -27,18 +30,9 @@ class HttpClient implements IHttpClient {
 			},
 		});
 
-		// if (!response.ok)
-		// 	throw {
-		// 		...response,
-		// 		data: {
-		// 			...body,
-		// 			message: body.message || 'Unknown Error',
-		// 		},
-		// 	} as IException;
-
 		const body = await response.json();
 
-		return body.data as T;
+		return body as T;
 	}
 }
 

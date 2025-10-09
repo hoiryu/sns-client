@@ -9,7 +9,7 @@ import {
 } from '@mui/material/styles';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { MODE_STORAGE_KEY } from '~constants/theme';
+import { MODE_STORAGE_KEY } from '~src/consts/theme';
 import { cn } from '~utils/cn';
 
 export type TDefaultTheme = 'dark' | 'light';

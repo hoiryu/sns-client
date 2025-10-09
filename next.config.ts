@@ -17,8 +17,8 @@ const nextConfig: NextConfig = {
 	async rewrites() {
 		return [
 			{
-				source: '/upload/:slug',
-				destination: `${process.env.NEXT_PUBLIC_API_SERVER_URL}/upload/:slug`,
+				source: '/public/:slug*', // ✅ 여러 세그먼트 매칭
+				destination: `${process.env.NEXT_PUBLIC_API_SERVER_URL}/public/:slug*`, // ✅ 백엔드로 프록시
 			},
 		];
 	},

@@ -29,7 +29,7 @@
 			"~contexts/*": ["./src/contexts/*"],
 			"~hooks/*": ["./src/hooks/*"],
 			"~stories/*": ["./src/stories/*"],
-			"~constants/*": ["./src/constants/*"],
+			"~constants/*": ["src/consts/*"],
 			"~mocks/*": ["./src/mocks/*"],
 			"~components/*": ["./src/components/*"],
 			"~authenticated/*": ["./src/app/(authenticated)/*"],
@@ -44,7 +44,8 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"src/hooks/useAutoHeight.tx"
+		"src/hooks/useAutoHeight.tx",
+		"**/*.d.ts"
 	],
 	"exclude": ["node_modules"]
 }

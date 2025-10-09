@@ -1,23 +1,38 @@
 import { QueryFunction } from '@tanstack/react-query';
-import { LIMIT_USER } from '~constants/user';
 import { IDataUser } from '~models/user';
 import httpClient from '~networks/http';
+import { LIMIT_USER } from '~src/consts/user';
 
 /**
  * User 추가하기
  */
-export const createUser = ({
-	name,
+export const createUser = async <T>({
 	email,
+	password,
+	name,
+	nickname,
 	image,
-}: Omit<IDataUser, 'id' | 'followers' | 'followings'>) =>
-	httpClient.fetch<IDataUser>('/user', {
+}: Omit<IDataUser, 'id' | 'followers' | 'followings' | 'role'> & { password: string }) =>
+	httpClient.fetch<T>('/auth/register/email', {
 		method: 'POST',
 		body: JSON.stringify({
 			name,
+			nickname,
 			email,
+			password,
 			image,
 		}),
+	});
+
+/**
+ * 로그인하기
+ */
+export const postSignin = async <T>({ email, password }: { email: string; password: string }) =>
+	httpClient.fetch<T>('/auth/signin/email', {
+		method: 'POST',
+		headers: {
+			authorization: `Basic ${Buffer.from(`${email}:${password}`, 'utf-8').toString('base64')}`,
+		},
 	});
 
 /**
@@ -40,4 +55,12 @@ export const getUserByName = (name: string) =>
 		next: {
 			tags: ['user', name],
 		},
+	});
+
+/**
+ * User 가져오기 (email)
+ */
+export const getUserByEmail = (email: string) =>
+	httpClient.fetch<IDataUser>(`/users/${email}`, {
+		method: 'GET',
 	});

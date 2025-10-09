@@ -12,12 +12,13 @@ import Modal from '~stories/ui/modals/Modal';
 import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
-const ModalLogin = () => {
+const ModalSignin = () => {
 	const router = useRouter();
 	const {
 		control,
 		handleSubmit: zodSubmit,
 		formState,
+		setError,
 	} = useForm<ILoginSchema>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
@@ -27,8 +28,28 @@ const ModalLogin = () => {
 		mode: 'onChange',
 	});
 
-	const handleSubmit = (data: ILoginSchema) => {
-		console.log(data);
+	const handleSubmit = async (data: ILoginSchema) => {
+		const res = await signIn('credentials', {
+			email: data.email,
+			password: data.password,
+			redirect: false,
+		});
+
+		if (res.error) {
+			setError('password', { message: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+			setError('email', { message: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+		} else {
+			router.replace('/home');
+		}
+
+		// if (res?.ok) {
+		// 	// 로그인 성공 → 원하는 경로로 이동
+		// 	router.replace('/home');
+		// } else {
+		// 	// 로그인 실패 → 에러 메시지 처리
+		// 	console.error(res?.error);
+		// 	alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+		// }
 	};
 
 	const handleSignin = useCallback(() => signIn('google'), [signIn]);
@@ -68,4 +89,4 @@ const ModalLogin = () => {
 	);
 };
 
-export default ModalLogin;
+export default ModalSignin;

@@ -5,7 +5,11 @@ import { handlers } from '~mocks/handlers';
 const mockingEnabledPromise =
 	typeof window !== 'undefined'
 		? import('~mocks/browser').then(async ({ default: worker }) => {
-				if (process.env.NODE_ENV === 'production') return;
+				if (
+					process.env.NODE_ENV === 'production' ||
+					process.env.NEXT_PUBLIC_MSW_ENABLED === 'true'
+				)
+					return;
 
 				await worker.start({
 					onUnhandledRequest(request, print) {

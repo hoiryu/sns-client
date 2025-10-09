@@ -1,5 +1,5 @@
 import z from 'zod';
-import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
+import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~src/consts/image';
 
 // 이미지
 export const imageSchema = z

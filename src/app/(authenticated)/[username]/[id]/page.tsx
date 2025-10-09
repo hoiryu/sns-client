@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { getPostById } from '~apis/post';
 import { getUserByName } from '~apis/user';
 import ContainerPost from '~authenticated/[username]/_components/containers/ContainerPost';
-import { MINUTE } from '~constants/query';
+import { MINUTE } from '~src/consts/query';
 
 export const generateMetadata = async ({ params }: IProps): Promise<Metadata> => {
 	const { username, id } = await params;

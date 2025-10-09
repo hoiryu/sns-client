@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { debounce } from 'lodash';
 import { SyntheticEvent, useMemo, useState } from 'react';
 import { fn } from 'storybook/test';
-import { COLORS_TEXT_FIELD, SIZES_TEXT_FIELD, VARIANTS_TEXT_FIELD } from '~constants/ui/input';
+import { COLORS_TEXT_FIELD, SIZES_TEXT_FIELD, VARIANTS_TEXT_FIELD } from '~src/consts/ui/input';
 import TextFieldAuto from '~stories/ui/inputs/texts/TextFieldAuto';
 
 const meta = {

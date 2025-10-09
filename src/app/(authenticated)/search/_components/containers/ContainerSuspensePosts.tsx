@@ -2,9 +2,9 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import _ from 'lodash';
 import { getPostsByCategory } from '~apis/post';
 import ContainerDecider from '~authenticated/search/_components/containers/ContainerDeciderPosts';
-import { LIMIT_POST } from '~constants/post';
-import { MINUTE } from '~constants/query';
 import { IDataPost } from '~models/post';
+import { LIMIT_POST } from '~src/consts/post';
+import { MINUTE } from '~src/consts/query';
 
 const ContainerSuspensePosts = async () => {
 	const queryClient = new QueryClient();

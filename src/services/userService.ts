@@ -8,10 +8,10 @@ import {
 } from '@tanstack/react-query';
 import _ from 'lodash';
 import { useSession } from 'next-auth/react';
-import { MINUTE } from '~constants/query';
-import { LIMIT_USER } from '~constants/user';
 import { IDataUser } from '~models/user';
 import { getUserByName, getUsers } from '~src/apis/user';
+import { MINUTE } from '~src/consts/query';
+import { LIMIT_USER } from '~src/consts/user';
 
 type TUseSessionOptions<T extends boolean> = Parameters<typeof useSession<T>>[0];
 type TUseSessionReturn<T extends boolean> = ReturnType<typeof useSession<T>>;

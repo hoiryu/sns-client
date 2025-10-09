@@ -1,12 +1,11 @@
 'use client';
 import ListWindowScrollPosts from '~components/post/lists/ListWindowScrollPosts';
-import postService from '~services/postService';
 import { useStoreCategorySearch } from '~src/stores/storeSearch';
 
 const ContainerDeciderPosts = () => {
 	const { category } = useStoreCategorySearch();
-	const query = postService.getPostsByCategory(category);
-
+	// const query = postService.getPostsByCategory(category);
+	return null;
 	return <ListWindowScrollPosts query={query} />;
 };
 

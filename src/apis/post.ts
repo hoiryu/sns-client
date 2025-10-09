@@ -1,18 +1,23 @@
 import { QueryFunction } from '@tanstack/react-query';
-import { LIMIT_POST } from '~constants/post';
+import { IPaginate } from '~models/api';
 import { IDataPost } from '~models/post';
 import httpClient from '~networks/http';
+import { LIMIT_POST } from '~src/consts/post';
 
 /**
- * 모든 Post 가져오기
+ * Post 가져오기 (Query String)
  */
-export const getPosts: QueryFunction<IDataPost[]> = () =>
-	httpClient.fetch<IDataPost[]>('/posts/all', {
+export const getPosts: QueryFunction<IPaginate<IDataPost[]>, string[], string> = async query => {
+	return httpClient.fetch<IPaginate<IDataPost[]>>(`${query.pageParam}`, {
 		method: 'GET',
+		// headers: {
+		// 	authorization: `Bearer ${session.data?.accessToken}`,
+		// },
 		next: {
 			tags: ['posts'],
 		},
 	});
+};
 
 /**
  * 특정 Posts 가져오기 (Category)

@@ -1,22 +1,20 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import _ from 'lodash';
-import { getPostsByCategory } from '~apis/post';
+import { getPosts } from '~apis/post';
 import ContainerDeciderPosts from '~authenticated/home/_components/containers/ContainerDeciderPosts';
-import { LIMIT_POST } from '~constants/post';
-import { MINUTE } from '~constants/query';
+import { IPaginate } from '~models/api';
 import { IDataPost } from '~models/post';
+import { MINUTE } from '~src/consts/query';
 
 const ContainerSuspensePosts = async () => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ['posts', 'recommended'],
-		queryFn: getPostsByCategory,
-		getNextPageParam: (lastPage: IDataPost[]) => {
-			if (!lastPage || lastPage.length < LIMIT_POST) return;
-			return _.last(lastPage)?.id;
+		queryKey: ['posts'],
+		queryFn: getPosts,
+		getNextPageParam: (data: IPaginate<IDataPost[]>) => {
+			return data.next;
 		},
-		initialPageParam: '',
+		initialPageParam: '/posts?order__createdAt=DESC',
 		staleTime: 10 * MINUTE,
 		gcTime: 11 * MINUTE,
 	});

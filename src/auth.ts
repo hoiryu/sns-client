@@ -1,14 +1,34 @@
+import { jwtDecode } from 'jwt-decode';
 import NextAuth, { NextAuthConfig } from 'next-auth';
-import Google from 'next-auth/providers/google';
-import { createUser } from '~apis/user';
+import Credentials from 'next-auth/providers/credentials';
+import { getUserByEmail, postSignin } from '~apis/user';
+import { IAuthTokens } from '~models/api';
+import { IDataUser } from '~models/user';
 
 export const authOptions: NextAuthConfig = {
 	providers: [
-		Google({
-			authorization: {
-				clientId: process.env.AUTH_GOOGLE_ID,
-				clientSecret: process.env.AUTH_GOOGLE_SECRET,
-				params: { prompt: 'select_account' },
+		Credentials({
+			async authorize(credentials) {
+				const { email, password } = credentials;
+				if (!email || !password) return null;
+
+				const tokens = await postSignin<IAuthTokens>({
+					email: email as string,
+					password: password as string,
+				});
+
+				if (!tokens) return null;
+
+				const decoded = jwtDecode<IDataUser>(tokens.accessToken as string);
+
+				const user = await getUserByEmail(decoded.email);
+
+				if (!user) return null;
+
+				return {
+					...user,
+					...tokens,
+				};
 			},
 		}),
 	],
@@ -26,37 +46,40 @@ export const authOptions: NextAuthConfig = {
 
 			return !!auth;
 		},
-		async session({ session, token, user }) {
-			if (session.user && token.id) session.user.id = token.id as string;
-			return session;
-		},
-		async jwt({ token, account, profile }) {
-			// if (account && profile) token.id = profile.sub; // 사용자 ID
-			if (account && profile) token.id = 'user-999'; // 사용자 ID
+		async jwt({ token, user, trigger, session }) {
+			if (user && user) {
+				token = {
+					id: user.id!,
+					name: user.name!,
+					nickname: user.nickname!,
+					role: user.role!,
+					email: user.email!,
+					accessToken: user.accessToken!,
+					refreshToken: user.refreshToken!,
+				};
+			}
+
 			return token;
 		},
-		async signIn({ user, account, profile }) {
-			const { name, email, image } = user;
-			if (!name || !email || !image) return false;
+		async session({ session, token }) {
+			const { accessToken, refreshToken, ...user } = token;
+			session.user = {
+				...session.user,
+				id: user.id!,
+				name: user.name!,
+				nickname: user.nickname!,
+				role: user.role!,
+				email: user.email!,
+			};
+			session.accessToken = accessToken;
+			session.refreshToken = refreshToken;
 
-			await createUser({ name, email, image });
-
-			return true;
-		},
-		async redirect({ url, baseUrl }) {
-			if (url === '/') return baseUrl;
-			// 로그인 후 이동 페이지
-			return `${baseUrl}/home`;
+			return session;
 		},
 	},
-	session: {
-		strategy: 'jwt',
-		maxAge: 60 * 10, // 세션 만료 시간(sec)
+	logger: {
+		error: () => {},
 	},
-	pages: {
-		signIn: '/signin',
-	},
-	secret: process.env.JWT_SECRET,
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

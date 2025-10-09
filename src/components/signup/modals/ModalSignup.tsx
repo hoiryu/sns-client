@@ -1,9 +1,12 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
+import { createUser } from '~apis/user';
+import { IAuthTokens } from '~models/api';
 import { ISignupSchema, signupSchema } from '~schemas/signup';
+import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~src/consts/image';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
@@ -22,6 +25,7 @@ const ModalSignup = () => {
 		defaultValues: {
 			email: '',
 			password: '',
+			name: '',
 			nickname: '',
 			image: [],
 		},
@@ -29,8 +33,25 @@ const ModalSignup = () => {
 	});
 
 	const handleSubmit = async (data: ISignupSchema) => {
-		alert(JSON.stringify(data, ['email', 'password', 'nickname'], 2));
-		console.log(data.image);
+		const { name, nickname, email, password } = data;
+		try {
+			const tokens = await createUser<IAuthTokens>({
+				email,
+				password,
+				name,
+				nickname,
+				image: '',
+			});
+
+			await signIn('credentials', {
+				accessToken: tokens.accessToken,
+				refreshToken: tokens.refreshToken,
+				redirect: false,
+				redirectTo: '/home',
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const handleClose = () => router.back();
@@ -55,6 +76,14 @@ const ModalSignup = () => {
 						autoComplete: 'on',
 					}}
 					name='password'
+					control={control}
+					formState={formState}
+				/>
+				<ControllerTextField<ISignupSchema>
+					fieldProps={{
+						label: 'name',
+					}}
+					name='name'
 					control={control}
 					formState={formState}
 				/>

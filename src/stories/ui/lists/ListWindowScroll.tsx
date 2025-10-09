@@ -2,6 +2,7 @@
 import { InfiniteData, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { ElementType, Fragment, useEffect, useMemo, useRef } from 'react';
+import { IPaginate } from '~models/api';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import ProgressCircular from '~stories/ui/progress/ProgressCircular';
@@ -10,7 +11,7 @@ import { cn } from '~utils/cn';
 interface IProps {
 	component: ElementType; // UI
 	componentEmpty: ElementType; // No data UI
-	query: UseSuspenseInfiniteQueryResult<InfiniteData<Object>, Error>;
+	query: UseSuspenseInfiniteQueryResult<InfiniteData<IPaginate<object>>, Error>;
 	size?: number;
 }
 
@@ -26,12 +27,16 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 	const Component = useMemo(() => component, []);
 	const ComponentEmpty = useMemo(() => componentEmpty, []);
 	const ref = useRef<HTMLDivElement | null>(null);
-	const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
-	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
+	const { data, status, isFetchingNextPage, fetchNextPage } = query;
+	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d.data) : []), [data.pages]);
+	const hasNextPage = useMemo(
+		() => !!(data.pages.at(-1)?.cursor.after && data.pages.at(-1)?.next),
+		[data.pages],
+	);
 
 	const virtualizer = useWindowVirtualizer({
 		count: hasNextPage ? totalRows.length + 1 : totalRows.length,
-		overscan: 1,
+		overscan: 2,
 		scrollMargin: ref.current?.offsetTop ?? 0,
 		estimateSize: () => size || 100,
 		measureElement: size ? undefined : el => el.getBoundingClientRect().height,
@@ -45,8 +50,6 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 	useEffect(() => {
 		const lastItem = virtualItems.at(-1);
 		if (!lastItem) return;
-
-		// 다음 Cursor 요청
 		if (lastItem.index > totalRows.length - 1 && hasNextPage && !isFetchingNextPage)
 			fetchNextPage();
 	}, [hasNextPage, fetchNextPage, totalRows.length, isFetchingNextPage, virtualItems]);
@@ -84,16 +87,6 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 											}
 										/>
 									)}
-									{/* {!hasNextPage && (
-										<Typography
-											className={cn('absolute top-0 left-0 z-10 w-full')}
-											children='Nothing more to load'
-											style={{
-												height: `${size ? `${size}px` : undefined}`,
-												translate: `0 ${start - virtualizer.options.scrollMargin}px`,
-											}}
-										/>
-									)} */}
 								</Fragment>
 							);
 

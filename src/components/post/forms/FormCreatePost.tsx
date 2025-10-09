@@ -2,8 +2,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~constants/image';
 import { createPostSchema, ICreatePostSchema } from '~schemas/post';
+import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~src/consts/image';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import Box from '~stories/ui/containers/Box';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';

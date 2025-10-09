@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
-import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,15 +30,15 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 	} = useForm<IUpdatePostSchema>({
 		resolver: zodResolver(updatePostSchema),
 		defaultValues: async () => {
-			const { chat, repost, favorite } = data;
-			const checkedChat = _.includes(chat, session?.user?.id);
-			const checkedRepost = _.includes(repost, session?.user?.id);
-			const checkedFavorite = _.includes(favorite, session?.user?.id);
+			// const { chat, repost, favorite } = data;
+			// const checkedChat = _.includes(chat, session?.author?.id);
+			// const checkedRepost = _.includes(repost, session?.author?.id);
+			// const checkedFavorite = _.includes(favorite, session?.author?.id);
 
 			return {
-				chat: checkedChat,
-				repost: checkedRepost,
-				favorite: checkedFavorite,
+				chat: false,
+				repost: false,
+				favorite: false,
 			};
 		},
 		mode: 'onChange',
@@ -60,44 +59,39 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 				<Box className={cn('grid grid-cols-1 gap-1')}>
 					<ListItem
 						component={Link}
-						href={`/${data.user.name}`}
+						href={`/${data.author.name}`}
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
-						<Avatar src={data.user.image} classes={{ root: cn('h-8 w-8') }} />
+						<Avatar src={data.author.image} classes={{ root: cn('h-8 w-8') }} />
 						<Typography
 							className={cn('truncate text-sm')}
-							children={`${data.user.name}`}
+							children={`${data.author.name}`}
 						/>
 						<Typography
 							className={cn('truncate text-sm')}
-							children={`${data.user.email}`}
+							children={`${data.author.email}`}
 						/>
 						<Typography
 							className={cn('truncate text-xs text-gray-300')}
-							children={formatTimeAgo(data.createAt)}
-						/>
-						<Typography
-							className={cn('truncate text-xs text-neutral-500')}
-							children={data.category}
+							children={formatTimeAgo(data.createdAt)}
 						/>
 					</ListItem>
-					<Typography
-						className={cn('truncate text-sm')}
-						children={`${data.description}`}
-					/>
+					<Typography className={cn('truncate text-sm')} children={`${data.content}`} />
 				</Box>
 				<ListItem
 					component={Link}
-					href={`/${data.user.name}/${data.id}`}
+					href={`/${data.author.name}/${data.id}`}
 					className={cn('relative overflow-hidden rounded-2xl p-0')}
 				>
-					<Image
-						src={data.image}
-						fill
-						className={'object-cover'}
-						sizes='200px'
-						alt={`${data.user.name} 의 이미지`}
-					/>
+					{data.images.length && (
+						<Image
+							src={data.images[0].path}
+							fill
+							className={'object-cover'}
+							sizes='200px'
+							alt={`${data.author.name} 의 이미지`}
+						/>
+					)}
 				</ListItem>
 				<Box component='form' className='flex items-center justify-between'>
 					<Box className={cn('flex items-center')}>
@@ -107,7 +101,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 							formState={formState}
 							onChange={zodSubmit(handleSubmit)}
 						/>
-						<Typography children={data.chat.length} />
+						{/* <Typography children={data.chat.length} /> */}
 					</Box>
 					<Box className={cn('flex items-center')}>
 						<CheckboxRepost
@@ -116,7 +110,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 							formState={formState}
 							onChange={zodSubmit(handleSubmit)}
 						/>
-						<Typography children={data.repost.length} />
+						{/* <Typography children={data.repost.length} /> */}
 					</Box>
 					<Box className={cn('flex items-center')}>
 						<CheckboxFavorite<IUpdatePostSchema>
@@ -125,7 +119,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 							formState={formState}
 							onChange={zodSubmit(handleSubmit)}
 						/>
-						<Typography children={data.favorite.length} />
+						{/* <Typography children={data.favorite.length} /> */}
 					</Box>
 				</Box>
 			</Container>

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { factory, primaryKey } from '@mswjs/data';
 import _ from 'lodash';
-import { CATEGORYS_POST } from '~constants/post';
+import { CATEGORYS_POST } from '~src/consts/post';
 
 const schemaUser = {
 	id: primaryKey(String),

@@ -1,5 +1,5 @@
-import ModalLogin from '~components/login/modals/ModalLogin';
+import ModalSignin from '~components/signin/modals/ModalSignin';
 
-const Page = () => <ModalLogin />;
+const Page = () => <ModalSignin />;
 
 export default Page;

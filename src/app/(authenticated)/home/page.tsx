@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 	description: 'Home Description',
 };
 
-const Page = () => {
+const Page = async () => {
 	return (
 		<Container component='section'>
 			<TabsPost />

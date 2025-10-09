@@ -1,9 +1,7 @@
 'use client';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import ListFixedScrollFollows from '~components/follow/lists/ListFixedScrollFollows';
 import FormSearch from '~components/search/forms/FormSearch';
 import Container from '~stories/ui/containers/Container';
-import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 const SidebarRight = () => {
@@ -21,7 +19,7 @@ const SidebarRight = () => {
 					</Container>
 				</>
 			)}
-			<Container component='section'>
+			{/* <Container component='section'>
 				<Typography className={cn('p-4')} children='People to follow' />
 				<Container
 					className={cn(
@@ -30,7 +28,7 @@ const SidebarRight = () => {
 				>
 					<ListFixedScrollFollows />
 				</Container>
-			</Container>
+			</Container> */}
 		</Container>
 	);
 };

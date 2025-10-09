@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { COLORS } from '~constants/ui/input';
+import { COLORS } from '~src/consts/ui/input';
 import FileField from '~stories/ui/inputs/files/FileField';
 
 const meta = {
