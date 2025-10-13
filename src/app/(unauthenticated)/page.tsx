@@ -20,14 +20,6 @@ const Page = ({ children }: Readonly<IProps>) => {
 				variant='outlined'
 				children='signup'
 			/>
-			<Button
-				component={Link}
-				href='/home'
-				color='info'
-				variant='outlined'
-				scroll={false}
-				children='home'
-			/>
 			{children}
 		</Box>
 	);

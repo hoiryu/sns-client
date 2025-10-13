@@ -25,17 +25,6 @@ export const createUser = async <T>({
 	});
 
 /**
- * 로그인하기
- */
-export const postSignin = async <T>({ email, password }: { email: string; password: string }) =>
-	httpClient.fetch<T>('/auth/signin/email', {
-		method: 'POST',
-		headers: {
-			authorization: `Basic ${Buffer.from(`${email}:${password}`, 'utf-8').toString('base64')}`,
-		},
-	});
-
-/**
  * 모든 Users 가져오기
  */
 export const getUsers: QueryFunction<IDataUser[], string[], string> = context =>

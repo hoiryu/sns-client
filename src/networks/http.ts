@@ -1,13 +1,5 @@
 import { IRequestInit } from '~models/api';
 
-// interface IHttpClient {
-// 	/**
-// 	 * Fetch
-// 	 * T: Response data
-// 	 */
-// 	fetch: <T>(url: string, options: IRequestInit) => Promise<T>;
-// }
-
 class HttpClient {
 	private readonly baseURL?: string;
 
