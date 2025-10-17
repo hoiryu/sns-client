@@ -29,14 +29,26 @@ const MemuAccount = () => {
 			<Tooltip
 				title='프로필 설정'
 				children={
-					<ButtonIcon
-						size='small'
-						aria-controls='프로필 메뉴'
-						aria-haspopup='menu'
-						aria-expanded={open}
-						children={<Avatar src={session?.user?.image || undefined} />}
-						onClick={handleClick}
-					/>
+					<Box className={cn('flex items-center')}>
+						<ButtonIcon
+							size='small'
+							aria-controls='프로필 메뉴'
+							aria-haspopup='menu'
+							aria-expanded={open}
+							children={<Avatar src={session?.user?.image || undefined} />}
+							onClick={handleClick}
+						/>
+						<Box>
+							<Typography
+								className={cn('text-sm')}
+								children={session?.user.nickname}
+							/>
+							<Typography
+								className={cn('text-sm text-neutral-400')}
+								children={session?.user.name}
+							/>
+						</Box>
+					</Box>
 				}
 			/>
 
@@ -48,11 +60,6 @@ const MemuAccount = () => {
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 				onClose={handleClose}
 			>
-				<Typography
-					className={cn('flex items-center px-3 py-2 text-sm')}
-					children={session?.user?.nickname}
-				/>
-
 				<MenuItem
 					className={cn('justify-center')}
 					disableRipple

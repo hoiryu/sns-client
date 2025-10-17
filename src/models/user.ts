@@ -1,5 +1,6 @@
-export interface IDataUser {
-	id: string;
+import { IDataBase } from '~models/base';
+
+export interface IDataUser extends IDataBase {
 	name: string;
 	nickname: string;
 	email: string;
@@ -7,10 +8,4 @@ export interface IDataUser {
 	role: 'ADMIN' | 'USER';
 	followerCount: number;
 	followingCount: number;
-	updatedAt: string;
-	createdAt: string;
-}
-
-export interface ICreateUser extends Pick<IDataUser, 'name' | 'nickname' | 'email'> {
-	password: string;
 }

@@ -1,5 +1,5 @@
 import z from 'zod';
-import { imageSchema } from '~schemas/file';
+import { schemaImage } from '~schemas/file';
 
 export const signupSchema = z.object({
 	email: z.email({
@@ -15,7 +15,7 @@ export const signupSchema = z.object({
 	// }),
 	name: z.string().min(2, { message: '최소 2개 이상' }),
 	nickname: z.string().min(2, { message: '최소 2개 이상' }),
-	image: z.array(imageSchema), //
+	image: z.array(schemaImage), //
 	// .min(1, '최소 1개 필요')
 	// .max(1, '최대 1개만 가능'),
 });

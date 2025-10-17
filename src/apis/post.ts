@@ -2,7 +2,21 @@ import { QueryFunction } from '@tanstack/react-query';
 import { IPaginate } from '~models/api';
 import { IDataPost } from '~models/post';
 import httpClient from '~networks/http';
+import { ISchemaCreatePost } from '~schemas/post';
 import { LIMIT_POST } from '~src/consts/post';
+
+/**
+ * Post 생성하기
+ */
+export const postPost = async (token: string, data: ISchemaCreatePost) =>
+	httpClient.fetch('/posts', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(data),
+	});
 
 /**
  * Post 가져오기 (Query String)
@@ -10,9 +24,6 @@ import { LIMIT_POST } from '~src/consts/post';
 export const getPosts: QueryFunction<IPaginate<IDataPost[]>, string[], string> = async query => {
 	return httpClient.fetch<IPaginate<IDataPost[]>>(`${query.pageParam}`, {
 		method: 'GET',
-		// headers: {
-		// 	authorization: `Bearer ${session.data?.accessToken}`,
-		// },
 		next: {
 			tags: ['posts'],
 		},

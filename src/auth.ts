@@ -1,13 +1,18 @@
 import { jwtDecode } from 'jwt-decode';
 import NextAuth, { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { postSignin, rotateAccessToken } from '~apis/auth';
+import { postSignin, rotateAccessToken, rotateRefreshToken } from '~apis/auth';
 import { getUserByEmail } from '~apis/user';
 import { IAuthTokens } from '~models/api';
 import { IDataUser } from '~models/user';
 import { isTokenExpired, isTokenExpiringSoon } from '~utils/token';
 
 export const authOptions: NextAuthConfig = {
+	session: {
+		strategy: 'jwt',
+		maxAge: 60 * 60 * 24 * 7, // 1주일
+		updateAge: 120,
+	},
 	providers: [
 		Credentials({
 			async authorize(credentials) {
@@ -18,9 +23,12 @@ export const authOptions: NextAuthConfig = {
 					email: email as string,
 					password: password as string,
 				});
-				if (!tokens) return null;
 
-				const decoded = jwtDecode<IDataUser>(tokens.accessToken as string);
+				if (!tokens.accessToken || !tokens.refreshToken) return null;
+
+				const decoded = jwtDecode<Pick<IDataUser, 'id' | 'email' | 'name'>>(
+					tokens.accessToken as string,
+				);
 
 				const user = await getUserByEmail(decoded.email);
 				if (!user) return null;
@@ -47,14 +55,25 @@ export const authOptions: NextAuthConfig = {
 		},
 		async jwt({ token, user }) {
 			if (user) {
+				// refreshToken 만료 임박시 재발급
+				if (isTokenExpiringSoon(user.refreshToken)) {
+					const newToken = await rotateRefreshToken<Pick<IAuthTokens, 'refreshToken'>>(
+						user.refreshToken,
+					);
+					user.refreshToken = newToken.refreshToken;
+				}
+
+				// accessToken 만료 임박시 재발급
+				if (isTokenExpiringSoon(user.accessToken)) {
+					const newToken = await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(
+						user.refreshToken,
+					);
+					user.accessToken = newToken.accessToken;
+				}
+
 				token = {
+					...user,
 					id: user.id!,
-					name: user.name!,
-					nickname: user.nickname!,
-					role: user.role!,
-					email: user.email!,
-					accessToken: user.accessToken!,
-					refreshToken: user.refreshToken!,
 				};
 			}
 
@@ -63,25 +82,11 @@ export const authOptions: NextAuthConfig = {
 		async session({ session, token }) {
 			let { accessToken, refreshToken, ...user } = token;
 
-			if (isTokenExpiringSoon(refreshToken)) {
-				const newToken =
-					await rotateAccessToken<Pick<IAuthTokens, 'refreshToken'>>(refreshToken);
-				refreshToken = newToken.refreshToken;
-			}
-
-			if (isTokenExpiringSoon(accessToken)) {
-				const newToken =
-					await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(refreshToken);
-				accessToken = newToken.accessToken;
-			}
-
 			session.user = {
 				...session.user,
-				id: user.id!,
-				name: user.name!,
-				nickname: user.nickname!,
-				role: user.role!,
+				...user,
 				email: user.email!,
+				name: user.name!,
 			};
 
 			session.accessToken = accessToken;

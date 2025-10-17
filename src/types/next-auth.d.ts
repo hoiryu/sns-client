@@ -5,18 +5,15 @@ import { IDataUser } from '~models/user';
 
 // Session 타입 확장
 declare module 'next-auth' {
-	interface Session extends IAuthTokens {
-		user: Omit<IDataUser, 'createdAt' | 'updatedAt' | 'followerCount' | 'followingCount'>;
-	}
+	// authorize()에서 반환하는 user 객체의 shape
+	interface User extends IDataUser, IAuthTokens {}
 
-	interface User
-		extends Omit<IDataUser, 'createdAt' | 'updatedAt' | 'followerCount' | 'followingCount'>,
-			IAuthTokens {}
+	interface Session extends IAuthTokens {
+		user: IDataUser;
+	}
 }
 
 // JWT 타입 확장
 declare module 'next-auth/jwt' {
-	interface JWT
-		extends Omit<IDataUser, 'createdAt' | 'updatedAt' | 'followerCount' | 'followingCount'>,
-			IAuthTokens {}
+	interface JWT extends IAuthTokens, Omit<IDataUser, 'image'> {}
 }

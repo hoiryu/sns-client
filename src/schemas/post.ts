@@ -1,12 +1,16 @@
 import z from 'zod';
-import { imageSchema } from '~schemas/file';
 
-export const createPostSchema = z.object({
-	description: z.string().trim(),
-	image: z.array(imageSchema).min(1, '최소 1개 필요').max(1, '최대 1개만 가능'),
+/**
+ * Post 생성 스키마
+ * @property description: 본문
+ * @property images: Post 이미지들
+ */
+export const schemaCreatePost = z.object({
+	content: z.string().trim(),
+	images: z.array(z.string()),
 });
 
-export interface ICreatePostSchema extends z.infer<typeof createPostSchema> {}
+export interface ISchemaCreatePost extends z.infer<typeof schemaCreatePost> {}
 
 export const updatePostSchema = z.object({
 	chat: z.boolean(),

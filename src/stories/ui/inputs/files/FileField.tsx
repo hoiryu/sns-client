@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone';
 import { IFileFieldProps } from '~models/ui/input';
 import Box from '~stories/ui/containers/Box';
 import IconUpload from '~stories/ui/icons/IconUpload';
-import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 const FileField = ({
@@ -33,21 +32,8 @@ const FileField = ({
 					sx={{ color: `var(--color-${color}-${mode})` }}
 					{...rootProps}
 				>
-					{!acceptedFiles.length && <IconUpload />}
+					<IconUpload />
 					<input {...getInputProps()} />
-					{!!acceptedFiles.length && (
-						<ul
-							className={cn(
-								'absolute top-1/2 left-1/2 flex w-full -translate-1/2 flex-wrap justify-center gap-2',
-							)}
-						>
-							{acceptedFiles.map(f => (
-								<li key={`${f.name}-${f.size}-${f.lastModified}`}>
-									<Typography>{f.name}</Typography>
-								</li>
-							))}
-						</ul>
-					)}
 					{error && <FormHelperText error children={helperText} />}
 				</Box>
 			);

@@ -1,5 +1,5 @@
-interface IDataBase {
-	id: number;
+export interface IDataBase {
+	id: string;
 	updatedAt: string;
 	createdAt: string;
 }

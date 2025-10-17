@@ -13,6 +13,7 @@ import { IUpdatePostSchema, updatePostSchema } from '~schemas/post';
 import Box from '~stories/ui/containers/Box';
 import ListItem from '~stories/ui/lists/ListItem';
 import Avatar from '~stories/ui/profiles/Avatar';
+import Slides from '~stories/ui/slides/Slides';
 import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 import { formatTimeAgo } from '~utils/date';
@@ -83,13 +84,19 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 					href={`/${data.author.name}/${data.id}`}
 					className={cn('relative overflow-hidden rounded-2xl p-0')}
 				>
-					{data.images.length && (
-						<Image
-							src={data.images[0].path}
-							fill
-							className={'object-cover'}
-							sizes='200px'
-							alt={`${data.author.name} 의 이미지`}
+					{data.images.length > 0 && (
+						<Slides
+							className={cn('rounded-2xl')}
+							height={338}
+							slides={data.images.map(image => (
+								<Image
+									className={cn('object-cover')}
+									src={image.path}
+									alt={`post-${image.id}`}
+									fill
+									sizes='200px'
+								/>
+							))}
 						/>
 					)}
 				</ListItem>

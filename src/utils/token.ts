@@ -15,15 +15,16 @@ export const isTokenExpired = (token: string) => {
 };
 
 /**
- * Token 유효기간 검증
+ * Token 유효시간 검증
  * @description 남은 시간이 leewaySec 이하면 true
  */
-export const isTokenExpiringSoon = (token: string, leewaySec = 30) => {
+export const isTokenExpiringSoon = (token: string, leewaySec = 60) => {
 	if (!token) return false;
 
 	const { exp } = jwtDecode(token);
 	if (!exp) return false;
 
 	const now = Math.floor(Date.now() / 1000);
+	console.log(exp - now);
 	return exp - now <= leewaySec;
 };

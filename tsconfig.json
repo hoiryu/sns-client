@@ -44,8 +44,8 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"src/hooks/useAutoHeight.tx",
-		"**/*.d.ts"
+		"src/types/**/*"
+		// "**/*.d.ts"
 	],
 	"exclude": ["node_modules"]
 }

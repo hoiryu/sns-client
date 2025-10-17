@@ -13,12 +13,12 @@ const Modal = ({ children, size = 'medium', ...props }: IProps) => (
 	<MuiModal {...props}>
 		<Box
 			className={cn(
-				'bg-light dark:bg-dark absolute top-1/2 left-1/2 w-7/10 -translate-1/2 rounded-lg p-5 shadow-2xl',
+				'bg-light dark:bg-dark absolute top-1/2 left-1/2 w-8/10 -translate-1/2 rounded-lg p-5 shadow-2xl',
 				{
-					'lg:w-3/10': size === 'xsmall',
-					'lg:w-5/10': size === 'small',
-					'lg:w-7/10': size === 'medium',
-					'lg:w-9/10': size === 'large',
+					'xl:w-3/10': size === 'xsmall',
+					'xl:w-5/10': size === 'small',
+					'xl:w-7/10': size === 'medium',
+					'xl:w-9/10': size === 'large',
 				},
 			)}
 		>

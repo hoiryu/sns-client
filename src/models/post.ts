@@ -1,3 +1,4 @@
+import { IDataBase } from '~models/base';
 import { IDataUser } from '~models/user';
 import { CATEGORYS_POST } from '~src/consts/post';
 

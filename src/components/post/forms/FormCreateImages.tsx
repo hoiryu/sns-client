@@ -1,36 +1,39 @@
 'use client';
-
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { postPost } from '~apis/post';
+import { postImages } from '~apis/common';
+import { ISchemaCreateImages } from '~schemas/common';
 import { ISchemaCreatePost } from '~schemas/post';
-import userService from '~services/userService';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import Box from '~stories/ui/containers/Box';
-import ControllerTextareaField from '~stories/ui/inputs/texts/ControllerTextareaField';
+import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 interface IProps {
-	maxRows: number;
-	minRows: number;
 	formPost: UseFormReturn<ISchemaCreatePost>;
+	formImages: UseFormReturn<ISchemaCreateImages>;
 }
 
-const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
-	const { data: session } = userService.getMe();
-
+const FormCreateImages = ({ formPost, formImages }: IProps) => {
 	const [loading, setLoading] = useState(false);
 
-	const handlePrev = () => formPost.reset();
+	const handlePrev = () => {
+		formImages.reset();
+		formPost.reset();
+	};
 
-	const handleSubmit = async (data: ISchemaCreatePost) => {
-		if (!session?.accessToken) return;
-
+	const handleSubmit = async (data: ISchemaCreateImages) => {
 		setLoading(true);
-		console.log(data);
+
+		const fd = new FormData();
+
+		data.images.map(async file => fd.append('images', file));
+
 		try {
-			const res = await postPost(session.accessToken, data);
+			const res = await postImages(fd);
+
+			formPost.setValue('images', [...res.files]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -44,7 +47,7 @@ const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
 				<ControllerButton
 					variant='outlined'
 					children='Prev'
-					formState={formPost.formState}
+					formState={formImages.formState}
 					loading={loading}
 					onClick={handlePrev}
 				/>
@@ -56,27 +59,24 @@ const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
 					variant='outlined'
 					children='Next'
 					loading={loading}
-					formState={formPost.formState}
-					onClick={formPost.handleSubmit(handleSubmit)}
+					formState={formImages.formState}
+					onClick={formImages.handleSubmit(handleSubmit)}
 				/>
 			</Box>
 
-			<Box>
-				<ControllerTextareaField
+			<Box className={cn('col-span-2')}>
+				<ControllerFileField<ISchemaCreateImages>
 					fieldProps={{
-						className: cn('rounded-2xl border p-2 outline-none'),
-						maxRows,
-						minRows,
-						'aria-label': 'Create Post',
-						placeholder: 'Create Post',
+						className: cn('px-2 py-6'),
+						color: 'info',
 					}}
-					name='content'
-					control={formPost.control}
-					formState={formPost.formState}
+					name='images'
+					control={formImages.control}
+					formState={formImages.formState}
 				/>
 			</Box>
 		</>
 	);
 };
 
-export default FormCreatePost;
+export default FormCreateImages;
