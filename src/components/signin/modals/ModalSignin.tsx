@@ -1,10 +1,11 @@
 'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { ILoginSchema, loginSchema } from '~schemas/login';
+import { ISchemaSignin, schemaSignin } from '~schemas/signin';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
@@ -13,13 +14,14 @@ import { cn } from '~utils/cn';
 
 const ModalSignin = () => {
 	const router = useRouter();
+
 	const {
 		control,
 		handleSubmit: zodSubmit,
 		formState,
 		setError,
-	} = useForm<ILoginSchema>({
-		resolver: zodResolver(loginSchema),
+	} = useForm<ISchemaSignin>({
+		resolver: zodResolver(schemaSignin),
 		defaultValues: {
 			email: '',
 			password: '',
@@ -27,7 +29,7 @@ const ModalSignin = () => {
 		mode: 'onChange',
 	});
 
-	const handleSubmit = async (data: ILoginSchema) => {
+	const handleSubmit = async (data: ISchemaSignin) => {
 		const res = await signIn('credentials', {
 			email: data.email,
 			password: data.password,
@@ -48,7 +50,7 @@ const ModalSignin = () => {
 		<Modal open size='small' disablePortal onClose={handleClose}>
 			<form className={cn('flex flex-col gap-7')} onSubmit={zodSubmit(handleSubmit)}>
 				<Typography variant='h4' align='center' children='로그인' />
-				<ControllerTextField<ILoginSchema>
+				<ControllerTextField<ISchemaSignin>
 					fieldProps={{
 						type: 'email',
 						label: 'email',
@@ -58,7 +60,7 @@ const ModalSignin = () => {
 					control={control}
 					formState={formState}
 				/>
-				<ControllerTextField<ILoginSchema>
+				<ControllerTextField<ISchemaSignin>
 					fieldProps={{
 						type: 'password',
 						label: 'password',
@@ -71,7 +73,6 @@ const ModalSignin = () => {
 				/>
 
 				<ControllerButton type='submit' children='login' formState={formState} />
-				{/* <Button children='Google Login' onClick={handleSignin} /> */}
 			</form>
 		</Modal>
 	);

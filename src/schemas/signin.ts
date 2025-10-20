@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const loginSchema = z.object({
+export const schemaSignin = z.object({
 	email: z.email({
 		error: '이메일 형식이 아닙니다.',
 	}),
@@ -14,4 +14,4 @@ export const loginSchema = z.object({
 	// }),
 });
 
-export interface ILoginSchema extends z.infer<typeof loginSchema> {}
+export interface ISchemaSignin extends z.infer<typeof schemaSignin> {}

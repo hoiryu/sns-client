@@ -16,6 +16,7 @@ export const authOptions: NextAuthConfig = {
 		Credentials({
 			async authorize(credentials) {
 				const { email, password } = credentials;
+
 				if (!email || !password) return null;
 
 				const tokens = await postSignin<IAuthTokens>({
@@ -30,6 +31,7 @@ export const authOptions: NextAuthConfig = {
 				);
 
 				const user = await getUserByEmail(decoded.email);
+
 				if (!user) return null;
 
 				return {
@@ -52,14 +54,18 @@ export const authOptions: NextAuthConfig = {
 
 			return isTokenExpired(auth?.accessToken as string);
 		},
-		async jwt({ token }) {
+		async jwt({ token, user }) {
+			if (user)
+				token = {
+					...token,
+					...user,
+				};
+
 			// refreshToken 만료 임박시 재발급
 			if (isTokenExpiringSoon(token.refreshToken)) {
 				const newToken = await rotateRefreshToken<Pick<IAuthTokens, 'refreshToken'>>(
 					token.refreshToken,
 				);
-
-				console.log('refreshToken 실행');
 
 				token.refreshToken = newToken.refreshToken;
 			}
@@ -69,8 +75,6 @@ export const authOptions: NextAuthConfig = {
 				const newToken = await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(
 					token.refreshToken,
 				);
-
-				console.log('accessToken 실행');
 
 				token.accessToken = newToken.accessToken;
 			}
