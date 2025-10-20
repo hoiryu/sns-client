@@ -15,7 +15,7 @@ const ListWindowScrollPosts = ({ query }: IProps) => (
 		component={ListItemPost}
 		componentEmpty={ListItemEmptyPost}
 		query={query}
-		size={400}
+		size={700}
 	/>
 );
 

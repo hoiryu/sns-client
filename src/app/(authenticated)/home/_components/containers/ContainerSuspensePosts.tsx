@@ -4,6 +4,7 @@ import postService from '~services/postService';
 
 const ContainerSuspensePosts = async () => {
 	const queryClient = new QueryClient();
+
 	await postService.prefetchPosts(queryClient);
 
 	return (

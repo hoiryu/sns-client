@@ -59,6 +59,7 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 			{status === 'success' && !data.pages[0] && <ComponentEmpty />}
 			{status === 'success' && data.pages[0] && (
 				<Box
+					component='ul'
 					className={cn('relative w-full')}
 					style={{ height: virtualizer.getTotalSize() }}
 				>

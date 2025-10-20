@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { SwiperSlide } from 'swiper/react';
 import FormCreateImages from '~components/post/forms/FormCreateImages';
 import FormCreatePost from '~components/post/forms/FormCreatePost';
 import { ISchemaCreateImages, schemaCreateImages } from '~schemas/common';
@@ -68,14 +69,19 @@ const ModalCreatePost = () => {
 					<Box>
 						<Slides
 							className={cn('rounded-2xl')}
-							height={338}
-							slides={previews.map((p, i) => (
-								<Image
-									src={p.url}
-									alt={p.name || `preview-${i}`}
-									fill
-									className={cn('object-cover')}
-									sizes='200px'
+							children={previews.map((p, i) => (
+								<SwiperSlide
+									key={`${p.name}-${i}`}
+									style={{ height: '300px' }}
+									children={
+										<Image
+											src={p.url}
+											alt={p.name || `preview-${i}`}
+											fill
+											className={cn('object-cover')}
+											sizes='200px'
+										/>
+									}
 								/>
 							))}
 						/>

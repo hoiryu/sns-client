@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { SwiperSlide } from 'swiper/react';
 import CheckboxChat from '~components/post/checkboxs/CheckboxChat';
 import CheckboxFavorite from '~components/post/checkboxs/CheckboxFavorite';
 import CheckboxRepost from '~components/post/checkboxs/CheckboxRepost';
@@ -24,6 +25,7 @@ interface IProps extends IListItemProps {
 
 const ListItemPost = ({ data, ...props }: IProps) => {
 	const { data: session } = useSession();
+
 	const {
 		control,
 		handleSubmit: zodSubmit,
@@ -50,12 +52,10 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 	};
 
 	return (
-		<ListItem {...props}>
+		<ListItem disablePadding {...props}>
 			<Container
 				component='section'
-				className={cn(
-					'grid h-full w-full grid-cols-1 grid-rows-[auto_1fr_auto] justify-between gap-2',
-				)}
+				className={cn('grid h-full grid-cols-1 grid-rows-[auto_1fr_auto] gap-4 py-6')}
 			>
 				<Box className={cn('grid grid-cols-1 gap-1')}>
 					<ListItem
@@ -64,42 +64,53 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
 						<Avatar src={data.author.image} classes={{ root: cn('h-8 w-8') }} />
+
 						<Typography
 							className={cn('truncate text-sm')}
 							children={`${data.author.name}`}
 						/>
+
 						<Typography
 							className={cn('truncate text-sm')}
 							children={`${data.author.email}`}
 						/>
+
 						<Typography
 							className={cn('truncate text-xs text-gray-300')}
 							children={formatTimeAgo(data.createdAt)}
 						/>
 					</ListItem>
+
 					<Typography className={cn('truncate text-sm')} children={`${data.content}`} />
 				</Box>
+
 				<ListItem
 					component={Link}
 					href={`/${data.author.name}/${data.id}`}
-					className={cn('relative overflow-hidden rounded-2xl p-0')}
+					disablePadding
+					style={{ height: '100%' }}
 				>
-					{data.images.length > 0 && (
-						<Slides
-							className={cn('rounded-2xl')}
-							height={338}
-							slides={data.images.map(image => (
-								<Image
-									className={cn('object-cover')}
-									src={image.path}
-									alt={`post-${image.id}`}
-									fill
-									sizes='200px'
-								/>
-							))}
-						/>
-					)}
+					<Slides
+						className={cn('h-full rounded-2xl')}
+						children={data.images.map(image => (
+							<SwiperSlide
+								key={`slide-${image.id}`}
+								style={{ height: '100%' }}
+								children={
+									<Image
+										key={`image-${image.id}`}
+										className={cn('object-cover')}
+										src={image.path}
+										alt={`post-${image.id}`}
+										fill
+										sizes='200px'
+									/>
+								}
+							/>
+						))}
+					/>
 				</ListItem>
+
 				<Box component='form' className='flex items-center justify-between'>
 					<Box className={cn('flex items-center')}>
 						<CheckboxChat<IUpdatePostSchema>
@@ -110,6 +121,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						/>
 						{/* <Typography children={data.chat.length} /> */}
 					</Box>
+
 					<Box className={cn('flex items-center')}>
 						<CheckboxRepost
 							name='repost'
@@ -119,6 +131,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 						/>
 						{/* <Typography children={data.repost.length} /> */}
 					</Box>
+
 					<Box className={cn('flex items-center')}>
 						<CheckboxFavorite<IUpdatePostSchema>
 							name='favorite'
