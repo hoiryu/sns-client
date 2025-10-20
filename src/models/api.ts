@@ -29,6 +29,14 @@ export interface IAuthTokens {
 	refreshToken: string;
 }
 
+export interface IJwtPayload {
+	sub: number;
+	email: string;
+	type: 'access' | 'refresh';
+	iat: number;
+	exp: number;
+}
+
 /**
  * Infinite Scroll
  */

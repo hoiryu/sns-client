@@ -1,4 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
+import { IJwtPayload } from '~models/api';
 
 /**
  * Token 만료 검증
@@ -18,13 +19,16 @@ export const isTokenExpired = (token: string) => {
  * Token 유효시간 검증
  * @description 남은 시간이 leewaySec 이하면 true
  */
-export const isTokenExpiringSoon = (token: string, leewaySec = 60) => {
+export const isTokenExpiringSoon = (token: string, leewaySec = 120) => {
 	if (!token) return false;
 
-	const { exp } = jwtDecode(token);
+	const { exp, type } = jwtDecode<IJwtPayload>(token);
+
 	if (!exp) return false;
 
 	const now = Math.floor(Date.now() / 1000);
-	console.log(exp - now);
+
+	console.info(`${type} 의 남은 시간:`, exp - now);
+
 	return exp - now <= leewaySec;
 };

@@ -11,7 +11,6 @@ export const authOptions: NextAuthConfig = {
 	session: {
 		strategy: 'jwt',
 		maxAge: 60 * 60 * 24 * 7, // 1주일
-		updateAge: 120,
 	},
 	providers: [
 		Credentials({
@@ -53,28 +52,27 @@ export const authOptions: NextAuthConfig = {
 
 			return isTokenExpired(auth?.accessToken as string);
 		},
-		async jwt({ token, user }) {
-			if (user) {
-				// refreshToken 만료 임박시 재발급
-				if (isTokenExpiringSoon(user.refreshToken)) {
-					const newToken = await rotateRefreshToken<Pick<IAuthTokens, 'refreshToken'>>(
-						user.refreshToken,
-					);
-					user.refreshToken = newToken.refreshToken;
-				}
+		async jwt({ token }) {
+			// refreshToken 만료 임박시 재발급
+			if (isTokenExpiringSoon(token.refreshToken)) {
+				const newToken = await rotateRefreshToken<Pick<IAuthTokens, 'refreshToken'>>(
+					token.refreshToken,
+				);
 
-				// accessToken 만료 임박시 재발급
-				if (isTokenExpiringSoon(user.accessToken)) {
-					const newToken = await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(
-						user.refreshToken,
-					);
-					user.accessToken = newToken.accessToken;
-				}
+				console.log('refreshToken 실행');
 
-				token = {
-					...user,
-					id: user.id!,
-				};
+				token.refreshToken = newToken.refreshToken;
+			}
+
+			// accessToken 만료 임박시 재발급
+			if (isTokenExpiringSoon(token.accessToken)) {
+				const newToken = await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(
+					token.refreshToken,
+				);
+
+				console.log('accessToken 실행');
+
+				token.accessToken = newToken.accessToken;
 			}
 
 			return token;
@@ -90,6 +88,7 @@ export const authOptions: NextAuthConfig = {
 			};
 
 			session.accessToken = accessToken;
+
 			session.refreshToken = refreshToken;
 
 			return session;
