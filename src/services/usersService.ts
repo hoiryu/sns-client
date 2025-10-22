@@ -1,14 +1,8 @@
 'use client';
-import {
-	InfiniteData,
-	useInfiniteQuery,
-	UseInfiniteQueryResult,
-	useQuery,
-	UseQueryResult,
-} from '@tanstack/react-query';
+
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import _ from 'lodash';
 import { useSession } from 'next-auth/react';
-import { IDataUser } from '~models/user';
 import { getUserByName, getUsers } from '~src/apis/user';
 import { MINUTE } from '~src/consts/query';
 import { LIMIT_USER } from '~src/consts/user';
@@ -16,24 +10,12 @@ import { LIMIT_USER } from '~src/consts/user';
 type TUseSessionOptions<T extends boolean> = Parameters<typeof useSession<T>>[0];
 type TUseSessionReturn<T extends boolean> = ReturnType<typeof useSession<T>>;
 
-interface IUserService {
+class UsersService {
+	constructor() {}
+
 	/**
 	 * 현재 User 가져오기
 	 */
-	getMe<T extends boolean>(options?: TUseSessionOptions<T>): TUseSessionReturn<T>;
-	/**
-	 * 모든 User 가져오기
-	 */
-	getUsers(): UseInfiniteQueryResult<InfiniteData<IDataUser[]>>;
-	/**
-	 * 특정 User 가져오기 (Name)
-	 */
-	getUserByName(name: string): UseQueryResult<IDataUser>;
-}
-
-class UserService implements IUserService {
-	constructor() {}
-
 	public getMe<T extends boolean>(options?: TUseSessionOptions<T>): TUseSessionReturn<T> {
 		return useSession<T>(options);
 	}
@@ -62,6 +44,6 @@ class UserService implements IUserService {
 	}
 }
 
-const userService = new UserService();
+const usersService = new UsersService();
 
-export default userService;
+export default usersService;

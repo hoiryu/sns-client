@@ -1,9 +1,9 @@
 'use client';
 import ListWindowScrollPosts from '~components/post/lists/ListWindowScrollPosts';
-import postService from '~services/postService';
+import postsService from '~services/postsService';
 
 const ContainerPosts = () => {
-	const query = postService.usePosts();
+	const query = postsService.getPosts();
 
 	return <ListWindowScrollPosts query={query} />;
 };

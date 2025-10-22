@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import ProviderMSW from '~contexts/ProviderMSW';
 import ProviderQuery from '~contexts/ProviderQuery';
+import ProviderSession from '~contexts/ProviderSession';
 import ProviderTheme, { TDefaultTheme } from '~src/contexts/ProviderTheme';
 import { cn } from '~utils/cn';
 import './globals.css';
@@ -35,9 +36,11 @@ export default async function RootLayout({ children }: Readonly<IProps>) {
 			<body className={cn('font-noto antialiased')}>
 				<ProviderMSW>
 					<ProviderQuery>
-						<AppRouterCacheProvider>
-							<ProviderTheme children={children} />
-						</AppRouterCacheProvider>
+						<ProviderSession>
+							<AppRouterCacheProvider>
+								<ProviderTheme children={children} />
+							</AppRouterCacheProvider>
+						</ProviderSession>
 					</ProviderQuery>
 				</ProviderMSW>
 			</body>

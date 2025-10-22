@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import SidebarNavigation from '~app/(authenticated)/_components/sidebars/SidebarLeft';
 import SidebarSearch from '~app/(authenticated)/_components/sidebars/SidebarRight';
 import Header from '~components/header/Header';
-import ProviderSession from '~contexts/ProviderSession';
 import Container from '~stories/ui/containers/Container';
 import { cn } from '~utils/cn';
 
@@ -12,7 +11,8 @@ interface IProps {
 }
 
 const Layout = ({ children, modal }: IProps) => (
-	<ProviderSession>
+	// <ProviderSession>
+	<>
 		<Container
 			component='main'
 			className={cn('grid min-h-[100dvh] w-[100dvw] grid-rows-[auto_1fr]')}
@@ -25,6 +25,7 @@ const Layout = ({ children, modal }: IProps) => (
 			</Container>
 		</Container>
 		{modal}
-	</ProviderSession>
+	</>
+	// </ProviderSession>
 );
 export default Layout;

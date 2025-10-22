@@ -1,5 +1,5 @@
-import { QueryFunction } from '@tanstack/react-query';
-import { IPaginate } from '~models/api';
+import { MutationFunction, QueryFunction } from '@tanstack/react-query';
+import { IPaginate, IRequest } from '~models/api';
 import { IDataPost } from '~models/post';
 import httpClient from '~networks/http';
 import { ISchemaCreatePost } from '~schemas/post';
@@ -8,14 +8,14 @@ import { LIMIT_POST } from '~src/consts/post';
 /**
  * Post 생성하기
  */
-export const postPost = async (token: string, data: ISchemaCreatePost) =>
-	httpClient.fetch('/posts', {
+export const postPost: MutationFunction<IDataPost, IRequest<ISchemaCreatePost>> = async variables =>
+	httpClient.fetch<IDataPost>('/posts', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${token}`,
+			authorization: `Bearer ${variables.accessToken}`,
 		},
-		body: JSON.stringify(data),
+		body: JSON.stringify(variables.data),
 	});
 
 /**

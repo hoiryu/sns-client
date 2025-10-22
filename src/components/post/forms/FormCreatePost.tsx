@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { UseFormReturn } from 'react-hook-form';
-import { postPost } from '~apis/post';
 import { ISchemaCreatePost } from '~schemas/post';
-import userService from '~services/userService';
+import postsService from '~services/postsService';
+import usersService from '~services/usersService';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
 import Box from '~stories/ui/containers/Box';
 import ControllerTextareaField from '~stories/ui/inputs/texts/ControllerTextareaField';
@@ -18,24 +19,29 @@ interface IProps {
 }
 
 const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
-	const { data: session } = userService.getMe();
+	const queryClient = useQueryClient();
 
-	const [loading, setLoading] = useState(false);
+	const router = useRouter();
+
+	const { data: session } = usersService.getMe();
+
+	const mutation = postsService.postPost();
 
 	const handlePrev = () => formPost.reset();
 
-	const handleSubmit = async (data: ISchemaCreatePost) => {
+	const handleSubmit = (data: ISchemaCreatePost) => {
 		if (!session?.accessToken) return;
 
-		setLoading(true);
-		console.log(data);
-		try {
-			const res = await postPost(session.accessToken, data);
-		} catch (error) {
-			console.log(error);
-		}
-
-		setLoading(false);
+		mutation.mutate(
+			{ data, accessToken: session.accessToken },
+			{
+				onSuccess: async () => {
+					await queryClient.invalidateQueries({ queryKey: ['posts'] });
+					router.back();
+				},
+				onError: console.log,
+			},
+		);
 	};
 
 	return (
@@ -44,8 +50,8 @@ const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
 				<ControllerButton
 					variant='outlined'
 					children='Prev'
+					loading={mutation.isPending}
 					formState={formPost.formState}
-					loading={loading}
 					onClick={handlePrev}
 				/>
 
@@ -55,7 +61,7 @@ const FormCreatePost = ({ maxRows, minRows, formPost }: IProps) => {
 					type='submit'
 					variant='outlined'
 					children='Next'
-					loading={loading}
+					loading={mutation.isPending}
 					formState={formPost.formState}
 					onClick={formPost.handleSubmit(handleSubmit)}
 				/>

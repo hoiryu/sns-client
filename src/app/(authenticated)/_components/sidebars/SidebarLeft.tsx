@@ -3,7 +3,7 @@ import { Tab } from '@mui/material';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
 import ButtonCreatePost from '~components/post/buttons/ButtonCreatePost';
-import userService from '~services/userService';
+import usersService from '~services/usersService';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import IconHome from '~stories/ui/icons/IconHome';
@@ -22,7 +22,7 @@ export interface IMenu {
 
 const SidebarLeft = () => {
 	const segment = useSelectedLayoutSegment();
-	const { data: session } = userService.getMe();
+	const { data: session } = usersService.getMe();
 
 	const menus: IMenu[] = useMemo(
 		() => [

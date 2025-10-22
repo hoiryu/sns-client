@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const Page = async () => {
 	return (
-		<Container component='section' className={cn('px-12')}>
+		<Container component='section' className={cn('max-w-[500px]')}>
 			<Suspense
 				fallback={Array.from({ length: 5 }, (_1, index) => (
 					<ListItemSkeletonPost key={index} />

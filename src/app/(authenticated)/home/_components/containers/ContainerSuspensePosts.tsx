@@ -1,11 +1,11 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import ContainerPosts from '~authenticated/home/_components/containers/ContainerPosts';
-import postService from '~services/postService';
+import postsService from '~services/postsService';
 
 const ContainerSuspensePosts = async () => {
 	const queryClient = new QueryClient();
 
-	await postService.prefetchPosts(queryClient);
+	await postsService.prefetchPosts(queryClient);
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>

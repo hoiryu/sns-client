@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container } from '@mui/material';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -24,7 +23,7 @@ interface IProps extends IListItemProps {
 }
 
 const ListItemPost = ({ data, ...props }: IProps) => {
-	const { data: session } = useSession();
+	// const { data: session } = useSession();
 
 	const {
 		control,
@@ -60,14 +59,14 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 				<Box className={cn('grid grid-cols-1 gap-1')}>
 					<ListItem
 						component={Link}
-						href={`/${data.author.name}`}
+						href={`/${data.author.nickname}`}
 						className={cn('flex max-w-full items-center gap-2 p-0')}
 					>
 						<Avatar src={data.author.image} classes={{ root: cn('h-8 w-8') }} />
 
 						<Typography
 							className={cn('truncate text-sm')}
-							children={`${data.author.name}`}
+							children={`${data.author.nickname}`}
 						/>
 
 						<Typography
@@ -86,7 +85,7 @@ const ListItemPost = ({ data, ...props }: IProps) => {
 
 				<ListItem
 					component={Link}
-					href={`/${data.author.name}/${data.id}`}
+					href={`/${data.author.nickname}/${data.id}`}
 					disablePadding
 					style={{ height: '100%' }}
 				>

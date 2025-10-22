@@ -1,7 +1,7 @@
 'use client';
 import BoxEmptyProfile from '~components/profile/boxs/BoxEmptyProfile';
 import BoxSkeletonProfile from '~components/profile/boxs/BoxSkeletonProfile';
-import userService from '~services/userService';
+import usersService from '~services/usersService';
 import Button from '~stories/ui/buttons/Button';
 import Box from '~stories/ui/containers/Box';
 import Avatar from '~stories/ui/profiles/Avatar';
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const BoxProfile = ({ name }: IProps) => {
-	const { data, error, isError, isLoading } = userService.getUserByName(name);
+	const { data, error, isError, isLoading } = usersService.getUserByName(name);
 
 	return (
 		<Box className={cn('grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-5')}>

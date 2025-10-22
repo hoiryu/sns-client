@@ -3,7 +3,7 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { MouseEvent, useMemo, useState } from 'react';
 import SwitchTheme from '~components/header/SwitchTheme';
-import userService from '~services/userService';
+import usersService from '~services/usersService';
 import ButtonIcon from '~stories/ui/buttons/ButtonIcon';
 import Box from '~stories/ui/containers/Box';
 import IconDarkMode from '~stories/ui/icons/IconDarkMode';
@@ -17,7 +17,7 @@ import Typography from '~stories/ui/typographys/Typography';
 import { cn } from '~utils/cn';
 
 const MemuAccount = () => {
-	const { data: session } = userService.getMe();
+	const { data: session } = usersService.getMe();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
 	const handleClick = (e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);

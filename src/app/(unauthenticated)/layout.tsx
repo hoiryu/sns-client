@@ -8,15 +8,10 @@ interface IProps {
 }
 
 const Layout = async ({ children, modal }: IProps) => (
-	<>
-		<Container
-			component='main'
-			className={cn('flex h-screen w-screen flex-col items-center justify-center')}
-		>
-			{children}
-		</Container>
+	<Container className={cn('flex h-screen w-screen flex-col items-center justify-center')}>
+		{children}
 		{modal}
-	</>
+	</Container>
 );
 
 export default Layout;

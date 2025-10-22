@@ -4,7 +4,7 @@ import { useStoreCategorySearch } from '~src/stores/storeSearch';
 
 const ContainerDeciderPosts = () => {
 	const { category } = useStoreCategorySearch();
-	// const query = postService.getPostsByCategory(category);
+	// const query = postsService.getPostsByCategory(category);
 	return null;
 	return <ListWindowScrollPosts query={query} />;
 };

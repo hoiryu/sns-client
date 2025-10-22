@@ -1,10 +1,17 @@
 type TMethod = 'HEAD' | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
 
 /**
- * Request
+ * Fetch 용 Request
  */
 export interface IRequestInit extends Omit<RequestInit, 'method'> {
 	method: TMethod;
+}
+
+/**
+ * Mutation 용 Request
+ */
+export interface IRequest<T> extends Pick<IAuthTokens, 'accessToken'> {
+	data: T;
 }
 
 /**

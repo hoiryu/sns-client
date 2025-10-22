@@ -1,12 +1,23 @@
-import { QueryClient, useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { IPaginate } from '~models/api';
 import { IDataPost } from '~models/post';
-import { getPosts } from '~src/apis/post';
+import { getPosts, postPost } from '~src/apis/post';
 import { MINUTE } from '~src/consts/query';
 
-class PostService {
+class PostsService {
 	constructor() {}
 
+	public postPost() {
+		return useMutation({
+			mutationKey: ['posts'],
+			mutationFn: postPost,
+			onMutate: variables => variables,
+		});
+	}
+
+	/**
+	 * Post 가져오기 (Prefetch)
+	 */
 	public async prefetchPosts(queryClient: QueryClient) {
 		return queryClient.prefetchInfiniteQuery({
 			queryKey: ['posts'],
@@ -18,7 +29,10 @@ class PostService {
 		});
 	}
 
-	public usePosts() {
+	/**
+	 * Post 가져오기 (Cursor)
+	 */
+	public getPosts() {
 		return useSuspenseInfiniteQuery({
 			queryKey: ['posts'],
 			queryFn: getPosts,
@@ -30,6 +44,6 @@ class PostService {
 	}
 }
 
-const postService = new PostService();
+const postsService = new PostsService();
 
-export default postService;
+export default postsService;

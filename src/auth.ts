@@ -57,8 +57,8 @@ export const authOptions: NextAuthConfig = {
 		async jwt({ token, user }) {
 			if (user)
 				token = {
-					...token,
 					...user,
+					...token,
 				};
 
 			// refreshToken 만료 임박시 재발급
@@ -79,23 +79,23 @@ export const authOptions: NextAuthConfig = {
 				token.accessToken = newToken.accessToken;
 			}
 
+			console.log(token);
 			return token;
 		},
 		async session({ session, token }) {
-			let { accessToken, refreshToken, ...user } = token;
+			const { accessToken, refreshToken, ...user } = token;
 
-			session.user = {
-				...session.user,
-				...user,
-				email: user.email!,
-				name: user.name!,
+			return {
+				...session,
+				accessToken,
+				refreshToken,
+				user: {
+					...session.user,
+					...user,
+					email: user.email!,
+					name: user.name!,
+				},
 			};
-
-			session.accessToken = accessToken;
-
-			session.refreshToken = refreshToken;
-
-			return session;
 		},
 	},
 	pages: {

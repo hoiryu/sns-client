@@ -5,7 +5,7 @@ interface IProps {
 }
 
 const ContainerPost = ({ postId }: IProps) => {
-	// const { data } = postService.getPostById(postId);
+	// const { data } = postsService.getPostById(postId);
 
 	return null;
 	// <Container component='section'>
