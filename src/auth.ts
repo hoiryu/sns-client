@@ -62,7 +62,11 @@ export const authOptions: NextAuthConfig = {
 				};
 
 			// refreshToken 만료 임박시 재발급
-			if (isTokenExpiringSoon(token.refreshToken)) {
+			if (
+				token.refreshToken &&
+				token.accessToken &&
+				isTokenExpiringSoon(token.refreshToken)
+			) {
 				const newToken = await rotateRefreshToken<Pick<IAuthTokens, 'refreshToken'>>(
 					token.refreshToken,
 				);
@@ -71,7 +75,7 @@ export const authOptions: NextAuthConfig = {
 			}
 
 			// accessToken 만료 임박시 재발급
-			if (isTokenExpiringSoon(token.accessToken)) {
+			if (token.refreshToken && token.accessToken && isTokenExpiringSoon(token.accessToken)) {
 				const newToken = await rotateAccessToken<Pick<IAuthTokens, 'accessToken'>>(
 					token.refreshToken,
 				);
@@ -79,7 +83,6 @@ export const authOptions: NextAuthConfig = {
 				token.accessToken = newToken.accessToken;
 			}
 
-			console.log(token);
 			return token;
 		},
 		async session({ session, token }) {

@@ -51,8 +51,8 @@ const ModalSignin = () => {
 
 	useEffect(() => {
 		// Token 만료 후 제거
-		if (session) signOut({ redirect: false });
-	}, []);
+		if (!session?.accessToken || !session.refreshToken) signOut({ redirect: false });
+	}, [session]);
 
 	return (
 		<Modal open size='xsmall' disablePortal onClose={handleClose}>

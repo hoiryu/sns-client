@@ -5,9 +5,9 @@ import { ko } from 'date-fns/locale';
  * 현재 시간 기준 비교
  */
 export const formatTimeAgo = (input: Date | string) => {
-	const date = typeof input === 'string' ? new Date(input) : input;
+	const date = new Date(input);
 
-	return formatDistanceToNowStrict(input, {
+	return formatDistanceToNowStrict(date, {
 		addSuffix: true,
 		locale: ko,
 	});
