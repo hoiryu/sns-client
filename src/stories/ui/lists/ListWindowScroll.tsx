@@ -20,15 +20,20 @@ interface IProps {
  * body scroll 을 Virtualizer 로 사용.
  * @property component 값이 있는 경우
  * @property componentEmpty 값이 없는 경우
- * @property query Infinite Query
+ * @property query UseSuspenseInfiniteQueryResult
  * @property size UI Height 값 (Default: 100)
  */
 const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) => {
 	const Component = useMemo(() => component, []);
+
 	const ComponentEmpty = useMemo(() => componentEmpty, []);
+
 	const ref = useRef<HTMLDivElement | null>(null);
+
 	const { data, status, isFetchingNextPage, fetchNextPage } = query;
+
 	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d.data) : []), [data.pages]);
+
 	const hasNextPage = useMemo(
 		() => !!(data.pages.at(-1)?.cursor.after && data.pages.at(-1)?.next),
 		[data.pages],
@@ -49,7 +54,10 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 
 	useEffect(() => {
 		const lastItem = virtualItems.at(-1);
+
 		if (!lastItem) return;
+
+		// 다음 Cursor 요청
 		if (lastItem.index > totalRows.length - 1 && hasNextPage && !isFetchingNextPage)
 			fetchNextPage();
 	}, [hasNextPage, fetchNextPage, totalRows.length, isFetchingNextPage, virtualItems]);
@@ -65,6 +73,7 @@ const ListWindowScroll = ({ component, componentEmpty, query, size }: IProps) =>
 				>
 					{virtualItems.map(({ key, index, start, size }) => {
 						const isLoaderRow = index >= totalRows.length;
+
 						const row = totalRows[index];
 
 						if (isLoaderRow)

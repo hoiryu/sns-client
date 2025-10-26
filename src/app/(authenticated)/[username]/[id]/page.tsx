@@ -1,18 +1,21 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { getPostById } from '~apis/post';
-import { getUserByName } from '~apis/user';
 import ContainerPost from '~authenticated/[username]/_components/containers/ContainerPost';
 import { MINUTE } from '~src/consts/query';
 
 export const generateMetadata = async ({ params }: IProps): Promise<Metadata> => {
 	const { username, id } = await params;
-	const [user, post] = await Promise.all([getUserByName(decodeURI(username)), getPostById(id)]);
+	// const [user, post] = await Promise.all([getUserByName(decodeURI(username)), getPostById(id)]);
 
 	return {
-		title: `${user.name} 의 ${post.description}`,
-		description: post.description,
+		title: `테스트 상세`,
+		description: '테스트 입니다.',
 	};
+	// return {
+	// 	title: `${user.name} 의 ${post.description}`,
+	// 	description: post.description,
+	// };
 };
 
 /**

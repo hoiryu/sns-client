@@ -1,13 +1,15 @@
 'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { createUser } from '~apis/user';
-import { IAuthTokens } from '~models/api';
-import { ISignupSchema, signupSchema } from '~schemas/signup';
-import { ACCEPTED_IMAGE_TYPES, MAX_PROFILE_FILE_SIZE_MB } from '~src/consts/image';
+import { usePreviews } from '~hooks/usePreview';
+import { ISchemaSignup, schemaSignup } from '~schemas/signup';
+import usersService from '~services/usersService';
 import ControllerButton from '~stories/ui/buttons/ControllerButton';
+import Box from '~stories/ui/containers/Box';
 import ControllerFileField from '~stories/ui/inputs/files/ControllerFileField';
 import ControllerTextField from '~stories/ui/inputs/texts/ControllerTextField';
 import Modal from '~stories/ui/modals/Modal';
@@ -16,12 +18,11 @@ import { cn } from '~utils/cn';
 
 const ModalSignup = () => {
 	const router = useRouter();
-	const {
-		control,
-		handleSubmit: zodSubmit,
-		formState,
-	} = useForm<ISignupSchema>({
-		resolver: zodResolver(signupSchema),
+
+	const mutation = usersService.postUser();
+
+	const form = useForm<ISchemaSignup>({
+		resolver: zodResolver(schemaSignup),
 		defaultValues: {
 			email: '',
 			password: '',
@@ -32,82 +33,98 @@ const ModalSignup = () => {
 		mode: 'onChange',
 	});
 
-	const handleSubmit = async (data: ISignupSchema) => {
-		const { name, nickname, email, password } = data;
-		try {
-			const tokens = await createUser<IAuthTokens>({
-				email,
-				password,
-				name,
-				nickname,
-				image: '',
-			});
+	const previews = usePreviews(form.control, 'image');
 
-			await signIn('credentials', {
-				accessToken: tokens.accessToken,
-				refreshToken: tokens.refreshToken,
-				redirect: false,
-				redirectTo: '/home',
-			});
-		} catch (e) {
-			console.log(e);
-		}
+	const handleSubmit = async (data: ISchemaSignup) => {
+		mutation.mutate(data, {
+			onError: err => {
+				const [key, message] = err.message.split('-');
+
+				form.setError(key as keyof ISchemaSignup, { message });
+			},
+			onSuccess: async () => {
+				await signIn('credentials', {
+					email: data.email,
+					password: data.password,
+					redirect: false,
+				});
+
+				router.replace('/home');
+			},
+		});
 	};
 
 	const handleClose = () => router.back();
 
 	return (
 		<Modal open size='small' disablePortal onClose={handleClose}>
-			<form className={cn('flex flex-col gap-7')} onSubmit={zodSubmit(handleSubmit)}>
+			<form className={cn('flex flex-col gap-7')} onSubmit={form.handleSubmit(handleSubmit)}>
 				<Typography variant='h4' align='center' children='회원가입' />
-				<ControllerTextField<ISignupSchema>
+
+				<ControllerTextField<ISchemaSignup>
 					fieldProps={{
 						type: 'email',
 						label: 'email',
 					}}
 					name='email'
-					control={control}
-					formState={formState}
+					control={form.control}
+					formState={form.formState}
 				/>
-				<ControllerTextField<ISignupSchema>
+
+				<ControllerTextField<ISchemaSignup>
 					fieldProps={{
 						type: 'password',
 						label: 'password',
 						autoComplete: 'on',
 					}}
 					name='password'
-					control={control}
-					formState={formState}
+					control={form.control}
+					formState={form.formState}
 				/>
-				<ControllerTextField<ISignupSchema>
+
+				<ControllerTextField<ISchemaSignup>
 					fieldProps={{
 						label: 'name',
 					}}
 					name='name'
-					control={control}
-					formState={formState}
+					control={form.control}
+					formState={form.formState}
 				/>
-				<ControllerTextField<ISignupSchema>
+
+				<ControllerTextField<ISchemaSignup>
 					fieldProps={{
 						label: 'nickname',
 					}}
 					name='nickname'
-					control={control}
-					formState={formState}
+					control={form.control}
+					formState={form.formState}
 				/>
-				<ControllerFileField<ISignupSchema>
+
+				<ControllerFileField<ISchemaSignup>
 					fieldProps={{
 						className: cn('p-4'),
 						color: 'info',
-						accept: ACCEPTED_IMAGE_TYPES,
-						maxSize: MAX_PROFILE_FILE_SIZE_MB,
+						multiple: false,
 					}}
 					name='image'
-					control={control}
-					formState={formState}
+					control={form.control}
+					formState={form.formState}
 				/>
 
-				<ControllerButton type='submit' children='가입하기' formState={formState} />
+				{previews.length > 0 && (
+					<Box className={cn('self-center')}>
+						<Box className={cn('relative h-14 w-14 justify-self-center')}>
+							<Image
+								src={previews[0].url}
+								alt={`preview-${previews[0].name}`}
+								fill
+								className={cn('object-cover')}
+								sizes='56px'
+							/>
+						</Box>
+					</Box>
+				)}
+				<ControllerButton type='submit' children='가입하기' formState={form.formState} />
 			</form>
 		</Modal>
 	);

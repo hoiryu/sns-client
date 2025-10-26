@@ -7,16 +7,19 @@ import { MINUTE } from '~src/consts/query';
 class PostsService {
 	constructor() {}
 
+	/**
+	 * Post 생성하기
+	 */
 	public postPost() {
 		return useMutation({
-			mutationKey: ['posts'],
+			mutationKey: ['post'],
 			mutationFn: postPost,
 			onMutate: variables => variables,
 		});
 	}
 
 	/**
-	 * Post 가져오기 (Prefetch)
+	 * Posts 가져오기 (Prefetch)
 	 */
 	public async prefetchPosts(queryClient: QueryClient) {
 		return queryClient.prefetchInfiniteQuery({
@@ -30,7 +33,7 @@ class PostsService {
 	}
 
 	/**
-	 * Post 가져오기 (Cursor)
+	 * Posts 가져오기 (Cursor)
 	 */
 	public getPosts() {
 		return useSuspenseInfiniteQuery({

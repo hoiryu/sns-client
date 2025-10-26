@@ -1,17 +1,17 @@
 'use client';
-import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { InfiniteData, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { ElementType, Fragment, useEffect, useMemo, useRef } from 'react';
+import { IPaginate } from '~models/api';
 import Box from '~stories/ui/containers/Box';
 import Container from '~stories/ui/containers/Container';
 import ProgressCircular from '~stories/ui/progress/ProgressCircular';
 import { cn } from '~utils/cn';
 
 interface IProps {
-	component: ElementType;
-	componentEmpty: ElementType;
-	componentSkeleton: ElementType;
-	query: UseInfiniteQueryResult<InfiniteData<Object>, Error>;
+	component: ElementType; // UI
+	componentEmpty: ElementType; // No data UI
+	query: UseSuspenseInfiniteQueryResult<InfiniteData<IPaginate<object>>, Error>;
 	size: number;
 }
 
@@ -20,23 +20,24 @@ interface IProps {
  * 모든 List 의 크기가 고정된 경우
  * @property component 값이 있는 경우
  * @property componentEmpty 값이 없는 경우
- * @property componentSkeleton 로딩 중인 경우
- * @property query Infinite Query
+ * @property query UseSuspenseInfiniteQueryResult
  * @property size UI Height 값 (Default: 100)
  */
-const ListFixedScroll = ({
-	query,
-	component,
-	componentEmpty,
-	componentSkeleton,
-	size = 100,
-}: IProps) => {
+const ListFixedScroll = ({ query, component, componentEmpty, size = 100 }: IProps) => {
 	const Component = useMemo(() => component, []);
+
 	const ComponentEmpty = useMemo(() => componentEmpty, []);
-	const ComponentSkeleton = useMemo(() => componentSkeleton, []);
+
 	const parentRef = useRef<HTMLDivElement | null>(null);
-	const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
-	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d) : []), [data]);
+
+	const { data, status, isFetchingNextPage, fetchNextPage } = query;
+
+	const totalRows = useMemo(() => (data ? data.pages.flatMap(d => d.data) : []), [data.pages]);
+
+	const hasNextPage = useMemo(
+		() => !!(data.pages.at(-1)?.cursor.after && data.pages.at(-1)?.next),
+		[data.pages],
+	);
 
 	const virtualizer = useVirtualizer({
 		count: hasNextPage ? totalRows.length + 1 : totalRows.length,
@@ -52,6 +53,7 @@ const ListFixedScroll = ({
 
 	useEffect(() => {
 		const lastItem = virtualItems.at(-1);
+
 		if (!lastItem) return;
 
 		// 다음 Cursor 요청
@@ -67,8 +69,6 @@ const ListFixedScroll = ({
 				height: `${size * 5}px`,
 			}}
 		>
-			{status === 'pending' &&
-				Array.from({ length: 5 }, (_1, index) => <ComponentSkeleton key={index} />)}
 			{status === 'success' && !data.pages[0] && <ComponentEmpty />}
 			{status === 'success' && data.pages[0] && (
 				<Box
@@ -77,7 +77,9 @@ const ListFixedScroll = ({
 				>
 					{virtualItems.map(({ key, index, start, size }) => {
 						const isLoaderRow = index >= totalRows.length;
+
 						const row = totalRows[index];
+
 						if (isLoaderRow)
 							return (
 								<Fragment key={key}>

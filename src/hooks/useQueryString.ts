@@ -3,7 +3,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
 /**
- * QueryString 훅
+ * Query String 훅
  * @function getQueryStrings 전체 QueryStrings 가져오기
  * @function getQueryString 특정 QueryString 가져오기
  * @function setQueryString 특정 QueryString 추가하기

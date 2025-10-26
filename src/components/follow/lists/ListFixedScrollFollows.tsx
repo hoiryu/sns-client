@@ -1,22 +1,22 @@
 'use client';
+import { InfiniteData, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 import ListItemEmptyFollow from '~components/follow/lists/ListItemEmptyFollow';
 import ListItemFollow from '~components/follow/lists/ListItemFollow';
-import ListItemSkeletonFollow from '~components/follow/lists/ListItemSkeletonFollow';
-import usersService from '~services/usersService';
+import { IPaginate } from '~models/api';
+import { IDataUser } from '~models/user';
 import ListFixedScroll from '~stories/ui/lists/ListFixedScroll';
 
-const ListFixedScrollFollows = () => {
-	const query = usersService.getUsers();
+interface IProps {
+	query: UseSuspenseInfiniteQueryResult<InfiniteData<IPaginate<IDataUser[]>>, Error>;
+}
 
-	return (
-		<ListFixedScroll
-			component={ListItemFollow}
-			componentEmpty={ListItemEmptyFollow}
-			componentSkeleton={ListItemSkeletonFollow}
-			query={query}
-			size={70}
-		/>
-	);
-};
+const ListFixedScrollFollows = ({ query }: IProps) => (
+	<ListFixedScroll
+		component={ListItemFollow}
+		componentEmpty={ListItemEmptyFollow}
+		query={query}
+		size={70}
+	/>
+);
 
 export default ListFixedScrollFollows;

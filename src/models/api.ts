@@ -24,11 +24,17 @@ export interface IResponse<T> {
 
 /**
  * Exception
+ * @property message: ${key}-${message}. ${value}
+ * @example email-이미 존재합니다. test1@gmail.com
+ * @property path: 요청 URI
+ * @property status: 상태 코드
+ * @property timestamp: 요청 시간
  */
 export interface IException {
-	success: boolean;
-	status: number;
 	message: string;
+	path: string;
+	status: number;
+	timestamp: string;
 }
 
 export interface IAuthTokens {

@@ -11,7 +11,6 @@ interface IProps {
 }
 
 const Layout = ({ children, modal }: IProps) => (
-	// <ProviderSession>
 	<>
 		<Container
 			component='main'
@@ -26,6 +25,5 @@ const Layout = ({ children, modal }: IProps) => (
 		</Container>
 		{modal}
 	</>
-	// </ProviderSession>
 );
 export default Layout;

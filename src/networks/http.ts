@@ -4,7 +4,8 @@ class HttpClient {
 	private readonly baseURL?: string;
 
 	constructor(baseURL: string) {
-		this.baseURL = baseURL || 'no';
+		if (!baseURL) throw new Error('NEXT_PUBLIC_API_SERVER_URL 은 필수 입니다.');
+		this.baseURL = baseURL;
 	}
 
 	async fetch<T>(url: string, options: IRequestInit): Promise<T> {
@@ -19,6 +20,8 @@ class HttpClient {
 		});
 
 		const body = await response.json();
+
+		if (!response.ok) throw body;
 
 		return body as T;
 	}

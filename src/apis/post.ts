@@ -19,7 +19,7 @@ export const postPost: MutationFunction<IDataPost, IRequest<ISchemaCreatePost>> 
 	});
 
 /**
- * Post 가져오기 (Query String)
+ * Posts 가져오기 (Query String)
  */
 export const getPosts: QueryFunction<IPaginate<IDataPost[]>, string[], string> = async query => {
 	return httpClient.fetch<IPaginate<IDataPost[]>>(`${query.pageParam}`, {

@@ -1,50 +1,38 @@
-import { QueryFunction } from '@tanstack/react-query';
+import { MutationFunction, QueryFunction } from '@tanstack/react-query';
+import { IPaginate } from '~models/api';
 import { IDataUser } from '~models/user';
 import httpClient from '~networks/http';
-import { LIMIT_USER } from '~src/consts/user';
+import { ISchemaSignup } from '~schemas/signup';
 
 /**
  * User 추가하기
  */
-export const createUser = async <T>({
-	email,
-	password,
-	name,
-	nickname,
-	image,
-}: Omit<IDataUser, 'id' | 'followers' | 'followings' | 'role'> & { password: string }) =>
-	httpClient.fetch<T>('/auth/register/email', {
+export const postUser: MutationFunction<IDataUser, ISchemaSignup> = async variables => {
+	const { image, ...data } = variables;
+
+	const fd = new FormData();
+
+	Object.entries(data).forEach(([key, value]) => fd.append(key, value));
+
+	fd.append('image', image[0]);
+
+	return httpClient.fetch<IDataUser>('/auth/register/email', {
 		method: 'POST',
-		body: JSON.stringify({
-			name,
-			nickname,
-			email,
-			password,
-			image,
-		}),
+		body: fd,
 	});
+};
 
 /**
- * 모든 Users 가져오기
+ * Users 가져오기 (Query String)
  */
-export const getUsers: QueryFunction<IDataUser[], string[], string> = context =>
-	httpClient.fetch<IDataUser[]>(`/users/all?&cursor=${context.pageParam}&limit=${LIMIT_USER}`, {
+export const getUsers: QueryFunction<IPaginate<IDataUser[]>, string[], string> = async query => {
+	return httpClient.fetch<IPaginate<IDataUser[]>>(`${query.pageParam}`, {
 		method: 'GET',
 		next: {
 			tags: ['users'],
 		},
 	});
-
-/**
- * 특정 User 가져오기 (Name)
- */
-export const getUserByName = (name: string) =>
-	httpClient.fetch<IDataUser>(`/user/${name}`, {
-		method: 'GET',
-		next: {
-			tags: ['user', name],
-		},
-	});
+};
 
 /**
  * User 가져오기 (email)
