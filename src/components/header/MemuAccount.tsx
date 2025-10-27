@@ -18,10 +18,15 @@ import { cn } from '~utils/cn';
 
 const MemuAccount = () => {
 	const { data: session } = usersService.getMe();
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
 	const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
+
 	const handleClick = (e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
+
 	const handleClose = () => setAnchorEl(null);
+
 	const handleLogout = () => signOut({ callbackUrl: '/' });
 
 	return (
@@ -29,13 +34,13 @@ const MemuAccount = () => {
 			<Tooltip
 				title='프로필 설정'
 				children={
-					<Box className={cn('flex items-center')}>
+					<Box className={cn('flex items-center gap-2')}>
 						<ButtonIcon
 							size='small'
 							aria-controls='프로필 메뉴'
 							aria-haspopup='menu'
 							aria-expanded={open}
-							children={<Avatar src={session?.user?.image || undefined} />}
+							children={<Avatar src={session?.user?.profile.path || undefined} />}
 							onClick={handleClick}
 						/>
 						<Box>
@@ -43,6 +48,7 @@ const MemuAccount = () => {
 								className={cn('text-sm')}
 								children={session?.user.nickname}
 							/>
+
 							<Typography
 								className={cn('text-sm text-neutral-400')}
 								children={session?.user.name}
@@ -77,6 +83,7 @@ const MemuAccount = () => {
 						/>
 					}
 				/>
+
 				<MenuItem
 					component={Link}
 					href={`/${session?.user?.nickname}`}
@@ -89,6 +96,7 @@ const MemuAccount = () => {
 						</>
 					}
 				/>
+
 				<MenuItem
 					className={cn('gap-2 border-t border-neutral-400')}
 					onClick={handleLogout}

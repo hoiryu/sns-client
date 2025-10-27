@@ -34,8 +34,8 @@ const FormCreateImages = ({ formPost, formImages }: IProps) => {
 			const res = await postImages(fd);
 
 			formPost.setValue('images', [...res.files]);
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
+			console.log(err);
 		}
 
 		setLoading(false);

@@ -12,10 +12,7 @@ interface IProps {
 
 const Layout = ({ children, modal }: IProps) => (
 	<>
-		<Container
-			component='main'
-			className={cn('grid min-h-[100dvh] w-[100dvw] grid-rows-[auto_1fr]')}
-		>
+		<Container component='main' className={cn('grid min-h-dvh w-dvw grid-rows-[auto_1fr]')}>
 			<Header />
 			<Container className={cn('grid grid-cols-[auto_2fr_1fr]')}>
 				<SidebarNavigation />

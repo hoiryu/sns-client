@@ -3,11 +3,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { SwiperSlide } from 'swiper/react';
 import FormCreateImages from '~components/post/forms/FormCreateImages';
 import FormCreatePost from '~components/post/forms/FormCreatePost';
+import { usePreviews } from '~hooks/usePreview';
 import { ISchemaCreateImages, schemaCreateImages } from '~schemas/common';
 import { ISchemaCreatePost, schemaCreatePost } from '~schemas/post';
 import Box from '~stories/ui/containers/Box';
@@ -36,14 +37,9 @@ const ModalCreatePost = () => {
 		mode: 'onChange',
 	});
 
-	const images = useWatch({ control: formImages.control, name: 'images' });
-
 	const postImages = useWatch({ control: formPost.control, name: 'images' });
 
-	const previews = useMemo(
-		() => images.map(f => ({ url: URL.createObjectURL(f), name: f.name })),
-		[images],
-	);
+	const previews = usePreviews(formImages.control, 'images');
 
 	const handleClose = () => router.back();
 
@@ -72,14 +68,14 @@ const ModalCreatePost = () => {
 							children={previews.map((p, i) => (
 								<SwiperSlide
 									key={`${p.name}-${i}`}
-									style={{ height: '300px' }}
+									style={{ height: '338px' }}
 									children={
 										<Image
 											src={p.url}
 											alt={p.name || `preview-${i}`}
 											fill
 											className={cn('object-cover')}
-											sizes='200px'
+											sizes='400px'
 										/>
 									}
 								/>

@@ -54,7 +54,10 @@ const ModalSignup = () => {
 		});
 	};
 
-	const handleClose = () => router.back();
+	const handleClose = () => {
+		router.push('/');
+		router.back();
+	};
 
 	return (
 		<Modal open size='small' disablePortal onClose={handleClose}>
